@@ -1,0 +1,10 @@
+
+  .banner{
+    background-image: url("./../../assets/banner.jpg");
+    background-repeat: no-repeat;
+    width: auto;
+    height: 100%;
+  }
+  .typo-title{
+    padding-top: 5%;
+  }

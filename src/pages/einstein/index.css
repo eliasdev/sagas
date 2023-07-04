@@ -1,0 +1,14 @@
+.content-wrapper {
+    width: auto;
+    left: 0;
+    right: 0;
+    top: 64px;
+    bottom: 0;
+    position: absolute;
+    margin: auto;
+    background: rgb(255, 255, 255);
+}
+
+.char-image{
+    padding-top: 10vh;
+}

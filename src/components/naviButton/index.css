@@ -1,0 +1,13 @@
+.navi-button{
+    position: absolute;
+    width: 9%;
+    height: 25%;
+    top: 48%;
+    cursor: pointer;
+}
+.left{
+    left: 0%;
+}
+.right{
+    right: 0%;
+}
