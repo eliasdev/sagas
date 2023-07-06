@@ -18,10 +18,9 @@ const UserProvider = ({ children }: UsersProviderProps) =>{
 
     const app = init({ state, stateRef, setState });
     
-    // useEffect(() => {loadSession()}, [])
+    useEffect(() => {loadSession()}, [])
 
     useEffect(() => {
-        loadSession()
         stateRef.current = state;
     }   , [state]);
     

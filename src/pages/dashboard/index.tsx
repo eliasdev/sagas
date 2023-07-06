@@ -21,7 +21,10 @@ import Divider from '@mui/material/Divider';
 import Descartes from  './../../assets/characters/thumb-descartes.png';
 import Herasto from  './../../assets/characters/thumb-herasto.png';
 import Einstein from  './../../assets/characters/thumb-einstein.png';
-import Tharp from  './../../assets/characters/thumb-marie.png';
+import Tharp from  './../../assets/characters/thumb-tharp.png';
+import Santos from  './../../assets/characters/thumb-alberto.png';
+import Curie from  './../../assets/characters/thumb-marie.png';
+import Turing from  './../../assets/characters/thumb-allan.png';
 import Clodomiro from  './../../assets/characters/thumb-clodomiro.png';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
@@ -137,28 +140,50 @@ const [chapters, setChapters] = useState([
     canPlay: false,
     contributions: ["Enfermedades infecciosas","Envejecimiento","Penicilina","Antídotos para el veneno de serpiente"]
   },
-  /*{
-    id: 6,
-    name: "Clodomiro",
-    last_name: "Picado",
-    intro: "Sin Clorito Picado, miles de personas morirían cada año por mordeduras de serpientes.",
-    image: Clodomiro,
+  {
+    id: 5,
+    name: "de Cyrene",
+    last_name: "Eratóstenes",
+    intro: "Sin saber la forma de la tierra no podríamos predecir el clima ni calcular las rutas de los aviones.",
+    image: Herasto,
     description: "Descartes (1596-1650) fue uno de los proponentes del método científico: la forma en que hacemos ciencia.",
-    goToPage: "clodomiro",
-    available: true,
+    goToPage: "einstein",
+    available: false,
+    contributions: ["Padre de la geografía","Mapa del mundo","Calculó la circunferencia de la Tierra"]
+  },
+  {
+    id: 6,
+    name: "Alberto",
+    last_name: "Santos-Dumont",
+    intro: "Sin personas como Santos-Dumont, no tendríamos aviación comercial.  Para rescatarlo, trabaja en su taller.",
+    image: Santos,
+    description: "Santos-Dumont (1873-1932) fue de los primeros en volar por sus propios medios, con despegue y aterrizaje autónomos",
+    goToPage: null,
+    available: false,
     contributions: ["Enfermedades infecciosas","Envejecimiento","Penicilina","Antídotos para el veneno de serpiente"]
   },
   {
     id: 7,
-    name: "Clodomiro",
-    last_name: "Picado",
-    intro: "Sin Clorito Picado, miles de personas morirían cada año por mordeduras de serpientes.",
-    image: Clodomiro,
-    description: "Descartes (1596-1650) fue uno de los proponentes del método científico: la forma en que hacemos ciencia.",
-    goToPage: "clodomiro",
-    available: true,
+    name: "Marie",
+    last_name: "Curie",
+    intro: "Sin su trabajo, y el de otros como ella, no tendríamos rayos X, energía nuclear, ni tratamientos de radioterapia.",
+    image: Curie,
+    description: "Santos-Dumont (1873-1932) fue de los primeros en volar por sus propios medios, con despegue y aterrizaje autónomos",
+    goToPage: null,
+    available: false,
     contributions: ["Enfermedades infecciosas","Envejecimiento","Penicilina","Antídotos para el veneno de serpiente"]
-  }*/
+  },
+  {
+    id: 8,
+    name: "Allan",
+    last_name: "Turing",
+    intro: "Padre de la Inteligencia Artificial, Turing desarrolló una prueba donde un entrevistador haría preguntas sin saber si hablaba con un ser humano o una IA.",
+    image: Turing,
+    description: "Santos-Dumont (1873-1932) fue de los primeros en volar por sus propios medios, con despegue y aterrizaje autónomos",
+    goToPage: null,
+    available: false,
+    contributions: ["Enfermedades infecciosas","Envejecimiento","Penicilina","Antídotos para el veneno de serpiente"]
+  }
   
 ]);
 
