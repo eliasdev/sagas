@@ -149,6 +149,7 @@ const [chapters, setChapters] = useState([
     description: "Descartes (1596-1650) fue uno de los proponentes del método científico: la forma en que hacemos ciencia.",
     goToPage: "einstein",
     available: false,
+    released: false,
     contributions: ["Padre de la geografía","Mapa del mundo","Calculó la circunferencia de la Tierra"]
   },
   {
@@ -160,6 +161,7 @@ const [chapters, setChapters] = useState([
     description: "Santos-Dumont (1873-1932) fue de los primeros en volar por sus propios medios, con despegue y aterrizaje autónomos",
     goToPage: null,
     available: false,
+    released: false,
     contributions: ["Enfermedades infecciosas","Envejecimiento","Penicilina","Antídotos para el veneno de serpiente"]
   },
   {
@@ -171,6 +173,7 @@ const [chapters, setChapters] = useState([
     description: "Santos-Dumont (1873-1932) fue de los primeros en volar por sus propios medios, con despegue y aterrizaje autónomos",
     goToPage: null,
     available: false,
+    released: false,
     contributions: ["Enfermedades infecciosas","Envejecimiento","Penicilina","Antídotos para el veneno de serpiente"]
   },
   {
@@ -182,6 +185,7 @@ const [chapters, setChapters] = useState([
     description: "Santos-Dumont (1873-1932) fue de los primeros en volar por sus propios medios, con despegue y aterrizaje autónomos",
     goToPage: null,
     available: false,
+    released: false,
     contributions: ["Enfermedades infecciosas","Envejecimiento","Penicilina","Antídotos para el veneno de serpiente"]
   }
   
@@ -330,7 +334,7 @@ const [chapters, setChapters] = useState([
                   className="investigate-btn" 
                   variant="contained" 
                   size="small" 
-                  onClick={() => updateUserGender()}>Actualizar Informacion</Button>
+                  onClick={() => updateUserGender()}>Actualizar Información</Button>
               </Grid>
             </CardContent>
             
@@ -348,19 +352,30 @@ const [chapters, setChapters] = useState([
             aria-labelledby="parent-modal-title"
             aria-describedby="parent-modal-description"
           >
-            <Box sx={{ background: 'white', padding: '25px', margin: '0 auto', marginTop: '100px', borderRadius: '20px', boxShadow: '3px 3px 10px black, -0.5em 0 0.8em blue', width: 400 }}>
+            <Box sx={{ background: 'white',  margin: '0 auto', marginTop: {lg:40,xs:20}, borderRadius: '20px', boxShadow: '3px 3px 10px black, -0.5em 0 0.8em blue', width: "60%" }}>
               
-              <CardContent sx={{ flexGrow:1,padding:"6%",marginBottom:0 }}>
+              <CardContent sx={{ flexGrow:1,padding:4,marginBottom:0 }}>
                 <Typography 
                   color="primary" 
-                  className="card-title"
-                  variant="h5" 
-                  component="h6"
+                  sx={{fontSize: {lg:18,md:24,sm:16,xs:18}, fontWeight:"bold"}}>
+                  {chapters[selectedChapter].name + " " + chapters[selectedChapter].last_name}
+                </Typography>
+                <Box sx={{ mb: 2 }} />
+                <Divider />
+                <Typography
+                    color="primary"
+                    align="left"
+                    sx={{fontSize: {lg:14,md:12,sm:10,xs:11},fontWeight:500}}>
+                    {chapters[selectedChapter].description}
+                </Typography>
+                <Box sx={{ mb: 2 }} /> 
+                <Typography 
+                  color="primary" 
                   align="left"
                   sx={{fontSize: {lg:18,md:24,sm:16,xs:18}, fontWeight:"bold"}}>
                   APORTES
                 </Typography>
-                <Box sx={{ mb: "10%" }} /> 
+                <Box sx={{ mb: 2 }} /> 
                 {chapters[selectedChapter]?.contributions.map((co, i) => (
                   <Typography
                     key={i}
@@ -449,35 +464,44 @@ const [chapters, setChapters] = useState([
                                 <Divider />
                                 <CardActions 
                                   className="mar-top-bottom-20" 
-                                  sx={{justifyContent: 'center'}}>
-                                {ch.available && ch.canPlay &&
-                                  <Button 
-                                    sx={{fontSize: {lg:13,md:10,sm:10,xs:10}}} 
-                                    color="primary" 
-                                    className="investigate-btn" 
-                                    variant="contained" 
-                                    size="small" 
-                                    onClick={() => history.push('/' + ch.goToPage)}>Investigar</Button>
-                                }
-                                {!ch.available &&
-                                  <Button 
-                                    sx={{fontSize: {lg:13,md:10,sm:10,xs:10}}} 
-                                    color="primary" 
-                                    className="investigate-btn" 
-                                    variant="outlined" 
-                                    size="small">Completado</Button>
-                                }
-                                {!ch.canPlay &&
-                                  <Button 
-                                    sx={{fontSize: {lg:13,md:10,sm:10,xs:10}}} 
-                                    color="primary" 
-                                    className="investigate-btn" 
-                                    variant="outlined" 
-                                    size="small">Bloqueado</Button>
-                                }
-                                
-                                
-                                <Button onClick={() => handleModal(true, ch.id - 1)}>Detalle</Button>
+                                  sx={{justifyContent: "center" }}>
+                                    
+                                    <Box sx={{width: "80%"}} display="flex" flexDirection="column" gap={2}>
+                                      {ch.available && ch.canPlay &&
+                                        <Button 
+                                          sx={{fontSize: {lg:13,xs:9}}} 
+                                          color="primary" 
+                                          className="investigate-btn" 
+                                          variant="contained" 
+                                          size="small" 
+                                          onClick={() => history.push('/' + ch.goToPage)}>Investigar</Button>
+                                      }
+                                      {!ch.available && ch.released &&
+                                        <Button 
+                                          sx={{fontSize: {lg:13,xs:9}}} 
+                                          color="primary" 
+                                          className="investigate-btn" 
+                                          variant="outlined" 
+                                          size="small">Completado</Button>
+                                      }
+                                      {!ch.canPlay &&
+                                        <Button 
+                                          sx={{fontSize: {lg:13,xs:9}}} 
+                                          color="primary" 
+                                          className="investigate-btn" 
+                                          variant="outlined" 
+                                          size="small">Bloqueado</Button>
+                                      }
+                                      
+                                      <Button 
+                                          sx={{fontSize: {lg:13,xs:9}}} 
+                                          color="primary" 
+                                          className="investigate-btn" 
+                                          variant="contained" 
+                                          size="small" 
+                                          onClick={() => handleModal(true, ch.id - 1)}>Ver aportes</Button>
+                                      
+                                    </Box>
                                 
                                 </CardActions>
                                 
