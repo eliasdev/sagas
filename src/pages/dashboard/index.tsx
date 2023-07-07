@@ -412,7 +412,7 @@ const [chapters, setChapters] = useState([
                       style={{
                         width: '90%',
                         marginLeft: '5%',
-                        overflowX: 'auto',
+                        overflowX: 'scroll',
                         whiteSpace: 'nowrap',
                         position: 'relative',
                         scrollbarColor: 'red blue',

@@ -21,25 +21,16 @@ export const Header =({ opened, setOpened }: HeaderProps)=>{
 let history = useHistory();
 const { logOut, getUsers} = useUsers();
 const { logged, user }: any = getUsers();
-// const logged = localStorage.getItem('token');
-// const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
-// const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
 const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
 };
-// const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-//     setAnchorElUser(event.currentTarget);
-// };
 
 const handleCloseNavMenu = () => {
     setAnchorElNav(null);
 };
 
-// const handleCloseUserMenu = () => {
-//     setAnchorElUser(null);
-// };
 const closeSession =()=>{
   logOut()
   history.push('/login')
@@ -63,7 +54,7 @@ const closeSession =()=>{
               textDecoration: 'none',
             }}
           >
-            {!logged ? ('SAGAS'):(`Bienvenido ${user?.name}`)}
+            {!logged ? ('SAGAS'):(`Bienvenid@ ${user?.name}`)}
           </Typography>
 
           <Box  sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -96,12 +87,28 @@ const closeSession =()=>{
               }}
               
             >
-                <MenuItem onClick={() => history.push('/signup')}>
-                  <Typography textAlign="center">Registrarme</Typography>
-                </MenuItem>
-                <MenuItem onClick={() => history.push('/login')}>
-                  <Typography textAlign="center">Iniciar Sesión</Typography>
-                </MenuItem>
+                
+                {!logged ? (
+                  <>
+                    <MenuItem onClick={() => history.push('/signup')}>
+                      <Typography textAlign="center">Registrarme</Typography>
+                    </MenuItem>
+                    <MenuItem onClick={() => history.push('/login')}>
+                      <Typography textAlign="center">Iniciar Sesión</Typography>
+                    </MenuItem>
+                  </>
+                ) : 
+                  <>
+                    <MenuItem onClick={() => history.push('/dashboard')}>
+                      <Typography textAlign="center">Inicio</Typography>
+                    </MenuItem>
+                    <MenuItem onClick={() => history.push('/profile')}>
+                      <Typography textAlign="center">Perfil</Typography>
+                    </MenuItem>
+                    <MenuItem onClick={() => closeSession()}>
+                      <Typography textAlign="center">Cerrar Sesión</Typography>
+                    </MenuItem>
+                  </>}
             </Menu>
           </Box>
 
