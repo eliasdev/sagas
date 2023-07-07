@@ -297,6 +297,7 @@ const [chapters, setChapters] = useState([
                   value={province}
                   onChange={(e) => setProvince(e.target.value)}
                 >
+                  <MenuItem selected value={-1}>--Selecciona una--</MenuItem>
                   <MenuItem value={'Alajuela'}>Alajuela</MenuItem>
                   <MenuItem value={'Puntarenas'}>Puntarenas</MenuItem>
                   <MenuItem value={'Cartago'}>Cartago</MenuItem>
@@ -308,7 +309,7 @@ const [chapters, setChapters] = useState([
                 <br />
                 <br />
 
-                <span>Selecciona tu genero</span> &nbsp;&nbsp;
+                <span>Selecciona tu identidad de género</span> &nbsp;&nbsp;
                 <br />
                 <Select
                   labelId="demo-simple-select-label"
@@ -316,6 +317,7 @@ const [chapters, setChapters] = useState([
                   value={gender}
                   onChange={(e) => setGender(e.target.value)}
                 >
+                  <MenuItem selected value={-1}>--Selecciona una--</MenuItem>
                   <MenuItem value={'Masculino'}>Masculino</MenuItem>
                   <MenuItem value={'Femenino'}>Femenino</MenuItem>
                   <MenuItem value={'Lesbiana'}>Lesbiana</MenuItem>
@@ -334,7 +336,7 @@ const [chapters, setChapters] = useState([
                   className="investigate-btn" 
                   variant="contained" 
                   size="small" 
-                  onClick={() => updateUserGender()}>Actualizar Información</Button>
+                  onClick={() => updateUserGender()}>Actualizar datos</Button>
               </Grid>
             </CardContent>
             
@@ -426,9 +428,9 @@ const [chapters, setChapters] = useState([
                               width: 'auto',
                             }}>
                               <Card className="homecard" sx={{ 
-                                    marginBottom:"10vh",
-                                    width: {lg:"14vw",md:"15vw",sm:"15vw",xs:"15vw"}
-                                    }}>
+                                  marginBottom:2,
+                                  width: {lg:"14vw",md:"15vw",sm:"15vw",xs:"15vw"}
+                                  }}>
                                 <CardMedia 
                                   sx={{width: {lg:"10vw",md:"10vw",sm:"8vw",xs:"8vw"}}} 
                                   className={(ch.available ? '' : 'not-available') + " img-card"} 
@@ -505,33 +507,6 @@ const [chapters, setChapters] = useState([
                                 
                                 </CardActions>
                                 
-                                {/* <Card className="homecard-detail" sx={{
-                                width: {lg:"10vw",md:"15vw",sm:"11vw",xs:"16vw"}, 
-                                height: {lg:"30vh",md:"35vh",sm:"37vh",xs:"48vh"}}}>
-                                  <CardContent sx={{ flexGrow:1,padding:"6%",marginBottom:0 }}>
-                                    <Typography 
-                                      color="primary" 
-                                      className="card-title"
-                                      variant="h5" 
-                                      component="h6"
-                                      align="left"
-                                      sx={{fontSize: {lg:18,md:24,sm:16,xs:18}, fontWeight:"bold"}}>
-                                      APORTES
-                                    </Typography>
-                                    <Box sx={{ mb: "10%" }} /> 
-                                    {ch.contributions.map((co, i) => (
-                                      <Typography 
-                                        key={i}
-                                        color="primary"
-                                        align="left"
-                                        gutterBottom variant="h5" 
-                                        component="h6"
-                                        sx={{fontSize: {lg:14,md:12,sm:10,xs:11},fontWeight:500}}>
-                                        {co}
-                                      </Typography>
-                                    ))}
-                                  </CardContent>
-                                </Card> */}
                               </Card>
                               
                             </Grid>
@@ -548,7 +523,7 @@ const [chapters, setChapters] = useState([
           {user?.status === 'PENDING' ? (
             <>
               <Header opened={opened} setOpened={setOpened} />
-              <h2>ACTIVACION DE CUENTA PENDIENTE</h2>
+              <h2>ACTIVACIÓN DE CUENTA PENDIENTE</h2>
               <img
                 alt="noimaege"
                 src={Einstein}
@@ -561,7 +536,7 @@ const [chapters, setChapters] = useState([
                 Nos pondremos en contacto contigo para brindarte instrucciones de acceso.
               </p>
               <br />
-              <Button variant="outlined" onClick={() => logOut()}>CERRAR SESSION</Button>
+              <Button variant="outlined" onClick={() => logOut()}>CERRAR SESSIÓN</Button>
             </>
             ) : (
               <>
@@ -579,8 +554,8 @@ const [chapters, setChapters] = useState([
                 Visita nuestro manager digital para estar al tanto del desempeno de tu equipo.
               </p>
               <br />
-              <Button variant="outlined" onClick={() => {}}>VER MANAGER DIGITAL</Button> &nbsp;
-              <Button variant="outlined" onClick={() => {}}>SOLITAR AYUDA</Button>
+              <Button variant="outlined" onClick={() => { window.open('https://manager.sagalab.info', '_blank' ) }}>VER MANAGER DIGITAL</Button> &nbsp;
+              <Button variant="outlined" onClick={() => { window.open('https://wa.me/50688344528', '_blank' ) }}>SOLICITAR AYUDA</Button>
             </>
             )}
         </>

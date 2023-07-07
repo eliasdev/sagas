@@ -110,6 +110,11 @@ const routes= [{
         component: SponsorSaga,
       },
       {
+        path: '/:id',
+        isPrivate: false,
+        component: Homepage
+      },
+      {
         path: '/*',
         isPrivate: false,
         component: Homepage
