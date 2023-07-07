@@ -26,7 +26,7 @@ import Delta from './../../assets/delta.jpg';
 import './index.css';
 import {useUsers} from '../../context/Users'
 import { Header } from "../../components/header";
-
+import { useParams } from 'react-router-dom';
 
 
 function Copyright() {
@@ -63,14 +63,22 @@ const theme = createTheme(
 );
 
 export default function Homepage() {
+
+  interface RouteParams {
+    id: string;
+  }
+
+  const { id } = useParams<RouteParams>();
   let history = useHistory();
   const [opened, setOpened] = useState(false);
+  
   const {getUsers} = useUsers()
   const {logged}: any = getUsers()
 
   useEffect(() => {
-    if (logged) {
-      history.push('/dashboard');
+    
+    if (logged && id != "123" ) {
+     history.push('/dashboard');
     }
   }, [history, logged]);
 
