@@ -113,7 +113,8 @@ export default function Leaderboard() {
       })
     );
   
-    setDataLeaderboard(finalResults);
+    // sort finalResults by globalScore
+    setDataLeaderboard(finalResults.sort((a, b) => b.globalScore - a.globalScore));
     console.log(finalResults);
   };
   
