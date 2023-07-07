@@ -15,6 +15,8 @@ import { Header } from "../../components/header";
 import { useParams } from 'react-router-dom';
 import Grid from "@mui/material/Grid";
 import { Divider } from "@mui/material";
+import { getDocs, collection, query, where } from 'firebase/firestore';
+import { db } from './../.././firebase/firebase';
 
 
 
@@ -29,28 +31,102 @@ export default function Leaderboard() {
   const { type } = useParams<RouteParams>();
   let history = useHistory();
   const [opened, setOpened] = useState(false);
+
+  const [dataLeaderboard, setDataLeaderboard] = useState<any>([]);
   
   const {getUsers} = useUsers()
-  const {logged}: any = getUsers()
+  const {logged, user}: any = getUsers()
 
-  useEffect(() => {
-    
-    if (logged && type != "123" ) {
-    //history.push('/dashboard');
-    }
-  }, [history, logged]);
-
-  const fakeLeaderboardData = [
-    { name: "John Doe", username: "johndoe", scoreDescartes: 100, scoreEinstein: 80, scoreTharp: 70, scoreClodomiro: 60, globalScore: 310 },
-    { name: "Jane Smith", username: "janesmith", scoreDescartes: 90, scoreEinstein: 85, scoreTharp: 75, scoreClodomiro: 65, globalScore: 315 },
-    { name: "John Doe", username: "johndoe", scoreDescartes: 100, scoreEinstein: 80, scoreTharp: 70, scoreClodomiro: 60, globalScore: 310 },
-    { name: "Jane Smith", username: "janesmith", scoreDescartes: 90, scoreEinstein: 85, scoreTharp: 75, scoreClodomiro: 65, globalScore: 315 },
-    { name: "John Doe", username: "johndoe", scoreDescartes: 100, scoreEinstein: 80, scoreTharp: 70, scoreClodomiro: 60, globalScore: 310 },
-    { name: "Jane Smith", username: "janesmith", scoreDescartes: 90, scoreEinstein: 85, scoreTharp: 75, scoreClodomiro: 65, globalScore: 315 },
+  let fakeLeaderboardData = [
     { name: "John Doe", username: "johndoe", scoreDescartes: 100, scoreEinstein: 80, scoreTharp: 70, scoreClodomiro: 60, globalScore: 310 },
     { name: "Jane Smith", username: "janesmith", scoreDescartes: 90, scoreEinstein: 85, scoreTharp: 75, scoreClodomiro: 65, globalScore: 315 },
     // Add more fake data rows here...
   ];
+
+
+  const fetchData = async () => {
+    const dataQuery = query(collection(db, "users"), where("ownerId", "==", user?.ownerId));
+    const dataResponse = await getDocs(dataQuery);
+    const results: any = dataResponse.docs.map((doc: any) => doc.data());
+
+    let finalResults: any = [];
+
+    // get history tracker data based on user id
+    results.forEach(async (element: any) => {
+        const dataQuery = query(collection(db, "tracker"), where("id", "==", element.id));
+        const dataResponse = await getDocs(dataQuery);
+        const historyData = dataResponse.docs.map((doc: any) => doc.data())
+
+        const quizTracker = historyData.filter((track: { quizId: string; }) => track.quizId === "descartes");
+        const quizTracker2 = historyData.filter((track: { quizId: string; }) => track.quizId === "einstein");
+        const quizTracker3 = historyData.filter((track: { quizId: string; }) => track.quizId === "tharp");
+        const quizTracker4 = historyData.filter((track: { quizId: string; }) => track.quizId === "clodomiro");
+        
+        const quizTrackerData = {
+            quiz1: {
+                attempts: quizTracker.reduce((a: any, b: any) => a + b.attempts, 0),
+                points: quizTracker.reduce((a: any, b: any) => a + b.points, 0),
+            },
+            quiz2: {
+                attempts: quizTracker2.reduce((a: any, b: any) => a + b.attempts, 0),
+                points: quizTracker2.reduce((a: any, b: any) => a + b.points, 0)
+            },
+            quiz3: {
+                attempts: quizTracker3.reduce((a: any, b: any) => a + b.attempts, 0),
+                points: quizTracker3.reduce((a: any, b: any) => a + b.points, 0)
+            },
+            quiz4: {
+                attempts: quizTracker4.reduce((a: any, b: any) => a + b.attempts, 0),
+                points: quizTracker4.reduce((a: any, b: any) => a + b.points, 0)
+            }
+        }
+
+        let scoreDescartes: any = 100;
+        let scoreEinstein: any = 100;
+        let scoreTharp: any = 100;
+        let scoreClodomiro: any = 100;
+
+        if (element.descartes) {
+            // note will be 100 if there are 0 attempts, each attempts will decrease the note by 12.5 cos 100 / 8 = 12.5
+            scoreDescartes = scoreDescartes - quizTrackerData.quiz1.attempts * 12.5;
+        } else {
+            scoreDescartes = 0;
+        }
+
+        if (element.einstein) {
+            // note will be 100 if there are 0 attempts, each attempts will decrease the note by 25 cos 100 / 24 = 25
+            scoreEinstein = scoreEinstein - quizTrackerData.quiz2.attempts * 4.16;
+        } else {
+            scoreEinstein = 0;
+        }
+
+        if (element.tharp) {
+            // note will be 100 if there are 0 attempts, each attempts will decrease the note by 25 cos 100 / 4 = 25
+            scoreTharp = scoreTharp - quizTrackerData.quiz3.attempts * 25;
+        } else {
+            scoreTharp = 0;
+        }
+
+        if (element.clodomiro) {
+            // note will be 100 if there are 0 attempts, each attempts will decrease the note by 25 cos 100 / 4 = 25
+            scoreClodomiro = scoreClodomiro - quizTrackerData.quiz4.attempts * 25;
+        } else {
+            scoreClodomiro = 0;
+        }
+        
+        finalResults.push({ name: element.name, username: element.username, scoreDescartes, scoreEinstein, scoreTharp, scoreClodomiro, globalScore: scoreDescartes + scoreEinstein + scoreTharp + scoreClodomiro });
+    });
+
+    setDataLeaderboard(finalResults);
+    console.log(finalResults);
+  }
+
+  useEffect(() => {
+    fetchData();
+    if (logged && type != "123" ) {
+    //history.push('/dashboard');
+    }
+  }, [history, logged]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -58,9 +134,6 @@ export default function Leaderboard() {
         <Header opened={opened} setOpened={setOpened} />
         <main>
           <div className="bannerL">
-
-          
-
             <Box
                 sx={{
                 // bgcolor: 'background.paper',
@@ -73,112 +146,110 @@ export default function Leaderboard() {
                     
                         <Grid container spacing={0}>
                             <Grid item xs={12}>
-                            <Card>
-                                <CardContent>
-                                <Typography sx={{mb:4,mt:2}} variant="h5" component="div" gutterBottom>
-                                    Tabla de Posiciones
-                                </Typography>
-                                <Grid container spacing={1}>
-                                    <Grid item lg={1.5} xs={1.5}>
-                                    <Typography variant="subtitle1" gutterBottom style={{ fontWeight: 'bold', color: 'white', background: 'rgba(0, 0, 0, 0.2)', padding: '8px', borderRadius: '4px' }}>
-                                        Posición
+                                <Card>
+                                    <CardContent>
+                                    <Typography sx={{mb:4,mt:2}} variant="h5" component="div" gutterBottom>
+                                        Tabla de Posiciones
                                     </Typography>
+                                    <Grid container spacing={1}>
+                                        <Grid item lg={1.5} xs={1.5}>
+                                        <Typography variant="subtitle1" gutterBottom style={{ fontWeight: 'bold', color: 'white', background: 'rgba(0, 0, 0, 0.2)', padding: '8px', borderRadius: '4px' }}>
+                                            Posición
+                                        </Typography>
+                                        </Grid>
+                                        <Grid item lg={1.5} xs={1.5}>
+                                        <Typography variant="subtitle1" gutterBottom style={{ fontWeight: 'bold', color: 'white', background: 'rgba(0, 0, 0, 0.2)', padding: '8px', borderRadius: '4px' }}>
+                                            Nombre
+                                        </Typography>
+                                        </Grid>
+                                        <Grid item lg={1.5} xs={1.5}>
+                                        <Typography variant="subtitle1" gutterBottom style={{ fontWeight: 'bold', color: 'white', background: 'rgba(0, 0, 0, 0.2)', padding: '8px', borderRadius: '4px' }}>
+                                            Usuario
+                                        </Typography>
+                                        </Grid>
+                                        <Grid item lg={1.5} xs={1.5}>
+                                        <Typography variant="subtitle1" gutterBottom style={{ fontWeight: 'bold', color: 'white', background: 'rgba(0, 0, 0, 0.2)', padding: '8px', borderRadius: '4px' }}>
+                                            Nota Descartes
+                                        </Typography>
+                                        </Grid>
+                                        <Grid item lg={1.5} xs={1.5}>
+                                        <Typography variant="subtitle1" gutterBottom style={{ fontWeight: 'bold', color: 'white', background: 'rgba(0, 0, 0, 0.2)', padding: '8px', borderRadius: '4px' }}>
+                                            Nota Einstein
+                                        </Typography>
+                                        </Grid>
+                                        <Grid item lg={1.5} xs={1.5}>
+                                        <Typography variant="subtitle1" gutterBottom style={{ fontWeight: 'bold', color: 'white', background: 'rgba(0, 0, 0, 0.2)', padding: '8px', borderRadius: '4px' }}>
+                                            Nota Tharp
+                                        </Typography>
+                                        </Grid>
+                                        <Grid item lg={1.5} xs={1.5}>
+                                        <Typography variant="subtitle1" gutterBottom style={{ fontWeight: 'bold', color: 'white', background: 'rgba(0, 0, 0, 0.2)', padding: '8px', borderRadius: '4px' }}>
+                                            Nota Clodomiro
+                                        </Typography>
+                                        </Grid>
+                                        <Grid item lg={1.5} xs={1.5}>
+                                        <Typography variant="subtitle1" gutterBottom style={{ fontWeight: 'bold', color: 'white', background: 'rgba(0, 0, 0, 0.2)', padding: '8px', borderRadius: '4px' }}>
+                                            Nota Global
+                                        </Typography>
+                                        </Grid>
+                                        
                                     </Grid>
-                                    <Grid item lg={1.5} xs={1.5}>
-                                    <Typography variant="subtitle1" gutterBottom style={{ fontWeight: 'bold', color: 'white', background: 'rgba(0, 0, 0, 0.2)', padding: '8px', borderRadius: '4px' }}>
-                                        Nombre
-                                    </Typography>
-                                    </Grid>
-                                    <Grid item lg={1.5} xs={1.5}>
-                                    <Typography variant="subtitle1" gutterBottom style={{ fontWeight: 'bold', color: 'white', background: 'rgba(0, 0, 0, 0.2)', padding: '8px', borderRadius: '4px' }}>
-                                        Usuario
-                                    </Typography>
-                                    </Grid>
-                                    <Grid item lg={1.5} xs={1.5}>
-                                    <Typography variant="subtitle1" gutterBottom style={{ fontWeight: 'bold', color: 'white', background: 'rgba(0, 0, 0, 0.2)', padding: '8px', borderRadius: '4px' }}>
-                                        Nota Descartes
-                                    </Typography>
-                                    </Grid>
-                                    <Grid item lg={1.5} xs={1.5}>
-                                    <Typography variant="subtitle1" gutterBottom style={{ fontWeight: 'bold', color: 'white', background: 'rgba(0, 0, 0, 0.2)', padding: '8px', borderRadius: '4px' }}>
-                                        Nota Einstein
-                                    </Typography>
-                                    </Grid>
-                                    <Grid item lg={1.5} xs={1.5}>
-                                    <Typography variant="subtitle1" gutterBottom style={{ fontWeight: 'bold', color: 'white', background: 'rgba(0, 0, 0, 0.2)', padding: '8px', borderRadius: '4px' }}>
-                                        Nota Tharp
-                                    </Typography>
-                                    </Grid>
-                                    <Grid item lg={1.5} xs={1.5}>
-                                    <Typography variant="subtitle1" gutterBottom style={{ fontWeight: 'bold', color: 'white', background: 'rgba(0, 0, 0, 0.2)', padding: '8px', borderRadius: '4px' }}>
-                                        Nota Clodomiro
-                                    </Typography>
-                                    </Grid>
-                                    <Grid item lg={1.5} xs={1.5}>
-                                    <Typography variant="subtitle1" gutterBottom style={{ fontWeight: 'bold', color: 'white', background: 'rgba(0, 0, 0, 0.2)', padding: '8px', borderRadius: '4px' }}>
-                                        Nota Global
-                                    </Typography>
-                                    </Grid>
-                                    
-                                </Grid>
-                                </CardContent>
-                            </Card>
+                                    </CardContent>
+                                </Card>
                             </Grid>
                             <Divider />
                             <div style={{ maxHeight: 400, width:"100%", overflowY: "auto" }}>
-                            {fakeLeaderboardData.map((row, index) => (
+                            {dataLeaderboard?.map((row: any, index: number) => (
                                 <Grid item xs={12} key={index}>
-                                    <Card sx={{ backgroundColor: index % 2 === 0 ? '#f5f5f5' : '#ffffff' }}>
-                                    <CardContent>
-                                        <Grid container spacing={0}>
-                                        <Grid item lg={1.5} xs={1.5}>
-                                            <Typography variant="subtitle1" sx={{ color: index % 2 === 0 ? '#333' : 'inherit' }}>
-                                            {index+1}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item lg={1.5} xs={1.5}>
-                                            <Typography variant="subtitle1" sx={{ color: index % 2 === 0 ? '#333' : 'inherit' }}>
-                                            {row.name}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item lg={1.5} xs={1.5}>
-                                            <Typography variant="subtitle1" sx={{ color: index % 2 === 0 ? '#333' : 'inherit' }}>
-                                            {row.username}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item lg={1.5} xs={1.5}>
-                                            <Typography variant="subtitle1" sx={{ color: index % 2 === 0 ? '#333' : 'inherit' }}>
-                                            {row.scoreDescartes}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item lg={1.5} xs={1.5}>
-                                            <Typography variant="subtitle1" sx={{ color: index % 2 === 0 ? '#333' : 'inherit' }}>
-                                            {row.scoreEinstein}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item lg={1.5} xs={1.5}>
-                                            <Typography variant="subtitle1" sx={{ color: index % 2 === 0 ? '#333' : 'inherit' }}>
-                                            {row.scoreTharp}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item lg={1.5} xs={1.5}>
-                                            <Typography variant="subtitle1" sx={{ color: index % 2 === 0 ? '#333' : 'inherit' }}>
-                                            {row.scoreClodomiro}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item lg={1.5} xs={1.5}>
-                                            <Typography variant="subtitle1" sx={{ color: index % 2 === 0 ? '#333' : 'inherit' }}>
-                                            {row.globalScore}
-                                            </Typography>
-                                        </Grid>
-                                        </Grid>
-                                    </CardContent>
-                                    </Card>
+                                    {<Card sx={{ backgroundColor: index % 2 === 0 ? '#f5f5f5' : '#ffffff' }}>
+                                        <CardContent>
+                                            <Grid container spacing={0}>
+                                                <Grid item lg={1.5} xs={1.5}>
+                                                    <Typography variant="subtitle1" sx={{ color: index % 2 === 0 ? '#333' : 'inherit' }}>
+                                                    {index+1}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item lg={1.5} xs={1.5}>
+                                                    <Typography variant="subtitle1" sx={{ color: index % 2 === 0 ? '#333' : 'inherit' }}>
+                                                    {row?.name}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item lg={1.5} xs={1.5}>
+                                                    <Typography variant="subtitle1" sx={{ color: index % 2 === 0 ? '#333' : 'inherit' }}>
+                                                    {row?.username}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item lg={1.5} xs={1.5}>
+                                                    <Typography variant="subtitle1" sx={{ color: index % 2 === 0 ? '#333' : 'inherit' }}>
+                                                    {row?.scoreDescartes}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item lg={1.5} xs={1.5}>
+                                                    <Typography variant="subtitle1" sx={{ color: index % 2 === 0 ? '#333' : 'inherit' }}>
+                                                    {row?.scoreEinstein}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item lg={1.5} xs={1.5}>
+                                                    <Typography variant="subtitle1" sx={{ color: index % 2 === 0 ? '#333' : 'inherit' }}>
+                                                    {row?.scoreTharp}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item lg={1.5} xs={1.5}>
+                                                    <Typography variant="subtitle1" sx={{ color: index % 2 === 0 ? '#333' : 'inherit' }}>
+                                                    {row?.scoreClodomiro}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item lg={1.5} xs={1.5}>
+                                                    <Typography variant="subtitle1" sx={{ color: index % 2 === 0 ? '#333' : 'inherit' }}>
+                                                    {row?.globalScore}
+                                                    </Typography>
+                                                </Grid>
+                                            </Grid>
+                                        </CardContent>
+                                    </Card>}
                                 </Grid>
-                                ))}
-
+                            ))}
                         </div>
-
                         </Grid>
                     </Container>
 
