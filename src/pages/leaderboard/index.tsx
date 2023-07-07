@@ -15,7 +15,7 @@ import { Header } from "../../components/header";
 import { useParams } from 'react-router-dom';
 import Grid from "@mui/material/Grid";
 import { Divider } from "@mui/material";
-import { getDocs, collection, query, where } from 'firebase/firestore';
+import { getDocs, collection, query, where, limit } from 'firebase/firestore';
 import { db } from './../.././firebase/firebase';
 
 
@@ -42,9 +42,9 @@ export default function Leaderboard() {
   const fetchData = async () => {
     let dataQuery : any = [];
     if (user) {
-      dataQuery = query(collection(db, "users"), where("ownerId", "==", user?.ownerId));
+      dataQuery = query(collection(db, "users"), where("ownerId", "==", user?.ownerId), limit(10));
     } else {
-      dataQuery = query(collection(db, "users"));
+      dataQuery = query(collection(db, "users"), limit(10));
     }
   
     const dataResponse = await getDocs(dataQuery);
