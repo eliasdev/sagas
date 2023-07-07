@@ -3,6 +3,7 @@ import Dashboard from '../pages/dashboard'
 import LogIn from '../pages/login'
 import SignUp from '../pages/signup'
 import Profile from '../pages/profile'
+import Leaderboard from '../pages/leaderboard'
 
 /*DESCARTES PAGES*/
 import QuizDescartes from '../pages/descartes/quiz'
@@ -27,7 +28,8 @@ import QuizEinstein from '../pages/einstein/quiz'
 import Clodomiro from '../pages/clodomiro'
 import Homepage from '../pages/homepage'
 import SponsorSaga from '../pages/sponsor-saga'
-/* */
+/*END EINSTEIN PAGES*/
+
 
 const routes= [{
         path: '/login',
@@ -108,6 +110,16 @@ const routes= [{
         path: '/sponsor-saga',
         isPrivate: false,
         component: SponsorSaga,
+      },
+      {
+        path: '/leaderboard',
+        isPrivate: false,
+        component: Leaderboard
+      },
+      {
+        path: '/leaderboard/:type',
+        isPrivate: false,
+        component: Leaderboard
       },
       {
         path: '/:id',
