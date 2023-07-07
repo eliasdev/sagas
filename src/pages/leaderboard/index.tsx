@@ -85,25 +85,29 @@ export default function Leaderboard() {
         let scoreTharp = 100;
         let scoreClodomiro = 100;
   
-        scoreDescartes = 0;
         if (player.descartes) {
           // note will be 100 if there are 0 attempts, each attempt will decrease the note by 12.5 cos 100 / 8 = 12.5
           scoreDescartes = scoreDescartes - quizTrackerData.quiz1.attempts * 12.5;
+        } else {
+            scoreDescartes = 0;
         }
-        scoreEinstein = 0;
         if (player.einstein) {
           // note will be 100 if there are 0 attempts, each attempt will decrease the note by 25 cos 100 / 24 = 25
           scoreEinstein = scoreEinstein - quizTrackerData.quiz2.attempts * 4.16;
+        } else {
+            scoreEinstein = 0;
         }
-        scoreTharp = 0;
         if (player.tharp) {
           // note will be 100 if there are 0 attempts, each attempt will decrease the note by 25 cos 100 / 4 = 25
           scoreTharp = scoreTharp - quizTrackerData.quiz3.attempts * 25;
+        } else {
+            scoreTharp = 0;
         }
-        scoreClodomiro = 0;
         if (player.clodomiro) {
           // note will be 100 if there are 0 attempts, each attempt will decrease the note by 25 cos 100 / 4 = 25
           scoreClodomiro = scoreClodomiro - quizTrackerData.quiz4.attempts * 25;
+        } else {
+            scoreClodomiro = 0;
         }
         return { name: player.name, username: player.username, scoreDescartes, scoreEinstein, scoreTharp, scoreClodomiro, globalScore: (scoreDescartes + scoreEinstein + scoreTharp + scoreClodomiro) / 4 };
       })
