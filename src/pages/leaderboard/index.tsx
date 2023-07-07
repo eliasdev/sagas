@@ -37,89 +37,82 @@ export default function Leaderboard() {
   const {getUsers} = useUsers()
   const {logged, user}: any = getUsers()
 
-  let fakeLeaderboardData = [
-    { name: "John Doe", username: "johndoe", scoreDescartes: 100, scoreEinstein: 80, scoreTharp: 70, scoreClodomiro: 60, globalScore: 310 },
-    { name: "Jane Smith", username: "janesmith", scoreDescartes: 90, scoreEinstein: 85, scoreTharp: 75, scoreClodomiro: 65, globalScore: 315 },
-    // Add more fake data rows here...
-  ];
 
 
   const fetchData = async () => {
-    const dataQuery = query(collection(db, "users"), where("ownerId", "==", user?.ownerId));
+    let dataQuery : any = [];
+    if (user) {
+      dataQuery = query(collection(db, "users"), where("ownerId", "==", user?.ownerId));
+    } else {
+      dataQuery = query(collection(db, "users"));
+    }
+  
     const dataResponse = await getDocs(dataQuery);
-    const results: any = dataResponse.docs.map((doc: any) => doc.data());
-
-    let finalResults: any = [];
-
-    // get history tracker data based on user id
-    results.forEach(async (element: any) => {
-        const dataQuery = query(collection(db, "tracker"), where("id", "==", element.id));
+    const results = dataResponse.docs.map((doc) => doc.data());
+  
+    const finalResults = await Promise.all(
+      results.map(async (player:any) => {
+        const dataQuery = query(collection(db, "tracker"), where("id", "==", player.id));
         const dataResponse = await getDocs(dataQuery);
-        const historyData = dataResponse.docs.map((doc: any) => doc.data())
-
-        const quizTracker = historyData.filter((track: { quizId: string; }) => track.quizId === "descartes");
-        const quizTracker2 = historyData.filter((track: { quizId: string; }) => track.quizId === "einstein");
-        const quizTracker3 = historyData.filter((track: { quizId: string; }) => track.quizId === "tharp");
-        const quizTracker4 = historyData.filter((track: { quizId: string; }) => track.quizId === "clodomiro");
-        
+        const historyData = dataResponse.docs.map((doc) => doc.data());
+  
+        const quizTracker = historyData.filter((track) => track.quizId === "descartes");
+        const quizTracker2 = historyData.filter((track) => track.quizId === "einstein");
+        const quizTracker3 = historyData.filter((track) => track.quizId === "tharp");
+        const quizTracker4 = historyData.filter((track) => track.quizId === "clodomiro");
+  
         const quizTrackerData = {
-            quiz1: {
-                attempts: quizTracker.reduce((a: any, b: any) => a + b.attempts, 0),
-                points: quizTracker.reduce((a: any, b: any) => a + b.points, 0),
-            },
-            quiz2: {
-                attempts: quizTracker2.reduce((a: any, b: any) => a + b.attempts, 0),
-                points: quizTracker2.reduce((a: any, b: any) => a + b.points, 0)
-            },
-            quiz3: {
-                attempts: quizTracker3.reduce((a: any, b: any) => a + b.attempts, 0),
-                points: quizTracker3.reduce((a: any, b: any) => a + b.points, 0)
-            },
-            quiz4: {
-                attempts: quizTracker4.reduce((a: any, b: any) => a + b.attempts, 0),
-                points: quizTracker4.reduce((a: any, b: any) => a + b.points, 0)
-            }
+          quiz1: {
+            attempts: quizTracker.reduce((a, b) => a + b.attempts, 0),
+            points: quizTracker.reduce((a, b) => a + b.points, 0),
+          },
+          quiz2: {
+            attempts: quizTracker2.reduce((a, b) => a + b.attempts, 0),
+            points: quizTracker2.reduce((a, b) => a + b.points, 0),
+          },
+          quiz3: {
+            attempts: quizTracker3.reduce((a, b) => a + b.attempts, 0),
+            points: quizTracker3.reduce((a, b) => a + b.points, 0),
+          },
+          quiz4: {
+            attempts: quizTracker4.reduce((a, b) => a + b.attempts, 0),
+            points: quizTracker4.reduce((a, b) => a + b.points, 0),
+          },
+        };
+  
+        let scoreDescartes = 100;
+        let scoreEinstein = 100;
+        let scoreTharp = 100;
+        let scoreClodomiro = 100;
+  
+        scoreDescartes = 0;
+        if (player.descartes) {
+          // note will be 100 if there are 0 attempts, each attempt will decrease the note by 12.5 cos 100 / 8 = 12.5
+          scoreDescartes = scoreDescartes - quizTrackerData.quiz1.attempts * 12.5;
         }
-
-        let scoreDescartes: any = 100;
-        let scoreEinstein: any = 100;
-        let scoreTharp: any = 100;
-        let scoreClodomiro: any = 100;
-
-        if (element.descartes) {
-            // note will be 100 if there are 0 attempts, each attempts will decrease the note by 12.5 cos 100 / 8 = 12.5
-            scoreDescartes = scoreDescartes - quizTrackerData.quiz1.attempts * 12.5;
-        } else {
-            scoreDescartes = 0;
+        scoreEinstein = 0;
+        if (player.einstein) {
+          // note will be 100 if there are 0 attempts, each attempt will decrease the note by 25 cos 100 / 24 = 25
+          scoreEinstein = scoreEinstein - quizTrackerData.quiz2.attempts * 4.16;
         }
-
-        if (element.einstein) {
-            // note will be 100 if there are 0 attempts, each attempts will decrease the note by 25 cos 100 / 24 = 25
-            scoreEinstein = scoreEinstein - quizTrackerData.quiz2.attempts * 4.16;
-        } else {
-            scoreEinstein = 0;
+        scoreTharp = 0;
+        if (player.tharp) {
+          // note will be 100 if there are 0 attempts, each attempt will decrease the note by 25 cos 100 / 4 = 25
+          scoreTharp = scoreTharp - quizTrackerData.quiz3.attempts * 25;
         }
-
-        if (element.tharp) {
-            // note will be 100 if there are 0 attempts, each attempts will decrease the note by 25 cos 100 / 4 = 25
-            scoreTharp = scoreTharp - quizTrackerData.quiz3.attempts * 25;
-        } else {
-            scoreTharp = 0;
+        scoreClodomiro = 0;
+        if (player.clodomiro) {
+          // note will be 100 if there are 0 attempts, each attempt will decrease the note by 25 cos 100 / 4 = 25
+          scoreClodomiro = scoreClodomiro - quizTrackerData.quiz4.attempts * 25;
         }
-
-        if (element.clodomiro) {
-            // note will be 100 if there are 0 attempts, each attempts will decrease the note by 25 cos 100 / 4 = 25
-            scoreClodomiro = scoreClodomiro - quizTrackerData.quiz4.attempts * 25;
-        } else {
-            scoreClodomiro = 0;
-        }
-        
-        finalResults.push({ name: element.name, username: element.username, scoreDescartes, scoreEinstein, scoreTharp, scoreClodomiro, globalScore: scoreDescartes + scoreEinstein + scoreTharp + scoreClodomiro });
-    });
-
+        return { name: player.name, username: player.username, scoreDescartes, scoreEinstein, scoreTharp, scoreClodomiro, globalScore: (scoreDescartes + scoreEinstein + scoreTharp + scoreClodomiro) / 4 };
+      })
+    );
+  
     setDataLeaderboard(finalResults);
     console.log(finalResults);
-  }
+  };
+  
 
   useEffect(() => {
     fetchData();
