@@ -174,7 +174,6 @@ export default function Leaderboard() {
       <CssBaseline />
       <Header opened={opened} setOpened={setOpened} />
       <main>
-       ```jsx
         <div className="bannerL">
           <Box
             sx={{
