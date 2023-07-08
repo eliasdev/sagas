@@ -65,6 +65,10 @@ export default function Descartes2() {
                       sx={{fontSize: {lg:34,md:24,sm:22,xs:22}, padding:{lg:6,md:6,sm:2,xs:2}, paddingTop:{lg:14,md:14,sm:7,xs:7}, fontWeight:"bold"}}>
                     El método científico
                     </Typography>
+                    <Typography
+                      className="h5"
+                      color="text.secondary">Experimentos de Robert Paine
+                      </Typography>
                     <Typography sx={{ padding:2, lineHeight:2, textAlign:"justify", fontSize: {lg: 18,md: 18,sm: 15,xs: 15} }}>En 1963 Robert Paine pensó que si uno elimina el depredador dominante de un ecosistema, el resto de las especies deberían prosperar. Decidió hacer el experimento en las piscinas marinas de la costa, donde la estrella de mar era el depredador principal.</Typography>
                     <Divider />
                   </Grid>
