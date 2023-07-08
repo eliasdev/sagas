@@ -44,8 +44,11 @@ export default function Dashboard() {
 
   const [openGenderModal, setOpenGenderModal] = useState(false);
   const [gender, setGender] = useState('');
+  const [sex, setSex] = useState('');
   const [province, setProvince] = useState('');
   const [age, setAge] = useState<number | ''>(0);
+
+  
 
   useEffect(() => {
     checkAvailability(chapters[0]);
@@ -53,13 +56,18 @@ export default function Dashboard() {
     checkAvailability(chapters[2]);
     checkAvailability(chapters[3]);
 
-    if (!user?.gender && user?.role === 'PLAYER'){
+    console.log( user );
+    if ( ( !user?.gender || !user?.sex || !user?.age || !user?.province ) && user?.role === 'PLAYER'){
       setOpenGenderModal(true);
     }
 
     if (!logged) {
       history.push('/');
     }
+    setAge(-1);
+    setProvince("-1");
+    setSex("-1");
+    setGender("-1");
   }, []);
 
   const theme = createTheme(
@@ -81,12 +89,9 @@ export default function Dashboard() {
     },
   }
 );
-
 const [opened, setOpened] = useState(false);
 const [openModal, setOpenModal] = useState(false);
 const [selectedChapter, setSelectedChapter] = useState(0);
-// const {logOut, getUsers} = useUsers();
-// const {logged, loading}: any = getUsers();
 
 const [chapters, setChapters] = useState([
   {
@@ -266,8 +271,10 @@ const [chapters, setChapters] = useState([
     await updateDoc(doc(db, "users", user.id!), {
         gender,
         province,
+        sex,
+        age
     }).then(() => {
-        updateUser({ ...user, gender, province });
+        updateUser({ ...user, gender, province, sex, age });
         setOpenGenderModal(false);
     }).catch((error) => {
         alert("Error updating document: ");
@@ -279,79 +286,115 @@ const [chapters, setChapters] = useState([
       <CssBaseline />
 
       <Modal
-          open={openGenderModal}
-          onClose={() => setOpenGenderModal(false)}
-          aria-labelledby="parent-modal-title"
-          aria-describedby="parent-modal-description"
+        open={openGenderModal}
+        onClose={() => setOpenGenderModal(false)}
+        aria-labelledby="parent-modal-title"
+        aria-describedby="parent-modal-description"
+        sx={{
+          marginTop: { xs: -10 }
+        }}
+      >
+        <Box
+          sx={{
+            background: 'white',
+            padding: '25px',
+            margin: '0 auto',
+            marginTop: '100px',
+            borderRadius: '20px',
+            width: 420,
+          }}
         >
-          <Box sx={{ background: 'white', padding: '25px', margin: '0 auto', marginTop: '100px', borderRadius: '20px', width: 420 }}>
-            
-            <CardContent sx={{ flexGrow:1,padding:"6%",marginBottom:0 }}>
+          <CardContent
+            sx={{
+              flexGrow: 1,
+              padding: "6%",
+              marginBottom: 0,
+              textAlign: "center",
+              overflowY: 'auto',
+              maxHeight: { xs: '60vh', sm: 'auto' },
+            }}
+          >
               <Grid item xs={12} sm={12} md={12}>
-                <h3>Actualiza tu informacion personal!</h3>
-                <span>Ingresa tu edad</span> &nbsp;&nbsp;
-                <br />
-                <TextField
-                  type="number"
-                  value={age}
-                  onChange={(e) => setAge(parseInt( e.target.value ))}
-                  fullWidth
-                />
-                <br />
-                <br />
-                <span>Selecciona tu provincia</span> &nbsp;&nbsp;
-                <br />
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={province}
-                  onChange={(e) => setProvince(e.target.value)}
-                >
-                  <MenuItem selected value={-1}>--Selecciona una--</MenuItem>
-                  <MenuItem value={'Alajuela'}>Alajuela</MenuItem>
-                  <MenuItem value={'Puntarenas'}>Puntarenas</MenuItem>
-                  <MenuItem value={'Cartago'}>Cartago</MenuItem>
-                  <MenuItem value={'Guanacaste'}>Guanacaste</MenuItem>
-                  <MenuItem value={'Heredia'}>Heredia</MenuItem>
-                  <MenuItem value={'San José'}>San José</MenuItem>
-                  <MenuItem value={'Limón'}>Limón</MenuItem>
-                </Select>
-                <br />
-                <br />
+              <Typography variant="h6">Actualiza tu informacion personal</Typography>
+              <Box my={5} />
+              <Typography variant="body1">Ingresa tu edad</Typography>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={age}
+                onChange={(e) => setAge(parseInt(e.target.value as string))}
+              >
+                <MenuItem selected value={-1}>--Selecciona una--</MenuItem><MenuItem value={7}>7</MenuItem><MenuItem value={8}>8</MenuItem><MenuItem value={9}>9</MenuItem><MenuItem value={10}>10</MenuItem><MenuItem value={11}>11</MenuItem><MenuItem value={12}>12</MenuItem><MenuItem value={13}>13</MenuItem><MenuItem value={14}>14</MenuItem><MenuItem value={15}>15</MenuItem><MenuItem value={16}>16</MenuItem><MenuItem value={17}>17</MenuItem><MenuItem value={18}>18</MenuItem><MenuItem value={19}>19</MenuItem><MenuItem value={20}>20</MenuItem>
+              </Select>
+              <Box my={1} />
+              <Typography variant="body1">Selecciona tu provincia</Typography>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={province}
+                onChange={(e) => setProvince(e.target.value)}
+              >
+                <MenuItem selected value={-1}>--Selecciona una--</MenuItem>
+                <MenuItem value={'Alajuela'}>Alajuela</MenuItem>
+                <MenuItem value={'Puntarenas'}>Puntarenas</MenuItem>
+                <MenuItem value={'Cartago'}>Cartago</MenuItem>
+                <MenuItem value={'Guanacaste'}>Guanacaste</MenuItem>
+                <MenuItem value={'Heredia'}>Heredia</MenuItem>
+                <MenuItem value={'San José'}>San José</MenuItem>
+                <MenuItem value={'Limón'}>Limón</MenuItem>
+              </Select>
+              <Box my={1} />
 
-                <span>Selecciona tu identidad de género</span> &nbsp;&nbsp;
-                <br />
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
-                >
-                  <MenuItem selected value={-1}>--Selecciona una--</MenuItem>
-                  <MenuItem value={'Masculino'}>Masculino</MenuItem>
-                  <MenuItem value={'Femenino'}>Femenino</MenuItem>
-                  <MenuItem value={'Lesbiana'}>Lesbiana</MenuItem>
-                  <MenuItem value={'Gay'}>Gay</MenuItem>
-                  <MenuItem value={'Bisexual'}>Bisexual</MenuItem>
-                  <MenuItem value={'Transgénero'}>Transgénero</MenuItem>
-                  <MenuItem value={'Queer'}>Queer</MenuItem>
-                  <MenuItem value={'Intersexual'}>Intersexual</MenuItem>
-                  <MenuItem value={'Asexual'}>Asexual</MenuItem>
-                </Select>
-                <br />
-                <br />
-                <Button 
-                  sx={{fontSize: {lg:13,md:10,sm:10,xs:10}}} 
-                  color="primary" 
-                  className="investigate-btn" 
-                  variant="contained" 
-                  size="small" 
-                  onClick={() => updateUserGender()}>Actualizar datos</Button>
-              </Grid>
-            </CardContent>
-            
-          </Box>
-        </Modal>
+              <Typography variant="body1">Selecciona tu identidad de género</Typography>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+              >
+                <MenuItem selected value={-1}>--Selecciona una--</MenuItem>
+                <MenuItem value={'Masculino'}>Masculino</MenuItem>
+                <MenuItem value={'Femenino'}>Femenino</MenuItem>
+                <MenuItem value={'Lesbiana'}>Lesbiana</MenuItem>
+                <MenuItem value={'Gay'}>Gay</MenuItem>
+                <MenuItem value={'Bisexual'}>Bisexual</MenuItem>
+                <MenuItem value={'Transgénero'}>Transgénero</MenuItem>
+                <MenuItem value={'Queer'}>Queer</MenuItem>
+                <MenuItem value={'Intersexual'}>Intersexual</MenuItem>
+                <MenuItem value={'Asexual'}>Asexual</MenuItem>
+              </Select>
+              <Box my={1} />
+
+              <Typography variant="body1">Selecciona tu sexo</Typography>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={sex}
+                onChange={(e) => setSex(e.target.value)}
+              >
+                <MenuItem selected value={-1}>--Selecciona uno--</MenuItem>
+                <MenuItem value={'Masculino'}>Masculino</MenuItem>
+                <MenuItem value={'Femenino'}>Femenino</MenuItem>
+                <MenuItem value={'NoBinario'}>No Binario</MenuItem>
+                <MenuItem value={'Otro'}>Otro</MenuItem>
+              </Select>
+              <Box my={5} />
+              <Button 
+                sx={{fontSize: {lg:13,md:10,sm:10,xs:10}}} 
+                color="primary" 
+                className="investigate-btn" 
+                variant="contained" 
+                size="large"
+                fullWidth
+                onClick={() => updateUserGender()}
+              >
+                Actualizar datos
+              </Button>
+            </Grid>
+          </CardContent>
+        </Box>
+
+      </Modal>
 
       {isPlayer() ? (
         <>
