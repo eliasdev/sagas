@@ -45,6 +45,7 @@ export default function Dashboard() {
   const [openGenderModal, setOpenGenderModal] = useState(false);
   const [gender, setGender] = useState('');
   const [province, setProvince] = useState('');
+  const [age, setAge] = useState<number | ''>(0);
 
   useEffect(() => {
     checkAvailability(chapters[0]);
@@ -288,7 +289,16 @@ const [chapters, setChapters] = useState([
             <CardContent sx={{ flexGrow:1,padding:"6%",marginBottom:0 }}>
               <Grid item xs={12} sm={12} md={12}>
                 <h3>Actualiza tu informacion personal!</h3>
-
+                <span>Ingresa tu edad</span> &nbsp;&nbsp;
+                <br />
+                <TextField
+                  type="number"
+                  value={age}
+                  onChange={(e) => setAge(parseInt( e.target.value ))}
+                  fullWidth
+                />
+                <br />
+                <br />
                 <span>Selecciona tu provincia</span> &nbsp;&nbsp;
                 <br />
                 <Select
