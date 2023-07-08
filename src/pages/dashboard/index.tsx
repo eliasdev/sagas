@@ -207,6 +207,12 @@ const [chapters, setChapters] = useState([
   };
 
   const checkAvailability = async (ch: any) => {
+    
+    if (!user?.id) {
+      // Handle the case when user?.id is undefined
+      return;
+    }
+    
     const dataQuery = query(collection(db, "tracker"), where("id", "==", user?.id));
     const dataResponse = await getDocs(dataQuery);
     const results = dataResponse.docs.map((doc: any) => doc.data());
