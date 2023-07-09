@@ -2,9 +2,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { Header } from "../../components/header";
 import Grid from '@mui/material/Grid'; // Grid version 1
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import './index.css';
-import { Avatar, TextField } from '@mui/material';
+import { Avatar, LinearProgress, TextField } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Einstein from  './../../assets/characters/thumb-einstein.png';
 import VerifiedIcon from '@mui/icons-material/Verified';
@@ -19,7 +19,7 @@ import { green } from '@mui/material/colors';
 import LineG from "../../components/lineGrafic";
 import { useHistory } from "react-router-dom";
 import { useUsers } from '../../context/Users';
-import {updateDoc, doc } from "firebase/firestore";
+import {updateDoc, doc, collection, where, getDocs, query } from "firebase/firestore";
 import {uploadBytes, ref, getDownloadURL } from "firebase/storage";
 import { db, storage } from './../.././firebase/firebase';
 
@@ -41,9 +41,88 @@ const Profile = () => {
     const [file, setFile] = useState<any>(null);
     const [loader, setLoader] = useState<boolean>(false);
 
-    if( !user ){
-        history.push("/login");
-    }
+    const [scores, setScores] = useState<any>();
+
+    const fetchData = async () => {
+        const dataQuery = query(
+          collection(db, "tracker"),
+          where("id", "==", user.id)
+        );
+
+        const dataResponse = await getDocs(dataQuery);
+        const historyData = dataResponse.docs.map((doc) => doc.data());
+
+        const quizTracker = historyData.filter(
+          (track) => track.quizId === "descartes"
+        );
+        const quizTracker2 = historyData.filter(
+          (track) => track.quizId === "einstein"
+        );
+        const quizTracker3 = historyData.filter(
+          (track) => track.quizId === "tharp"
+        );
+        const quizTracker4 = historyData.filter(
+          (track) => track.quizId === "clodomiro"
+        );
+
+        const quizTrackerData = {
+          quiz1: {
+            attempts: quizTracker.reduce((a, b) => a + b.attempts, 0),
+            points: quizTracker.reduce((a, b) => a + b.points, 0),
+          },
+          quiz2: {
+            attempts: quizTracker2.reduce((a, b) => a + b.attempts, 0),
+            points: quizTracker2.reduce((a, b) => a + b.points, 0),
+          },
+          quiz3: {
+            attempts: quizTracker3.reduce((a, b) => a + b.attempts, 0),
+            points: quizTracker3.reduce((a, b) => a + b.points, 0),
+          },
+          quiz4: {
+            attempts: quizTracker4.reduce((a, b) => a + b.attempts, 0),
+            points: quizTracker4.reduce((a, b) => a + b.points, 0),
+          },
+        };
+
+        let scoreDescartes = 100;
+        let scoreEinstein = 100;
+        let scoreTharp = 100;
+        let scoreClodomiro = 100;
+
+        if (user.descartes) {
+          // note will be 100 if there are 0 attempts, each attempt will decrease the note by 12.5 cos 100 / 8 = 12.5
+          scoreDescartes = scoreDescartes - quizTrackerData.quiz1.attempts * 12.5;
+        } else {
+          scoreDescartes = 0;
+        }
+        if (user.einstein) {
+          // note will be 100 if there are 0 attempts, each attempt will decrease the note by 25 cos 100 / 24 = 25
+          scoreEinstein = scoreEinstein - quizTrackerData.quiz2.attempts * 4.16;
+        } else {
+          scoreEinstein = 0;
+        }
+        if (user.tharp) {
+          // note will be 100 if there are 0 attempts, each attempt will decrease the note by 25 cos 100 / 4 = 25
+          scoreTharp = scoreTharp - quizTrackerData.quiz3.attempts * 25;
+        } else {
+          scoreTharp = 0;
+        }
+        if (user.clodomiro) {
+          // note will be 100 if there are 0 attempts, each attempt will decrease the note by 25 cos 100 / 4 = 25
+          scoreClodomiro = scoreClodomiro - quizTrackerData.quiz4.attempts * 25;
+        } else {
+          scoreClodomiro = 0;
+        }
+        
+        setScores({ scoreDescartes, scoreEinstein, scoreTharp, scoreClodomiro })    
+    };
+    
+    useEffect(() => {
+        fetchData();
+        if( !user ){
+            history.push("/login");
+        }
+    }, []);
 
     const uploadFile = async () => {
         setLoader(true);
@@ -195,6 +274,7 @@ const Profile = () => {
                 
             </Grid>
 
+            <br />
 
             <Typography sx={{fontSize: {lg: 22, xs: 15}, paddingLeft:2.5, width:"80%"}} align="left" paragraph>
                 Horas de práctica para los estudiantes, sin más trabajo para los profesores. Somos profesores, científicos y artistas simulando misiones para que nuestros niños puedan practicar la materia de clase, entendiendo su contexto.
@@ -208,49 +288,57 @@ const Profile = () => {
                 
                 
                 <Grid sx={{padding:{lg: 5, xs: 2}}} lg={12} sm={12} container>
-                    <Grid lg={3}>
-                        <ListItem>
-                            <ListItemAvatar>
-                                <Avatar sx={{ bgcolor: green[500] }}>
-                                    <PercentIcon />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText primary="Insignia de Descartes" />
-                        </ListItem>
-                    </Grid>
+                    {user?.descartes && (
+                        <Grid lg={3}>
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <Avatar sx={{ bgcolor: green[500] }}>
+                                        <PercentIcon />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText primary="Insignia de Descartes" />
+                            </ListItem>
+                        </Grid>
+                    )}
                     
-                    <Grid lg={3}>
-                        <ListItem>
-                            <ListItemAvatar>
-                                <Avatar sx={{ bgcolor: green[500] }}>
-                                    <PercentIcon />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText primary="Insignia de Einstein" />
-                        </ListItem>
-                    </Grid>
+                    {user?.einstein && (
+                        <Grid lg={3}>
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <Avatar sx={{ bgcolor: green[500] }}>
+                                        <PercentIcon />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText primary="Insignia de Einstein" />
+                            </ListItem>
+                        </Grid>
+                    )}
 
-                    <Grid lg={3}>
-                        <ListItem>
-                            <ListItemAvatar>
-                                <Avatar sx={{ bgcolor: green[500] }}>
-                                    <PercentIcon />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText primary="Insignia de Tharp" />
-                        </ListItem>
-                    </Grid>
+                    {user?.tharp && (
+                        <Grid lg={3}>
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <Avatar sx={{ bgcolor: green[500] }}>
+                                        <PercentIcon />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText primary="Insignia de Tharp" />
+                            </ListItem>
+                        </Grid>
+                    )}
 
-                    <Grid lg={3}>
-                        <ListItem>
-                            <ListItemAvatar>
-                                <Avatar sx={{ bgcolor: green[500] }}>
-                                    <PercentIcon />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText primary="Insignia de Picado" />
-                        </ListItem>
-                    </Grid>
+                    {user?.clodomiro && (
+                        <Grid lg={3}>
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <Avatar sx={{ bgcolor: green[500] }}>
+                                        <PercentIcon />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText primary="Insignia de Picado" />
+                            </ListItem>
+                        </Grid>
+                    )}
                   
                 </Grid>
                 <Divider/>
@@ -264,21 +352,53 @@ const Profile = () => {
                   <Grid >
                     <Grid xs={12} sx={{margin:5, marginTop:1}}>
                       <Typography sx={{textAlign:"left"}}>René Descartes</Typography>
-                      <LineG></LineG>
+                      {/* <LineG variant="determinate" value={75}></LineG> */}
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Box sx={{ width: '100%', mr: 1 }}>
+                                <LinearProgress variant="determinate" value={scores?.scoreDescartes}></LinearProgress>
+                            </Box>
+                            <Box sx={{ minWidth: 35 }}>
+                                <Typography variant="body2" color="text.secondary">{`${scores?.scoreDescartes}%`}</Typography>
+                            </Box>
+                        </Box>    
                     </Grid>
                     <Grid xs={12} sx={{margin:5}}>
                       <Typography sx={{textAlign:"left"}}>Albert Einstein</Typography>
-                      <LineG></LineG>
+                      {/* <LineG></LineG> */}  
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Box sx={{ width: '100%', mr: 1 }}>
+                                <LinearProgress variant="determinate" value={scores?.scoreEinstein}></LinearProgress>
+                            </Box>
+                            <Box sx={{ minWidth: 35 }}>
+                                <Typography variant="body2" color="text.secondary">{`${scores?.scoreEinstein}%`}</Typography>
+                            </Box>
+                        </Box>
                     </Grid>
                     <Grid xs={12} sx={{margin:5}}>
                       <Typography sx={{textAlign:"left"}}>Marie Tharp</Typography>
-                      <LineG></LineG>
+                      {/* <LineG></LineG> */}
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Box sx={{ width: '100%', mr: 1 }}>
+                                <LinearProgress variant="determinate" value={scores?.scoreTharp}></LinearProgress>
+                            </Box>
+                            <Box sx={{ minWidth: 35 }}>
+                                <Typography variant="body2" color="text.secondary">{`${scores?.scoreTharp}%`}</Typography>
+                            </Box>
+                        </Box>    
                     </Grid>
                     <Grid xs={12} sx={{margin:5}}>
                       <Typography sx={{textAlign:"left"}}>Clodomiro Picado</Typography>
-                      <LineG></LineG>
+                      {/* <LineG></LineG> */}
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Box sx={{ width: '100%', mr: 1 }}>
+                                <LinearProgress variant="determinate" value={scores?.scoreClodomiro}></LinearProgress>
+                            </Box>
+                            <Box sx={{ minWidth: 35 }}>
+                                <Typography variant="body2" color="text.secondary">{`${scores?.scoreClodomiro}%`}</Typography>
+                            </Box>
+                        </Box>    
                     </Grid>
-                    
+
                   </Grid>
                   <Grid xs={4}  spacing={1} >
                   </Grid>
