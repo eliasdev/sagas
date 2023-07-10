@@ -28,6 +28,7 @@ import QuizEinstein from '../pages/einstein/quiz'
 import Clodomiro from '../pages/clodomiro'
 import Homepage from '../pages/homepage'
 import SponsorSaga from '../pages/sponsor-saga'
+import Welcome from '../pages/welcome'
 /*END EINSTEIN PAGES*/
 
 
@@ -117,9 +118,9 @@ const routes= [{
         component: Leaderboard
       },
       {
-        path: '/leaderboard/:type',
-        isPrivate: false,
-        component: Leaderboard
+        path: '/welcome',
+        isPrivate: true,
+        component: Welcome,
       },
       {
         path: '/:id',

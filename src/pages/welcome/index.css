@@ -1,0 +1,12 @@
+
+.banner{
+    background-image: url("./../../assets/giants.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 0 -70vh;
+    width: 100%;
+    height: auto;
+  }
+  .typo-title{
+    padding-top: 5%;
+  }

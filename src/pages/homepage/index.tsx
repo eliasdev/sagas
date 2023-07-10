@@ -381,7 +381,7 @@ export default function Homepage() {
           color="text.secondary"
           component="p"
         >
-          Próxima Saga: 08 de Mayo, 2023
+          Próxima versión: 11 de Julio, 2023
         </Typography>
         <Copyright />
       </Box>

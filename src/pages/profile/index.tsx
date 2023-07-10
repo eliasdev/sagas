@@ -6,8 +6,12 @@ import { useEffect, useState } from 'react';
 import './index.css';
 import { Avatar, LinearProgress, TextField } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import Einstein from './../../assets/characters/thumb-einstein.png';
-import VerifiedIcon from '@mui/icons-material/Verified';
+
+import Einstein from  './../../assets/badges/einstein-badge.png';
+import Descartes from  './../../assets/badges/descartes-badge.png';
+import Tharp from  './../../assets/badges/tharp-badge.png';
+import Clodomiro from  './../../assets/badges/clodomiro-badge.png';
+
 import Button from '@mui/material/Button';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -16,8 +20,10 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import PercentIcon from '@mui/icons-material/Percent';
 import { green } from '@mui/material/colors';
+
 import LineG from '../../components/lineGrafic';
 import { useHistory } from 'react-router-dom';
+
 import { useUsers } from '../../context/Users';
 import {
   updateDoc,
@@ -451,9 +457,162 @@ const Profile = () => {
             <Grid xs={4} spacing={1}></Grid>
           </Grid>
 
-          {/* FOURD PART */}
-        </Grid>
-      </main>
+
+            <br />
+
+            <Typography sx={{fontSize: {lg: 22, xs: 15}, paddingLeft:2.5, width:"80%"}} align="left" paragraph>
+                Horas de práctica para los estudiantes, sin más trabajo para los profesores. Somos profesores, científicos y artistas simulando misiones para que nuestros niños puedan practicar la materia de clase, entendiendo su contexto.
+            </Typography>
+            
+            
+            <Grid sx={{ padding: 2}}>
+                <Divider/>
+                <Typography variant="h3" sx={{padding:{lg: 5, xs: 2}, fontSize: {lg: 28, xs: 25}}} align="left">INSIGNIAS OBTENIDAS</Typography>
+                
+                
+                
+                <Grid sx={{padding:{lg: 5, xs: 2}}} lg={12} sm={12} container>
+                    {user?.descartes && (
+                        <Grid lg={3} xs={3}>
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <Box
+                                        component="img"
+                                        sx={{
+                                            width:{lg:150,xs:100},
+                                        }}
+                                        src={Descartes}
+                                    />
+                                    <Divider/>
+                                </ListItemAvatar>
+                                <ListItemText primary="Insignia Descartes" />
+                            </ListItem>
+                        </Grid>
+                    )}
+                    
+                    {user?.einstein && (
+                        <Grid lg={3} xs={3}>
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <Box
+                                        component="img"
+                                        sx={{
+                                            width:{lg:150,xs:100},
+                                        }}
+                                        src={Einstein}
+                                    />
+                                    <Divider/>
+                                </ListItemAvatar>
+                                <ListItemText primary="Insignia Einstein" />
+                            </ListItem>
+                        </Grid>
+                    )}
+
+                    {user?.tharp && (
+                        <Grid lg={3} xs={3}>
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <Box
+                                        component="img"
+                                        sx={{
+                                            width:{lg:150,xs:100},
+                                        }}
+                                        src={Tharp}
+                                    />
+                                    <Divider/>
+                                </ListItemAvatar>
+                                <ListItemText primary="Insignia Tharp" />
+                            </ListItem>
+                        </Grid>
+                    )}
+
+                    {user?.clodomiro && (
+                        <Grid lg={3} xs={3}>
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <Box
+                                        component="img"
+                                        sx={{
+                                            width:{lg:150,xs:100},
+                                        }}
+                                        src={Clodomiro}
+                                    />
+                                    <Divider/>
+                                </ListItemAvatar>
+                                <ListItemText primary="Insignia Picado" />
+                            </ListItem>
+                        </Grid>
+                    )}
+                  
+                </Grid>
+                <Divider/>
+                {/* THIRD PART */}
+                <Typography variant="h3" sx={{padding:{lg: 5, xs: 2}, fontSize: {lg: 28, xs: 25}}} align="left">AVANCE DE LA SAGA</Typography>
+                <Grid xs={12} sx={{ padding: 2}}>
+                  
+                  
+
+                  {/* BARRAS*/}
+                  <Grid >
+                    <Grid xs={12} sx={{margin:5, marginTop:1}}>
+                      <Typography sx={{textAlign:"left"}}>René Descartes</Typography>
+                      {/* <LineG variant="determinate" value={75}></LineG> */}
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Box sx={{ width: '100%', mr: 1 }}>
+                                <LinearProgress variant="determinate" value={scores?.scoreDescartes}></LinearProgress>
+                            </Box>
+                            <Box sx={{ minWidth: 35 }}>
+                                <Typography variant="body2" color="text.secondary">{`${scores?.scoreDescartes}%`}</Typography>
+                            </Box>
+                        </Box>    
+                    </Grid>
+                    <Grid xs={12} sx={{margin:5}}>
+                      <Typography sx={{textAlign:"left"}}>Albert Einstein</Typography>
+                      {/* <LineG></LineG> */}  
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Box sx={{ width: '100%', mr: 1 }}>
+                                <LinearProgress variant="determinate" value={scores?.scoreEinstein}></LinearProgress>
+                            </Box>
+                            <Box sx={{ minWidth: 35 }}>
+                                <Typography variant="body2" color="text.secondary">{`${scores?.scoreEinstein}%`}</Typography>
+                            </Box>
+                        </Box>
+                    </Grid>
+                    <Grid xs={12} sx={{margin:5}}>
+                      <Typography sx={{textAlign:"left"}}>Marie Tharp</Typography>
+                      {/* <LineG></LineG> */}
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Box sx={{ width: '100%', mr: 1 }}>
+                                <LinearProgress variant="determinate" value={scores?.scoreTharp}></LinearProgress>
+                            </Box>
+                            <Box sx={{ minWidth: 35 }}>
+                                <Typography variant="body2" color="text.secondary">{`${scores?.scoreTharp}%`}</Typography>
+                            </Box>
+                        </Box>    
+                    </Grid>
+                    <Grid xs={12} sx={{margin:5}}>
+                      <Typography sx={{textAlign:"left"}}>Clodomiro Picado</Typography>
+                      {/* <LineG></LineG> */}
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Box sx={{ width: '100%', mr: 1 }}>
+                                <LinearProgress variant="determinate" value={scores?.scoreClodomiro}></LinearProgress>
+                            </Box>
+                            <Box sx={{ minWidth: 35 }}>
+                                <Typography variant="body2" color="text.secondary">{`${scores?.scoreClodomiro}%`}</Typography>
+                            </Box>
+                        </Box>    
+                    </Grid>
+
+                  </Grid>
+                  <Grid xs={4}  spacing={1} >
+                  </Grid>
+                </Grid>
+
+                {/* FOURD PART */}
+              
+            </Grid>
+        </main>
+
     </ThemeProvider>
   );
 };

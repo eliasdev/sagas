@@ -40,7 +40,7 @@ export default function LoginForm (){
 
   useEffect(() => {
     if (logged) {
-      history.push('/dashboard');
+      history.push('/welcome');
     }
   }, [logged]);
 
