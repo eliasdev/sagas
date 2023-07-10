@@ -74,13 +74,13 @@ export default function Einstein() {
               <Typography
                 className="intro-subtitle"
                 color="text.secondary"
-                sx={{fontSize: {lg:34,md:24,sm:22,xs:22}, paddingTop:{lg:6,xs:7}, fontWeight:"bold"}}>
+                sx={{fontSize: {lg:34,md:24,sm:22,xs:22}, paddingTop:{lg:6,xs:4}, fontWeight:"bold"}}>
               Albert Einstein
               </Typography>
-              <Typography sx={{ padding:1, paddingRight:5, lineHeight:2, textAlign:"justify", fontSize: {lg: 18,md: 18,sm: 15,xs: 15} }}>Gracias a Einstein tenemos GPS, rayos láser, toallas de papel, predicciones de la bolsa de valores, paneles solares y prueba de que existen los átomos y las moléculas.</Typography>
+              <Typography sx={{ padding:1, paddingRight:5, lineHeight:{lg:2,xs:1.5}, textAlign:"justify", fontSize: {lg: 18,md: 18,sm: 15,xs: 15} }}>Gracias a Einstein tenemos GPS, rayos láser, toallas de papel, predicciones de la bolsa de valores, paneles solares y prueba de que existen los átomos y las moléculas.</Typography>
               <Grid container>
                 <Grid className="width-60">
-                  <Typography sx={{ padding:1, lineHeight:2, textAlign:"justify", fontSize: {lg: 18,md: 18,sm: 15,xs: 15} }}>Para rescatarlo, busca en sus cuadernos de notas.</Typography>
+                  <Typography sx={{ padding:1, lineHeight:{lg:2,xs:1.5}, textAlign:"justify", fontSize: {lg: 18,md: 18,sm: 15,xs: 15} }}>Para rescatarlo, busca en sus cuadernos de notas.</Typography>
                 </Grid>
                 <Grid className="width-40" onClick={() => setIsOpen(true)}>
                   <Box 
@@ -88,10 +88,9 @@ export default function Einstein() {
                     component="img"
                     sx={{
                       position: 'relative',
-                      width:100,
-                      marginTop:"-5vh",
+                      width:"80%",
+                      marginTop:{lg:"-2vh", xs:"-10vh"},
                       marginRight:"5vw",
-                      border:"1px solid gray",
                       borderRadius:5
                     }}
                     alt="Click para ver notas"
