@@ -26,6 +26,10 @@ import Santos from './../../assets/characters/thumb-alberto.png';
 import Curie from './../../assets/characters/thumb-marie.png';
 import Turing from './../../assets/characters/thumb-allan.png';
 import Clodomiro from './../../assets/characters/thumb-clodomiro.png';
+import winDescartes from './../../assets/badges/descartes-cert.png';
+import winEinstein from './../../assets/badges/einstein-cert.png';
+import winTharp from './../../assets/badges/tharp-cert.png';
+import winClodomiro from './../../assets/badges/clodomiro-cert.png';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import { useHistory } from 'react-router-dom';
@@ -56,6 +60,8 @@ export default function Dashboard() {
 
   const [openGenderModal, setOpenGenderModal] = useState(false);
   const [showMailTrigger, setShowMailTrigger] = useState(false);
+  const [showWinnerModal, setShowWinnerModal] = useState(false);
+  const [winImage, setWinImage] = useState('');
   const [gender, setGender] = useState('');
   const [sex, setSex] = useState('');
   const [province, setProvince] = useState('');
@@ -70,7 +76,7 @@ export default function Dashboard() {
       perdidoEinstein.play();
     }
 
-    if (user?.descartes && user?.einstein && !user?.tharp) {
+    if (user?.einstein && !user?.tharp) {
       perdidoTharp.play();
     }
 
@@ -97,7 +103,6 @@ export default function Dashboard() {
     ) {
       setOpenGenderModal(true);
     }
-
     if (!logged) {
       history.push('/');
     }
@@ -338,6 +343,24 @@ export default function Dashboard() {
               })
                 .then(() => {
                   updateUser({ ...user, [`${ch.quizId}`]: true });
+                  switch (`${ch.quizId}`) {
+                    case 'descartes':
+                      setWinImage(winDescartes);
+                      break;
+                    case 'einstein':
+                      setWinImage(winEinstein);
+                      break;
+                    case 'tharp':
+                      setWinImage(winTharp);
+                      break;
+                    case 'clodomiro':
+                      setWinImage(winClodomiro);
+                      break;
+
+                    default:
+                      break;
+                  }
+                  setShowWinnerModal(true);
                 })
                 .catch((error) => {
                   console.error('Error updating document: ', error);
@@ -627,7 +650,6 @@ export default function Dashboard() {
           </CardContent>
         </Box>
       </Modal>
-
       {isPlayer() ? (
         <>
           {/* <button onClick={() => closeSession()}>Log Out</button> */}
@@ -964,6 +986,38 @@ export default function Dashboard() {
                 type="submit"
               >
                 Enviar Resultados
+              </Button>
+            </CardContent>
+          </Box>
+        </Modal>
+      )}
+      {showWinnerModal && (
+        <Modal
+          open={showWinnerModal}
+          onClose={() => setShowWinnerModal(false)}
+          aria-labelledby="parent-modal-title"
+          aria-describedby="parent-modal-description"
+        >
+          <Box
+            sx={{
+              background: 'white',
+              margin: '0 auto',
+              marginTop: { lg: 10, xs: 20 },
+              borderRadius: '20px',
+              width: '30%',
+            }}
+          >
+            <CardContent sx={{ flexGrow: 1, padding: 4, marginBottom: 0 }}>
+              <h3>Felicidades! Enhorabuena...</h3>
+              <img src={winImage} width={'100%'} alt="" />
+              <Button
+                color="primary"
+                className="investigate-btn"
+                variant="contained"
+                size="large"
+                type="submit"
+              >
+                Descargar Certificado
               </Button>
             </CardContent>
           </Box>
