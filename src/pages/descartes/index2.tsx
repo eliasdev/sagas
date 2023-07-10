@@ -69,7 +69,7 @@ export default function Descartes2() {
                       className="h5"
                       color="text.secondary">Experimentos de Robert Paine
                       </Typography>
-                    <Typography sx={{ padding:2, lineHeight:2, textAlign:"justify", fontSize: {lg: 18,md: 18,sm: 15,xs: 15} }}>En 1963 Robert Paine pensó que si uno elimina el depredador dominante de un ecosistema, el resto de las especies deberían prosperar. Decidió hacer el experimento en las piscinas marinas de la costa, donde la estrella de mar era el depredador principal.</Typography>
+                    <Typography sx={{ padding:2, lineHeight:2, textAlign:"justify", fontSize: {lg: 18, xs: 15} }}>En 1963 Robert Paine pensó que si uno elimina el depredador dominante de un ecosistema, el resto de las especies deberían prosperar. Decidió hacer el experimento en las piscinas marinas de la costa, donde la estrella de mar era el depredador principal.</Typography>
                     <Divider />
                   </Grid>
                 </Grid>
