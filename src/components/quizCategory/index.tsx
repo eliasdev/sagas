@@ -79,7 +79,7 @@ const QuizCategory = ( props: any ) => {
 
         // If the user has reached the end of the quiz, redirect to the dashboard
         if (currentSlide === shuffledOptions.length - 1) {
-            history.push("/dashboard");
+            document.location.href = document.location.origin;
             return
         }
         return;
