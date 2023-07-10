@@ -76,12 +76,11 @@ export default function Homepage() {
   const {logged}: any = getUsers()
 
   useEffect(() => {
-    
     if (logged && id != "123" ) {
      history.push('/dashboard');
     }
   }, [history, logged]);
-
+  
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

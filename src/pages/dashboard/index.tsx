@@ -35,7 +35,7 @@ import { TextField, autocompleteClasses } from '@mui/material';
 import {useUsers} from '../../context/Users'
 import { getDocs, collection, updateDoc, doc, query, where } from 'firebase/firestore';
 import { db } from './../.././firebase/firebase';
-
+import emailjs from 'emailjs-com';
 
 export default function Dashboard() {
   let history = useHistory();
@@ -43,6 +43,7 @@ export default function Dashboard() {
   const {logged, user}: any = getUsers()
 
   const [openGenderModal, setOpenGenderModal] = useState(false);
+  const [showMailTrigger, setShowMailTrigger] = useState(false);
   const [gender, setGender] = useState('');
   const [sex, setSex] = useState('');
   const [province, setProvince] = useState('');
@@ -56,7 +57,12 @@ export default function Dashboard() {
     checkAvailability(chapters[2]);
     checkAvailability(chapters[3]);
 
-    console.log( user );
+    if (user?.descartes && user?.einstein && user?.tharp && user?.clodomiro) {
+      if (!user.emailResultsSended) {
+        setShowMailTrigger(true);
+      }
+    }
+    
     if ( ( !user?.gender || !user?.sex || !user?.age || !user?.province ) && user?.role === 'PLAYER'){
       setOpenGenderModal(true);
     }
@@ -230,15 +236,11 @@ const [chapters, setChapters] = useState([
         break;
     }
 
-    console.log(results);
-
     if (filtered.length > numberOfPoints) {
       // update chapter availability on chapters variable
       let nextChapter: any = null;
       setChapters(chapters.map((c: any, idx: number) => {
         if (c.quizId === ch.quizId) {
-
-          
 
           if (!user[`${ch.quizId}`]) {
             updateDoc(doc(db, "users", user?.id), {
@@ -281,10 +283,118 @@ const [chapters, setChapters] = useState([
     });
   }
 
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+  const fetchData = async () => {
+    const dataQuery = query(
+      collection(db, "tracker"),
+      where("id", "==", user.id)
+    );
 
+    const dataResponse = await getDocs(dataQuery);
+    const historyData = dataResponse.docs.map((doc) => doc.data());
+
+    const quizTracker = historyData.filter(
+      (track) => track.quizId === "descartes"
+    );
+    const quizTracker2 = historyData.filter(
+      (track) => track.quizId === "einstein"
+    );
+    const quizTracker3 = historyData.filter(
+      (track) => track.quizId === "tharp"
+    );
+    const quizTracker4 = historyData.filter(
+      (track) => track.quizId === "clodomiro"
+    );
+
+    const quizTrackerData = {
+      quiz1: {
+        attempts: quizTracker.reduce((a, b) => a + b.attempts, 0),
+        points: quizTracker.reduce((a, b) => a + b.points, 0),
+      },
+      quiz2: {
+        attempts: quizTracker2.reduce((a, b) => a + b.attempts, 0),
+        points: quizTracker2.reduce((a, b) => a + b.points, 0),
+      },
+      quiz3: {
+        attempts: quizTracker3.reduce((a, b) => a + b.attempts, 0),
+        points: quizTracker3.reduce((a, b) => a + b.points, 0),
+      },
+      quiz4: {
+        attempts: quizTracker4.reduce((a, b) => a + b.attempts, 0),
+        points: quizTracker4.reduce((a, b) => a + b.points, 0),
+      },
+    };
+
+    let scoreDescartes = 100;
+    let scoreEinstein = 100;
+    let scoreTharp = 100;
+    let scoreClodomiro = 100;
+
+    if (user.descartes) {
+      // note will be 100 if there are 0 attempts, each attempt will decrease the note by 12.5 cos 100 / 8 = 12.5
+      scoreDescartes = scoreDescartes - quizTrackerData.quiz1.attempts * 12.5;
+    } else {
+      scoreDescartes = 0;
+    }
+    if (user.einstein) {
+      // note will be 100 if there are 0 attempts, each attempt will decrease the note by 25 cos 100 / 24 = 25
+      scoreEinstein = scoreEinstein - quizTrackerData.quiz2.attempts * 4.16;
+    } else {
+      scoreEinstein = 0;
+    }
+    if (user.tharp) {
+      // note will be 100 if there are 0 attempts, each attempt will decrease the note by 25 cos 100 / 4 = 25
+      scoreTharp = scoreTharp - quizTrackerData.quiz3.attempts * 25;
+    } else {
+      scoreTharp = 0;
+    }
+    if (user.clodomiro) {
+      // note will be 100 if there are 0 attempts, each attempt will decrease the note by 25 cos 100 / 4 = 25
+      scoreClodomiro = scoreClodomiro - quizTrackerData.quiz4.attempts * 25;
+    } else {
+      scoreClodomiro = 0;
+    }
+    
+    return { scoreDescartes, scoreEinstein, scoreTharp, scoreClodomiro }
+};
+
+  const handleSubmitMail = async () => {
+    const history = await fetchData();
+
+    const data: any = {
+      from_name: 'SAGAS LAB',
+      to_name: user?.name,
+      to_email: 'josegomez.dev@gmail.com',
+      message: `
+      Hello, this is my message. \n\n
+        Descartes: ${history.scoreDescartes} \n
+        Einstein: ${history.scoreEinstein} \n
+        Tharp: ${history.scoreTharp} \n
+        Clodomiro: ${history.scoreClodomiro}
+      `
+    };
+    
+    emailjs.send('service_b0mq759', 'template_uxr204w', data, '7r0MFDYv8obebfCn5')
+    .then((response) => {
+      console.log('Email sent successfully');
+      alert('Email Sent')
+      // Perform any desired actions upon successful email sending
+    })
+    .catch((error) => {
+      console.error('Error sending email:', error);
+      // Handle the error
+    });
+  }
+
+  return (
+    showMailTrigger ? (
+        <div style={{ width: '100%', height: '1000px', background: 'white' }}>
+          <h3>Taller Completado</h3>
+          <button onClick={() => handleSubmitMail()} type="submit">Enviar Resultados</button>
+        </div>
+      ) : 
+    (
+      <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Modal
         open={openGenderModal}
         onClose={() => setOpenGenderModal(false)}
@@ -614,7 +724,7 @@ const [chapters, setChapters] = useState([
         </>
       )}
     </ThemeProvider>
-
+    )
   )
 }
 

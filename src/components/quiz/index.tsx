@@ -79,9 +79,8 @@ const Quiz: React.FC<QuizProps> = ({ questionIndex, dataSet, goto }) => {
                 correctAnswer.play();
                 goto && goto(dataSet[questionIndex].goto);
                 if (dataSet[questionIndex].goto === '/dashboard') {
-                    history.push('/dashboard');
+                    document.location.href = document.location.origin;
                 }
-
             });
         } else {
             updateDoc(doc(db, "users", user.id), {
