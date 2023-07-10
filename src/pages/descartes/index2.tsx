@@ -55,14 +55,14 @@ export default function Descartes2() {
           <Back></Back>
           <NaviButton position="left" fwd="" bwd="descartes"/>
           <NaviButton position="right" fwd="descartes3" bwd=""/>
-          <Grid className="content-limit" sx={{width: {lg:"80vw",md:"80vw",sm:"84vw",xs:"84"}, height: {lg:"62vh",md:"62vh",sm:"67vh",xs:"67vh"}}}>  
+          <Grid className="content-limit" sx={{width: {lg:"80vw",xs:"84"}, height: {lg:"62vh",xs:"67vh"}}}>  
             <Grid>
                 <Grid container spacing={1} columnSpacing={{ xs: 1, sm: 0, md: 3 }}>
-                  <Grid className="intro-wrapper" sx={{ width: {lg:"75vw",md:"75vw",sm:"78vw",xs:"78vw"} }}>
+                  <Grid className="intro-wrapper" sx={{ width: {lg:"75vw",xs:"78vw"} }}>
                     <Typography
                       className="intro-subtitle"
                       color="text.secondary"
-                      sx={{fontSize: {lg:34,md:24,sm:22,xs:22}, padding:{lg:6,md:6,sm:2,xs:2}, paddingTop:{lg:14,md:14,sm:7,xs:7}, fontWeight:"bold"}}>
+                      sx={{fontSize: {lg:34,xs:22}, padding:{lg:6,xs:2}, paddingTop:{lg:14,xs:7}, fontWeight:"bold"}}>
                     El método científico
                     </Typography>
                     <Typography
