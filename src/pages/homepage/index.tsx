@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, styled, ThemeProvider } from '@mui/material/styles';
-
+import Tag from './../../components/tag';
 import Logo from './../../assets/logo-sagalab.svg';
 import Giants from './../../assets/giants.jpg';
 import Blip from './../../assets/blip.jpg';
@@ -205,19 +205,12 @@ export default function Homepage() {
                     Saga: Gigantes
                   </Typography>
                   <Typography>
-                    (Tags: STEM, lógica, método científico). Edades: 11-13 años.
+                    Tags: <Tag label="STEM" /> <Tag label="lógica" /> <Tag label="método científico" />
+                    Edades: 11-13 años.
                     Introducción a los conceptos básicos del método científico.
                   </Typography>
                 </CardContent>
-                <CardActions>
-                  <Button size="small">Notificar lanzamiento</Button>
-                  <Button
-                    size="small"
-                    onClick={() => history.push('/sponsor-saga')}
-                  >
-                    Patrocinar esta saga
-                  </Button>
-                </CardActions>
+                
               </Card>
             </Grid>
 
@@ -235,21 +228,11 @@ export default function Homepage() {
                     Saga: The Rose
                   </Typography>
                   <Typography>
-                    (Tags: Historia, Centroamérica, independencia, ensayo,
-                    debate). Edades: 14-18 años. Clima político internacional y
-                    los eventos que precedieron la independencia de las naciones
-                    centroamericanas en 1821.
+                    Tags: <Tag label="Historia" /> <Tag label="Centroamérica" /> <Tag label="independencia" /> <Tag label="ensayo" /> <Tag label="debate" />
+                    Edades: 14-18 años. Clima político internacional y los eventos que precedieron la independencia de las naciones centroamericanas en 1821.
                   </Typography>
                 </CardContent>
-                <CardActions>
-                  <Button size="small">Notificar lanzamiento</Button>
-                  <Button
-                    size="small"
-                    onClick={() => history.push('/sponsor-saga')}
-                  >
-                    Patrocinar esta saga
-                  </Button>
-                </CardActions>
+                
               </Card>
             </Grid>
 
@@ -267,22 +250,13 @@ export default function Homepage() {
                     Saga: El Libro de Delta
                   </Typography>
                   <Typography>
-                    (Tags: Identidad, historia, cívica, Costa Rica,inclusión,
-                    ensayo, liderazgo, presentación oral). Edades: 13-15 años.
+                    Tags: <Tag label="Identidad" /> <Tag label="historia" /> <Tag label="cívica" /> <Tag label="Costa Rica" /> <Tag label="inclusión" /> <Tag label="ensayo" /> <Tag label="liderazgo" /> <Tag label="presentación oral" /> Edades: 13-15 años.
                     Remarca la importancia de incluir las voces de grupos
                     diversos en la historia, y el poder de la participación
                     cívica.
                   </Typography>
                 </CardContent>
-                <CardActions>
-                  <Button size="small">Notificar lanzamiento</Button>
-                  <Button
-                    size="small"
-                    onClick={() => history.push('/sponsor-saga')}
-                  >
-                    Patrocinar esta saga
-                  </Button>
-                </CardActions>
+                
               </Card>
             </Grid>
 
@@ -300,20 +274,12 @@ export default function Homepage() {
                     Saga: Pocket Friends
                   </Typography>
                   <Typography>
-                    (Tags: amistad, tolerancia, cívica). Edades: 11-13 años.
+                    Tags: <Tag label="amistad" /> <Tag label="tolerancia" /> <Tag label="cívica" /> Edades: 11-13 años.
                     Exploración del concepto del poder ciudadano a través de
                     pequeñas acciones .
                   </Typography>
                 </CardContent>
-                <CardActions>
-                  <Button size="small">Notificar lanzamiento</Button>
-                  <Button
-                    size="small"
-                    onClick={() => history.push('/sponsor-saga')}
-                  >
-                    Patrocinar esta saga
-                  </Button>
-                </CardActions>
+                
               </Card>
             </Grid>
 
@@ -331,16 +297,12 @@ export default function Homepage() {
                     Saga: BLIP
                   </Typography>
                   <Typography>
-                    (Tags: Historia del mundo, gobernabilidad, ensayo,
-                    investigación, debate). Edades: 15-18 años. Historial
+                    Tags: <Tag label="Historia del mundo" /> <Tag label="gobernabilidad" /> <Tag label="ensayo" /> <Tag label="investigación" /> <Tag label="debate" /> Edades: 15-18 años. Historial
                     general de las civilizaciones antiguas y sus diferentes
                     modelos de gobierno y sociedad.
                   </Typography>
                 </CardContent>
-                <CardActions>
-                  <Button size="small">Notificar lanzamiento</Button>
-                  <Button size="small">Patrocinar esta saga</Button>
-                </CardActions>
+                
               </Card>
             </Grid>
 
@@ -358,21 +320,11 @@ export default function Homepage() {
                     Saga: Manual de Buenos Modales para Caníbales
                   </Typography>
                   <Typography>
-                    (Tags: cívica, finanzas, tecnologías básicas, etiqueta).
-                    Edades: 11-15 años. Compendio de habilidades básicas para la
-                    vida: finanzas personales, tecnologías básicas para
-                    empleabilidad, interacción social.
+                    Tags: <Tag label="cívica" /> <Tag label="finanzas" /> <Tag label="tecnologías básicas" /> <Tag label="etiqueta" />
+                    Edades: 11-15 años. Compendio de habilidades básicas para la vida: finanzas personales, tecnologías básicas para empleabilidad, interacción social.
                   </Typography>
                 </CardContent>
-                <CardActions>
-                  <Button size="small">Notificar lanzamiento</Button>
-                  <Button
-                    size="small"
-                    onClick={() => history.push('/sponsor-saga')}
-                  >
-                    Patrocinar esta saga
-                  </Button>
-                </CardActions>
+                
               </Card>
             </Grid>
 
