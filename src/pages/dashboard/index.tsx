@@ -59,7 +59,6 @@ export default function Dashboard() {
   const { logged, user }: any = getUsers();
 
   const [openGenderModal, setOpenGenderModal] = useState(false);
-  const [showMailTrigger, setShowMailTrigger] = useState(false);
   const [showWinnerModal, setShowWinnerModal] = useState(false);
   const [winImage, setWinImage] = useState('');
   const [gender, setGender] = useState('');
@@ -82,7 +81,7 @@ export default function Dashboard() {
 
     if (user?.descartes && user?.einstein && user?.tharp && user?.clodomiro) {
       if (!user.emailResultsSent) {
-        setShowMailTrigger(true);
+        handleSubmitMail();
       }
     }
   };
@@ -500,7 +499,6 @@ export default function Dashboard() {
         })
           .then(() => {
             updateUser({ ...user, emailResultsSent: true });
-            setShowMailTrigger(false);
           })
           .catch((error) => {
             console.error('Error updating document: ', error);
@@ -958,38 +956,6 @@ export default function Dashboard() {
             </>
           )}
         </>
-      )}
-      {!user?.emailResultsSent && (
-        <Modal
-          open={showMailTrigger}
-          onClose={() => setShowMailTrigger(false)}
-          aria-labelledby="parent-modal-title"
-          aria-describedby="parent-modal-description"
-        >
-          <Box
-            sx={{
-              background: 'white',
-              margin: '0 auto',
-              marginTop: { lg: 10, xs: 20 },
-              borderRadius: '20px',
-              width: '30%',
-            }}
-          >
-            <CardContent sx={{ flexGrow: 1, padding: 4, marginBottom: 0 }}>
-              <h3>Taller Completado</h3>
-              <Button
-                color="primary"
-                className="investigate-btn"
-                variant="contained"
-                size="large"
-                onClick={() => handleSubmitMail()}
-                type="submit"
-              >
-                Enviar Resultados
-              </Button>
-            </CardContent>
-          </Box>
-        </Modal>
       )}
       {showWinnerModal && (
         <Modal
