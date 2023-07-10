@@ -6,8 +6,10 @@ import { useEffect, useState } from "react";
 import './index.css';
 import { Avatar, LinearProgress, TextField } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import Einstein from  './../../assets/characters/thumb-einstein.png';
-import VerifiedIcon from '@mui/icons-material/Verified';
+import Einstein from  './../../assets/badges/einstein-badge.png';
+import Descartes from  './../../assets/badges/descartes-badge.png';
+import Tharp from  './../../assets/badges/tharp-badge.png';
+import Clodomiro from  './../../assets/badges/clodomiro-badge.png';
 import Button from '@mui/material/Button';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -16,7 +18,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import PercentIcon from '@mui/icons-material/Percent';
 import { green } from '@mui/material/colors';
-import LineG from "../../components/lineGrafic";
 import { useHistory } from "react-router-dom";
 import { useUsers } from '../../context/Users';
 import {updateDoc, doc, collection, where, getDocs, query } from "firebase/firestore";
@@ -289,53 +290,73 @@ const Profile = () => {
                 
                 <Grid sx={{padding:{lg: 5, xs: 2}}} lg={12} sm={12} container>
                     {user?.descartes && (
-                        <Grid lg={3}>
+                        <Grid lg={3} xs={3}>
                             <ListItem>
                                 <ListItemAvatar>
-                                    <Avatar sx={{ bgcolor: green[500] }}>
-                                        <PercentIcon />
-                                    </Avatar>
+                                    <Box
+                                        component="img"
+                                        sx={{
+                                            width:{lg:150,xs:100},
+                                        }}
+                                        src={Descartes}
+                                    />
+                                    <Divider/>
                                 </ListItemAvatar>
-                                <ListItemText primary="Insignia de Descartes" />
+                                <ListItemText primary="Insignia Descartes" />
                             </ListItem>
                         </Grid>
                     )}
                     
                     {user?.einstein && (
-                        <Grid lg={3}>
+                        <Grid lg={3} xs={3}>
                             <ListItem>
                                 <ListItemAvatar>
-                                    <Avatar sx={{ bgcolor: green[500] }}>
-                                        <PercentIcon />
-                                    </Avatar>
+                                    <Box
+                                        component="img"
+                                        sx={{
+                                            width:{lg:150,xs:100},
+                                        }}
+                                        src={Einstein}
+                                    />
+                                    <Divider/>
                                 </ListItemAvatar>
-                                <ListItemText primary="Insignia de Einstein" />
+                                <ListItemText primary="Insignia Einstein" />
                             </ListItem>
                         </Grid>
                     )}
 
                     {user?.tharp && (
-                        <Grid lg={3}>
+                        <Grid lg={3} xs={3}>
                             <ListItem>
                                 <ListItemAvatar>
-                                    <Avatar sx={{ bgcolor: green[500] }}>
-                                        <PercentIcon />
-                                    </Avatar>
+                                    <Box
+                                        component="img"
+                                        sx={{
+                                            width:{lg:150,xs:100},
+                                        }}
+                                        src={Tharp}
+                                    />
+                                    <Divider/>
                                 </ListItemAvatar>
-                                <ListItemText primary="Insignia de Tharp" />
+                                <ListItemText primary="Insignia Tharp" />
                             </ListItem>
                         </Grid>
                     )}
 
                     {user?.clodomiro && (
-                        <Grid lg={3}>
+                        <Grid lg={3} xs={3}>
                             <ListItem>
                                 <ListItemAvatar>
-                                    <Avatar sx={{ bgcolor: green[500] }}>
-                                        <PercentIcon />
-                                    </Avatar>
+                                    <Box
+                                        component="img"
+                                        sx={{
+                                            width:{lg:150,xs:100},
+                                        }}
+                                        src={Clodomiro}
+                                    />
+                                    <Divider/>
                                 </ListItemAvatar>
-                                <ListItemText primary="Insignia de Picado" />
+                                <ListItemText primary="Insignia Picado" />
                             </ListItem>
                         </Grid>
                     )}
