@@ -30,16 +30,13 @@ export default function Welcome() {
         <Grid
           className="content-limit"
           sx={{
-            marginTop: '40px',
-            width: { lg: '90vw', xs: '84' },
+            marginTop: { lg: 5, xs: 0 },
+            width: { lg: '90vw', xs: '84vw' },
             height: { lg: '72vh', xs: '72vh' },
           }}
         >
           <Grid
             className="intro-wrapper"
-            sx={{
-              width: { lg: '82vw', xs: '88vw' },
-            }}
           >
             <Grid className="banner-welcome">
               <Grid>
@@ -49,17 +46,18 @@ export default function Welcome() {
                   sx={{ fontSize: { lg: 34, xs: 19 } }}
                   className="typo-title"
                 >
-                  Gigantes, cada uno ayudó a construir el mundo. Nuestra misión
+                  Gigantes, cada uno ayudó a construir el mundo. <br />Nuestra misión
                   es rescatarlos.
                 </Typography>
-                <Typography variant="body1">¿Qué hay que hacer?</Typography>
-                <List sx={{ width: '80vw', margin: '0 auto', paddingY: 0 }}>
+                <Typography sx={{ color: 'white', pt:{lg:5,xs:2}, pb:{lg:3,xs:0}, fontSize: {lg: 18, xs: 15} }} variant="h5">¿Qué hay que hacer?</Typography>
+                <List sx={{ width: {lg:'60vw',xs:'75vw'}, margin: '0 auto', paddingY: 0 }}>
                   <ListItem sx={{ paddingBottom: 0, paddingTop: 0 }}>
                     <ListItemText
-                      sx={{ color: 'white' }}
+                      disableTypography
+                      sx={{ color: 'white', fontSize: {lg: 18, xs: 13} }}
                       primary="Investiga el archivo de cada científico."
                       secondary={
-                        <Typography sx={{ color: 'white' }}>
+                        <Typography sx={{ color: 'white', fontSize: {lg: 18, xs: 13} }}>
                           Si la persona está desaparecida, resuelve un reto para
                           que regrese a la galería.
                         </Typography>
@@ -68,10 +66,11 @@ export default function Welcome() {
                   </ListItem>
                   <ListItem sx={{ paddingBottom: 0, paddingTop: 0 }}>
                     <ListItemText
-                      sx={{ color: 'white' }}
+                      disableTypography
+                      sx={{ color: 'white', fontSize: {lg: 18, xs: 13} }}
                       primary="En modalidad de quiz, recibirás puntos por cada reto resuelto."
                       secondary={
-                        <Typography sx={{ color: 'white' }}>
+                        <Typography sx={{ color: 'white', fontSize: {lg: 18, xs: 13} }}>
                           En modalidad de competencia se agregan puntos por
                           patentes y premios y compites con otros.
                         </Typography>
@@ -80,7 +79,8 @@ export default function Welcome() {
                   </ListItem>
                   <ListItem>
                     <ListItemText
-                      sx={{ color: 'white' }}
+                      disableTypography
+                      sx={{ color: 'white', fontSize: {lg: 18, xs: 13} }}
                       primary="¡Buena suerte! Haz click en el botón de siguiente a la derecha de la pantalla."
                     />
                   </ListItem>
