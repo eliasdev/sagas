@@ -31,6 +31,11 @@ import Grid from '@mui/material/Grid';
 import { useHistory } from 'react-router-dom';
 import Back from '../../components/back';
 import Box from '@mui/system/Box';
+import {
+  perdidoDescartes,
+  perdidoEinstein,
+  perdidoTharp,
+} from './../../utils/sound';
 import { TextField, autocompleteClasses } from '@mui/material';
 import { useUsers } from '../../context/Users';
 import {
@@ -56,16 +61,34 @@ export default function Dashboard() {
   const [province, setProvince] = useState('');
   const [age, setAge] = useState<number | ''>(0);
 
+  const initializeWelcomeLostAudios = () => {
+    if (!user?.descartes) {
+      perdidoDescartes.play();
+    }
+
+    if (user?.descartes && !user?.einstein) {
+      perdidoEinstein.play();
+    }
+
+    if (user?.descartes && user?.einstein && !user?.tharp) {
+      perdidoTharp.play();
+    }
+
+    if (user?.descartes && user?.einstein && user?.tharp && user?.clodomiro) {
+      if (!user.emailResultsSent) {
+        setShowMailTrigger(true);
+      }
+    }
+  };
+
   useEffect(() => {
     checkAvailability(chapters[0]);
     checkAvailability(chapters[1]);
     checkAvailability(chapters[2]);
     checkAvailability(chapters[3]);
 
-    if (user?.descartes && user?.einstein && user?.tharp && user?.clodomiro) {
-      if (!user.emailResultsSent) {
-        setShowMailTrigger(true);
-      }
+    if (user?.role === 'PLAYER') {
+      initializeWelcomeLostAudios();
     }
 
     if (
@@ -320,7 +343,6 @@ export default function Dashboard() {
                   console.error('Error updating document: ', error);
                 });
             }
-
             c.available = false;
             nextChapter = idx + 1;
           }
