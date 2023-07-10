@@ -137,13 +137,7 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
                 Iniciar Sesión
               </Button>
               <Box sx={{ m: 20, display: { xs: 'none', md: 'block', lg: 'block' } }} />
-              <Grid container >
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    ¿Olvidaste tu contraseña?
-                  </Link>
-                </Grid>
-              </Grid>
+              
               <Grid container>
                 <Grid item xs>
                   <Link href="/signup" variant="body2">
