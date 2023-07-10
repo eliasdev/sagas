@@ -33,10 +33,10 @@ const BottomPanel = () => {
                 <AutoStoriesIcon className="dash-icon" sx={{fontSize: {lg:50,md:40,sm:40,xs:40}}} color="primary"/>
                 <Typography color="primary.contrastText" lineHeight={1.2} sx={{fontSize: {lg: 12,md: 12,sm: 10,xs: 10}}}>AULA</Typography>
             </Grid>
-            <Grid className="margin-center pointer" item sm={2} xs={2} md={2}>
+            {/*<Grid className="margin-center pointer" item sm={2} xs={2} md={2}>
                 <SchoolIcon className="dash-icon" sx={{fontSize: {lg:50,md:40,sm:40,xs:40}}} color="primary"/>
                 <Typography color="primary.contrastText" lineHeight={1.2} sx={{fontSize: {lg: 12,md: 12,sm: 10,xs: 10}}}>LOGROS</Typography>
-            </Grid>
+            </Grid>*/}
             <Grid onClick={() => history.push('/profile')} className="margin-center pointer" item sm={2} xs={2} md={2}>
                 <AccountCircleIcon className="dash-icon" sx={{fontSize: {lg:50,md:40,sm:40,xs:40}}} color="primary"/>
                 <Typography color="primary.contrastText" lineHeight={1.2} sx={{fontSize: {lg: 12,md: 12,sm: 10,xs: 10}}}>CUENTA</Typography>
