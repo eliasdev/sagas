@@ -85,31 +85,31 @@ const closeSession =()=>{
               sx={{
                 display: { xs: 'block', md: 'none' },
               }}
-              
             >
-                
-                {!logged ? (
-                  <>
-                    <MenuItem onClick={() => history.push('/signup')}>
-                      <Typography textAlign="center">Registrarme</Typography>
-                    </MenuItem>
-                    <MenuItem onClick={() => history.push('/login')}>
-                      <Typography textAlign="center">Iniciar Sesión</Typography>
-                    </MenuItem>
-                  </>
-                ) : 
-                  <>
-                    <MenuItem onClick={() => history.push('/dashboard')}>
-                      <Typography textAlign="center">Inicio</Typography>
-                    </MenuItem>
-                    <MenuItem onClick={() => history.push('/profile')}>
-                      <Typography textAlign="center">Perfil</Typography>
-                    </MenuItem>
-                    <MenuItem onClick={() => closeSession()}>
-                      <Typography textAlign="center">Cerrar Sesión</Typography>
-                    </MenuItem>
-                  </>}
+              {!logged ? (
+                [
+                  <MenuItem key="signup" onClick={() => history.push('/signup')}>
+                    <Typography textAlign="center">Registrarme</Typography>
+                  </MenuItem>,
+                  <MenuItem key="login" onClick={() => history.push('/login')}>
+                    <Typography textAlign="center">Iniciar Sesión</Typography>
+                  </MenuItem>
+                ]
+              ) : (
+                [
+                  <MenuItem key="dashboard" onClick={() => history.push('/dashboard')}>
+                    <Typography textAlign="center">Inicio</Typography>
+                  </MenuItem>,
+                  <MenuItem key="profile" onClick={() => history.push('/profile')}>
+                    <Typography textAlign="center">Perfil</Typography>
+                  </MenuItem>,
+                  <MenuItem key="logout" onClick={() => closeSession()}>
+                    <Typography textAlign="center">Cerrar Sesión</Typography>
+                  </MenuItem>
+                ]
+              )}
             </Menu>
+
           </Box>
 
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -127,31 +127,31 @@ const closeSession =()=>{
             {
               !logged ? (
                 <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, position: 'absolute', right: '0%' }}>
-              <Button
-                onClick={() => history.push('/signup')}
-                style={{
-                  textDecoration: 'none', 
-                  padding: '20px', 
-                  color: '#fff', 
-                  fontSize: '19px',
-                  fontWeight: 700,
-                }}
-              >
-                Registrarme
-              </Button>
-              <Button
-                onClick={() => {history.push('/login')}}
-                style={{
-                  textDecoration: 'none', 
-                  padding: '20px', 
-                  color: '#fff', 
-                  fontSize: '19px',
-                  fontWeight: 700,
-                }}
-              >
-                Iniciar Sesión
-              </Button>
-          </Box>
+                  <Button
+                    onClick={() => history.push('/signup')}
+                    style={{
+                      textDecoration: 'none', 
+                      padding: '20px', 
+                      color: '#fff', 
+                      fontSize: '19px',
+                      fontWeight: 700,
+                    }}
+                  >
+                    Registrarme
+                  </Button>
+                  <Button
+                    onClick={() => {history.push('/login')}}
+                    style={{
+                      textDecoration: 'none', 
+                      padding: '20px', 
+                      color: '#fff', 
+                      fontSize: '19px',
+                      fontWeight: 700,
+                    }}
+                  >
+                    Iniciar Sesión
+                  </Button>
+                </Box>
               ):(
                 <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, position: 'absolute', right: '0%' }}>
                   <Button
