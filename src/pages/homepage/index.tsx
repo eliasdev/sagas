@@ -14,9 +14,9 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, styled, ThemeProvider } from '@mui/material/styles';
 
-import Logo from './../../assets/logo-sagalab-white.svg';
+import Logo from './../../assets/logo-sagalab.svg';
 import Giants from './../../assets/giants.jpg';
 import Blip from './../../assets/blip.jpg';
 import Rose from './../../assets/rose.jpg';
@@ -40,6 +40,13 @@ function Copyright() {
     </Typography>
   );
 }
+
+const MyButton = styled(Button)({
+  backgroundColor: '#FAA919',
+  '&:hover': {
+    backgroundColor: '#DC2B27',
+  },
+});
 
 const theme = createTheme({
   spacing: 4,
@@ -128,7 +135,7 @@ export default function Homepage() {
                 className="typo-title"
                 variant="h6"
                 align="center"
-                color="primary.contrastText"
+                color="#3C3B41"
                 paragraph
               >
                 Experiencias simuladas para estudiantes con experiencia.
@@ -148,7 +155,7 @@ export default function Homepage() {
                 className="typo-title"
                 variant="h5"
                 align="center"
-                color="primary.contrastText"
+                color="#3C3B41"
                 paragraph
               >
                 Horas de práctica para los estudiantes, sin más trabajo para los
@@ -163,19 +170,19 @@ export default function Homepage() {
                 spacing={2}
                 justifyContent="center"
               >
-                <Button
+                <MyButton
                   variant="contained"
                   onClick={() => history.push('/dashboard')}
                 >
                   Jugar Saga Gigantes
-                </Button>
+                </MyButton>
 
-                <Button
+                {/*<Button
                   variant="outlined"
                   onClick={() => history.push('/sponsor-saga')}
                 >
                   Solicitar un Demo
-                </Button>
+              </Button>*/}
               </Stack>
             </Container>
           </Box>
