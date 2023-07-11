@@ -2,7 +2,7 @@
 // import { useNavigate } from "react-router-dom";
 // import {useUsers} from '../../context/Users';
 import { useEffect, useState } from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider, makeStyles } from '@mui/material/styles';
 
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -35,6 +35,7 @@ import Grid from '@mui/material/Grid';
 import { useHistory } from 'react-router-dom';
 import Back from '../../components/back';
 import Box from '@mui/system/Box';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import {
   perdidoDescartes,
   perdidoEinstein,
@@ -52,6 +53,18 @@ import {
 } from 'firebase/firestore';
 import { db } from './../.././firebase/firebase';
 import emailjs from 'emailjs-com';
+import { styled } from '@mui/system';
+
+const StyledIcon = styled(PlayCircleIcon)({
+  position: 'absolute',
+  width: '100%',
+  height: '100%',
+  top: 10,
+  right: 0,
+  '&:hover': {
+    color: 'red', // Change the color to your desired hover color
+  },
+});
 
 export default function Dashboard() {
   let history = useHistory();
@@ -66,36 +79,11 @@ export default function Dashboard() {
   const [province, setProvince] = useState('');
   const [age, setAge] = useState<number | ''>(0);
 
-  const initializeWelcomeLostAudios = () => {
-    if (!user?.descartes) {
-      perdidoDescartes.play();
-    }
-
-    if (user?.descartes && !user?.einstein) {
-      perdidoEinstein.play();
-    }
-
-    if (user?.einstein && !user?.tharp) {
-      perdidoTharp.play();
-    }
-
-    if (user?.descartes && user?.einstein && user?.tharp && user?.clodomiro) {
-      if (!user.emailResultsSent) {
-        handleSubmitMail();
-      }
-    }
-  };
-
   useEffect(() => {
     checkAvailability(chapters[0]);
     checkAvailability(chapters[1]);
     checkAvailability(chapters[2]);
     checkAvailability(chapters[3]);
-
-    if (user?.role === 'PLAYER') {
-      initializeWelcomeLostAudios();
-    }
-
     if (
       (!user?.gender || !user?.sex || !user?.age || !user?.province) &&
       user?.role === 'PLAYER'
@@ -152,6 +140,7 @@ export default function Dashboard() {
         'Uso de letras en álgebra',
         'Método científico',
       ],
+      sound: perdidoDescartes
     },
     {
       id: 2,
@@ -171,6 +160,7 @@ export default function Dashboard() {
         'Relación entre masa y energía',
         'Existencia de los átomos',
       ],
+      sound:perdidoEinstein
     },
     {
       id: 3,
@@ -189,6 +179,7 @@ export default function Dashboard() {
         'Primer mapa del fondo del mar',
         'Comprobación de la teoría de la deriva continental',
       ],
+      sound: perdidoTharp
     },
     {
       id: 4,
@@ -209,6 +200,7 @@ export default function Dashboard() {
         'Penicilina',
         'Antídotos para el veneno de serpiente',
       ],
+      sound: null
     },
     {
       id: 5,
@@ -227,6 +219,7 @@ export default function Dashboard() {
         'Mapa del mundo',
         'Calculó la circunferencia de la Tierra',
       ],
+      sound: null
     },
     {
       id: 6,
@@ -246,6 +239,7 @@ export default function Dashboard() {
         'Penicilina',
         'Antídotos para el veneno de serpiente',
       ],
+      sound: null
     },
     {
       id: 7,
@@ -265,6 +259,7 @@ export default function Dashboard() {
         'Penicilina',
         'Antídotos para el veneno de serpiente',
       ],
+      sound: null
     },
     {
       id: 8,
@@ -284,6 +279,7 @@ export default function Dashboard() {
         'Penicilina',
         'Antídotos para el veneno de serpiente',
       ],
+      sound: null
     },
   ]);
 
@@ -510,6 +506,9 @@ export default function Dashboard() {
         // Handle the error
       });
   };
+
+
+  
 
   return (
     <ThemeProvider theme={theme}>
@@ -752,8 +751,7 @@ export default function Dashboard() {
                     marginLeft: '5%',
                     overflowX: 'scroll',
                     whiteSpace: 'nowrap',
-                    position: 'relative',
-                    scrollbarColor: 'red blue',
+                    position: 'relative'
                   }}
                 >
                   {chapters.map((ch, idx) => (
@@ -765,13 +763,13 @@ export default function Dashboard() {
                         margin: '0 auto',
                         marginLeft: idx === 0 ? 5 : 5,
                         display: 'inline-block',
-                        width: 'auto',
-                      }}
-                    >
+                        width: 'auto'
+                      }}>
                       <Card
                         className="homecard"
                         sx={{
                           marginBottom: 2,
+                          position: 'relative',
                           width: {
                             lg: '14vw',
                             md: '15vw',
@@ -780,6 +778,11 @@ export default function Dashboard() {
                           },
                         }}
                       >
+                         {ch.available && ch.canPlay && ch.sound && (
+                        <Box sx={{position:"absolute", width:40,height:40, top: 10, right:15 }}>
+                          <StyledIcon className="pointer" htmlColor="white" fontSize="large" />
+                        </Box> )}
+                        
                         <CardMedia
                           sx={{
                             width: {
