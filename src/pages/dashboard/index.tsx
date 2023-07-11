@@ -53,7 +53,23 @@ import {
 } from 'firebase/firestore';
 import { db } from './../.././firebase/firebase';
 import emailjs from 'emailjs-com';
-import { styled } from '@mui/system';
+import { styled, keyframes } from '@mui/system';
+
+const blinkAnimation = keyframes`
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+  }
+`;
+
+const StyledButton = styled(Button)`
+  animation: ${blinkAnimation} 1.5s infinite;
+`;
 
 const StyledIcon = styled(PlayCircleIcon)({
   position: 'absolute',
@@ -783,7 +799,7 @@ export default function Dashboard() {
                         }}
                       >
                          {ch.available && ch.canPlay && ch.sound && (
-                        <Box sx={{position:"absolute", width:35,height:35, top: 10, right:15 }}>
+                        <Box sx={{position:"absolute", width:{lg:35,xs:30},height:{lg:35,xs:30}, top: {lg:10,xs:7}, right:{lg:15,xs:7} }}>
                           <StyledIcon onClick={() => playAudio(ch.sound)} className="pointer" htmlColor="white" fontSize="large" />
                         </Box> )}
                         
@@ -858,16 +874,16 @@ export default function Dashboard() {
                             gap={2}
                           >
                             {ch.available && ch.canPlay && (
-                              <Button
+                              <StyledButton
                                 sx={{ fontSize: { lg: 13, xs: 9 } }}
                                 color="primary"
                                 className="investigate-btn"
                                 variant="contained"
                                 size="small"
-                                onClick={() => history.push('/' + ch.goToPage)}
+                                onClick={ () => history.push('/' + ch.goToPage)}
                               >
                                 Investigar
-                              </Button>
+                              </StyledButton>
                             )}
                             {!ch.available && ch.released && (
                               <Button
