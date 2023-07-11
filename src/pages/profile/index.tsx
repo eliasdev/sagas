@@ -391,7 +391,7 @@ const Profile = () => {
                     <Typography
                       variant="body2"
                       color="text.secondary"
-                    >{`${scores?.scoreDescartes}%`}</Typography>
+                    >{`${scores?.scoreDescartes}`}</Typography>
                   </Box>
                 </Box>
               </Grid>
@@ -411,7 +411,7 @@ const Profile = () => {
                     <Typography
                       variant="body2"
                       color="text.secondary"
-                    >{`${scores?.scoreEinstein}%`}</Typography>
+                    >{`${scores?.scoreEinstein}`}</Typography>
                   </Box>
                 </Box>
               </Grid>
@@ -429,7 +429,7 @@ const Profile = () => {
                     <Typography
                       variant="body2"
                       color="text.secondary"
-                    >{`${scores?.scoreTharp}%`}</Typography>
+                    >{`${scores?.scoreTharp}`}</Typography>
                   </Box>
                 </Box>
               </Grid>
@@ -449,7 +449,7 @@ const Profile = () => {
                     <Typography
                       variant="body2"
                       color="text.secondary"
-                    >{`${scores?.scoreClodomiro}%`}</Typography>
+                    >{`${scores?.scoreClodomiro}`}</Typography>
                   </Box>
                 </Box>
               </Grid>
