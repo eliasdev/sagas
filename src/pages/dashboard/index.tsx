@@ -53,7 +53,23 @@ import {
 } from 'firebase/firestore';
 import { db } from './../.././firebase/firebase';
 import emailjs from 'emailjs-com';
-import { styled } from '@mui/system';
+import { styled, keyframes } from '@mui/system';
+
+const blinkAnimation = keyframes`
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+  }
+`;
+
+const StyledButton = styled(Button)`
+  animation: ${blinkAnimation} 1.5s infinite;
+`;
 
 const StyledIcon = styled(PlayCircleIcon)({
   position: 'absolute',
@@ -151,7 +167,7 @@ export default function Dashboard() {
         'Gracias a Einstein tenemos GPS, rayos láser, toallas de papel, predicciones de la bolsa de valores, paneles solares y prueba de que existen los átomos y las moléculas.',
       image: Einstein,
       description:
-        'Descartes (1596-1650) fue uno de los proponentes del método científico: la forma en que hacemos ciencia.',
+        'Gracias a Einstein tenemos GPS, rayos láser, toallas de papel, predicciones de la bolsa de valores, paneles solares y prueba de que existen los átomos y las moléculas.',
       goToPage: 'einstein',
       available: true,
       canPlay: false,
@@ -171,7 +187,7 @@ export default function Dashboard() {
         'Sin Marie Tharpe, no sabríamos por qué pasan los terremotos, ni cómo construir mejores edificios.',
       image: Tharp,
       description:
-        'Descartes (1596-1650) fue uno de los proponentes del método científico: la forma en que hacemos ciencia.',
+        'Sin Marie Tharpe, no sabríamos por qué pasan los terremotos, ni cómo construir mejores edificios.',
       goToPage: 'tharp',
       available: true,
       canPlay: false,
@@ -190,7 +206,7 @@ export default function Dashboard() {
         'Sin Clorito Picado, miles de personas morirían cada año por mordeduras de serpientes.',
       image: Clodomiro,
       description:
-        'Descartes (1596-1650) fue uno de los proponentes del método científico: la forma en que hacemos ciencia.',
+        'Sin Clorito Picado, miles de personas morirían cada año por mordeduras de serpientes.',
       goToPage: 'clodomiro',
       available: true,
       canPlay: false,
@@ -210,7 +226,7 @@ export default function Dashboard() {
         'Sin saber la forma de la tierra no podríamos predecir el clima ni calcular las rutas de los aviones.',
       image: Herasto,
       description:
-        'Descartes (1596-1650) fue uno de los proponentes del método científico: la forma en que hacemos ciencia.',
+        'Sin saber la forma de la tierra no podríamos predecir el clima ni calcular las rutas de los aviones.',
       goToPage: 'einstein',
       available: false,
       released: false,
@@ -229,7 +245,7 @@ export default function Dashboard() {
         'Sin personas como Santos-Dumont, no tendríamos aviación comercial.  Para rescatarlo, trabaja en su taller.',
       image: Santos,
       description:
-        'Santos-Dumont (1873-1932) fue de los primeros en volar por sus propios medios, con despegue y aterrizaje autónomos',
+        'Santos-Dumont (1873-1932) fue de los primeros en volar por sus propios medios, con despegue y aterrizaje autónomos.',
       goToPage: null,
       available: false,
       released: false,
@@ -249,7 +265,7 @@ export default function Dashboard() {
         'Sin su trabajo, y el de otros como ella, no tendríamos rayos X, energía nuclear, ni tratamientos de radioterapia.',
       image: Curie,
       description:
-        'Santos-Dumont (1873-1932) fue de los primeros en volar por sus propios medios, con despegue y aterrizaje autónomos',
+        'Sin su trabajo, y el de otros como ella, no tendríamos rayos X, energía nuclear, ni tratamientos de radioterapia.',
       goToPage: null,
       available: false,
       released: false,
@@ -269,7 +285,7 @@ export default function Dashboard() {
         'Padre de la Inteligencia Artificial, Turing desarrolló una prueba donde un entrevistador haría preguntas sin saber si hablaba con un ser humano o una IA.',
       image: Turing,
       description:
-        'Santos-Dumont (1873-1932) fue de los primeros en volar por sus propios medios, con despegue y aterrizaje autónomos',
+        'Padre de la Inteligencia Artificial, Turing desarrolló una prueba donde un entrevistador haría preguntas sin saber si hablaba con un ser humano o una IA.',
       goToPage: null,
       available: false,
       released: false,
@@ -668,7 +684,7 @@ export default function Dashboard() {
               sx={{
                 background: 'white',
                 margin: '0 auto',
-                marginTop: { lg: 40, xs: 20 },
+                marginTop: { lg: 40, xs: 10 },
                 borderRadius: '20px',
                 boxShadow: '3px 3px 10px black, -0.5em 0 0.8em blue',
                 width: '60%',
@@ -692,7 +708,7 @@ export default function Dashboard() {
                   color="primary"
                   align="left"
                   sx={{
-                    fontSize: { lg: 14, md: 12, sm: 10, xs: 11 },
+                    fontSize: { lg: 14, xs: 12 },
                     fontWeight: 500,
                   }}
                 >
@@ -703,7 +719,7 @@ export default function Dashboard() {
                   color="primary"
                   align="left"
                   sx={{
-                    fontSize: { lg: 18, md: 24, sm: 16, xs: 18 },
+                    fontSize: { lg: 18, xs: 18 },
                     fontWeight: 'bold',
                   }}
                 >
@@ -719,7 +735,7 @@ export default function Dashboard() {
                     variant="h5"
                     component="h6"
                     sx={{
-                      fontSize: { lg: 14, md: 12, sm: 10, xs: 11 },
+                      fontSize: { lg: 15, xs: 12 },
                       fontWeight: 500,
                     }}
                   >
@@ -735,27 +751,31 @@ export default function Dashboard() {
             <Grid
               className="bg-main"
               sx={{
-                height: { lg: '100vh', md: '120vh', sm: '120vh', xs: '120vh' },
+                height: { lg: '100vh', xs: '120vh' },
               }}
             >
               <Grid
                 className="dash-container"
                 container
                 sx={{
-                  overflow: 'autro',
-                  height: { lg: '68vh', md: '62vh', sm: '70vh', xs: '62vh' },
-                  paddingTop: { lg: '7%', md: '11%', sm: '4%', xs: '6%' },
-                  width: { lg: '80vw', md: '86vw', sm: '84vw', xs: '86vw' },
-                  maxWidth: { lg: '80vw', md: '86vw', sm: '84vw', xs: '86vw' },
+                  height: { lg: '68vh', xs: '62vh' },
+                  paddingTop: { lg: '6%', xs: '6%' },
+                  width: { lg: '80vw', xs: '86vw' },
+                  maxWidth: { lg: '80vw', xs: '86vw' },
                 }}
               >
                 <div
+                  id="scroller-div"
                   style={{
                     width: '90%',
                     marginLeft: '5%',
                     overflowX: 'scroll',
                     whiteSpace: 'nowrap',
-                    position: 'relative'
+                    position: 'relative',
+                    // Force the scrollbar to be always visible
+                    overflowY: 'scroll',
+                    scrollbarWidth: 'thin', // For Firefox
+                    scrollbarColor: 'rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0.1)', // For Chrome, Safari, and Edge
                   }}
                 >
                   {chapters.map((ch, idx) => (
@@ -783,7 +803,7 @@ export default function Dashboard() {
                         }}
                       >
                          {ch.available && ch.canPlay && ch.sound && (
-                        <Box sx={{position:"absolute", width:35,height:35, top: 10, right:15 }}>
+                        <Box sx={{position:"absolute", width:{lg:35,xs:30},height:{lg:35,xs:30}, top: {lg:10,xs:7}, right:{lg:15,xs:7} }}>
                           <StyledIcon onClick={() => playAudio(ch.sound)} className="pointer" htmlColor="white" fontSize="large" />
                         </Box> )}
                         
@@ -858,16 +878,16 @@ export default function Dashboard() {
                             gap={2}
                           >
                             {ch.available && ch.canPlay && (
-                              <Button
+                              <StyledButton
                                 sx={{ fontSize: { lg: 13, xs: 9 } }}
                                 color="primary"
                                 className="investigate-btn"
                                 variant="contained"
                                 size="small"
-                                onClick={() => history.push('/' + ch.goToPage)}
+                                onClick={ () => history.push('/' + ch.goToPage)}
                               >
                                 Investigar
-                              </Button>
+                              </StyledButton>
                             )}
                             {!ch.available && ch.released && (
                               <Button
