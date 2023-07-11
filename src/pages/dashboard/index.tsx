@@ -478,11 +478,11 @@ export default function Dashboard() {
   const handleSubmitMail = async () => {
     const history = await fetchData();
     const data: any = {
-      from_name: 'SAGAS LAB',
+      from_name: 'SAGALAB',
       to_name: user?.name,
       to_email: 'josegomez.dev@gmail.com',
       message: `
-      Hello, this is my message. \n\n
+      Notas del usuario: ${ user?.name } \n\n
         Descartes: ${history?.scoreDescartes} \n
         Einstein: ${history?.scoreEinstein} \n
         Tharp: ${history?.scoreTharp} \n
