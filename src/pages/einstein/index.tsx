@@ -93,6 +93,7 @@ export default function Einstein() {
                       marginRight:"5vw",
                       borderRadius:5
                     }}
+                    className='pointer'
                     alt="Click para ver notas"
                     src={EinsteinBook}
                   />

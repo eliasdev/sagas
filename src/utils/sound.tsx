@@ -13,3 +13,6 @@ export const perdidoEinstein = new Audio(
 export const perdidoTharp = new Audio(
   'https://firebasestorage.googleapis.com/v0/b/sagas-24491.appspot.com/o/perdido_tharp.mp3?alt=media&token=896c7299-2af3-4deb-be57-739870cd2964'
 );
+export const nein = new Audio(
+  'https://firebasestorage.googleapis.com/v0/b/sagas-24491.appspot.com/o/nein.mp3?alt=media&token=eb893ada-8128-460a-ac63-1e251f5ba709'
+);

@@ -507,6 +507,10 @@ export default function Dashboard() {
       });
   };
 
+  const playAudio = ( audio2Play : any ) => {
+    audio2Play.play();
+  }
+
 
   
 
@@ -779,8 +783,8 @@ export default function Dashboard() {
                         }}
                       >
                          {ch.available && ch.canPlay && ch.sound && (
-                        <Box sx={{position:"absolute", width:40,height:40, top: 10, right:15 }}>
-                          <StyledIcon className="pointer" htmlColor="white" fontSize="large" />
+                        <Box sx={{position:"absolute", width:35,height:35, top: 10, right:15 }}>
+                          <StyledIcon onClick={() => playAudio(ch.sound)} className="pointer" htmlColor="white" fontSize="large" />
                         </Box> )}
                         
                         <CardMedia
