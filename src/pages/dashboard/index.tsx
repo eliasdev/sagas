@@ -594,7 +594,7 @@ export default function Dashboard() {
               <Box my={1} />
 
               <Typography variant="body1">
-                Selecciona tu identidad de género
+                Selecciona tu género
               </Typography>
               <Select
                 labelId="demo-simple-select-label"
@@ -605,8 +605,7 @@ export default function Dashboard() {
                 <MenuItem selected value={-1}>
                   --Selecciona una--
                 </MenuItem>
-                <MenuItem value={'Masculino'}>Masculino</MenuItem>
-                <MenuItem value={'Femenino'}>Femenino</MenuItem>
+                <MenuItem value={'Heterosexual'}>Heterosexual</MenuItem>
                 <MenuItem value={'Lesbiana'}>Lesbiana</MenuItem>
                 <MenuItem value={'Gay'}>Gay</MenuItem>
                 <MenuItem value={'Bisexual'}>Bisexual</MenuItem>
@@ -614,6 +613,9 @@ export default function Dashboard() {
                 <MenuItem value={'Queer'}>Queer</MenuItem>
                 <MenuItem value={'Intersexual'}>Intersexual</MenuItem>
                 <MenuItem value={'Asexual'}>Asexual</MenuItem>
+                <MenuItem value={'NoBinario'}>No Binario</MenuItem>
+                <MenuItem value={'Otro'}>Otro</MenuItem>
+                <MenuItem value={'NoDecir'}>Prefiero no decir</MenuItem>
               </Select>
               <Box my={1} />
 
@@ -629,7 +631,6 @@ export default function Dashboard() {
                 </MenuItem>
                 <MenuItem value={'Masculino'}>Masculino</MenuItem>
                 <MenuItem value={'Femenino'}>Femenino</MenuItem>
-                <MenuItem value={'NoBinario'}>No Binario</MenuItem>
                 <MenuItem value={'Otro'}>Otro</MenuItem>
               </Select>
               <Box my={5} />
