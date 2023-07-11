@@ -12,3 +12,15 @@
 .char-image{
     padding-top: 10vh;
 }
+
+.character-einstein{
+    position: absolute;
+    height: auto;
+    left: 20%;
+    bottom: 10%;
+  }
+  .character-einstein img{
+    position: relative;
+    width: 70%;
+    height: auto;
+  }
