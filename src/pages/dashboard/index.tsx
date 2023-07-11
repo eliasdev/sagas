@@ -479,6 +479,7 @@ export default function Dashboard() {
     const history = await fetchData();
     const data: any = {
       from_name: 'SAGALAB',
+      from_email: 'grupos@sagalab.info',
       to_name: user?.name,
       to_email: 'josegomez.dev@gmail.com',
       message: `
