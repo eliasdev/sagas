@@ -27,6 +27,8 @@ import './index.css';
 import { useUsers } from '../../context/Users';
 import { Header } from '../../components/header';
 import { useParams } from 'react-router-dom';
+import MenuList from '@mui/material/MenuList';
+import { MenuItem } from '@mui/material';
 
 function Copyright() {
   return (
@@ -69,6 +71,10 @@ const theme = createTheme({
 export default function Homepage() {
   interface RouteParams {
     id: string;
+  }
+
+  const openWhatsAppChat = function(){
+    window.open( "https://wa.me/50688344528", "_blank" );
   }
 
   const { id } = useParams<RouteParams>();
@@ -127,9 +133,7 @@ export default function Homepage() {
                 sx={{
                   fontSize: {
                     lg: 30,
-                    md: 23,
-                    sm: 20,
-                    xs: 15,
+                    xs: 24
                   },
                 }}
                 className="typo-title"
@@ -138,19 +142,18 @@ export default function Homepage() {
                 color="#3C3B41"
                 paragraph
               >
-                Experiencias simuladas para estudiantes con experiencia.
+                En Sagalab estamos creando nuevos mundos para educación
               </Typography>
 
               <Typography
                 sx={{
                   fontSize: {
-                    lg: 27,
-                    md: 20,
-                    sm: 17,
-                    xs: 14,
+                    lg: 25,
+                    xs: 20
                   },
                   paddingLeft: 10,
                   paddingRight: 10,
+                  mb:10
                 }}
                 className="typo-title"
                 variant="h5"
@@ -158,11 +161,39 @@ export default function Homepage() {
                 color="#3C3B41"
                 paragraph
               >
-                Horas de práctica para los estudiantes, sin más trabajo para los
-                profesores. Somos profesores, científicos y artistas simulando
-                misiones para que nuestros niños puedan practicar la materia de
-                clase, entendiendo su contexto.
+                Cada una de las sagas en nuestro laboratorio es una experiencia educativa que los profesores pueden asignar como tarea o  examen.
               </Typography>
+
+
+              <MenuList
+                sx={{
+                  fontSize: {
+                    lg: 22,
+                    xs: 18,
+                  },
+                  width: {lg:"50vw",xs:"80vw"},
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  margin:"0 auto"
+                }}
+                className="typo-title"
+              >
+                <MenuItem
+                >
+                  - Se califican solas
+                </MenuItem>
+                <MenuItem
+                >
+                  - Pueden completarse como trabajo en clase o como competencia con otros colegios
+                </MenuItem>
+                <MenuItem
+                >
+                  - Ofrecen un ranking nacional de los mejores estudiantes
+                </MenuItem>
+                <MenuItem onClick={() => openWhatsAppChat()}>
+                  Solicite más información aquí. 👈
+                </MenuItem>
+              </MenuList>
 
               <Stack
                 sx={{ pt: '6%' }}
@@ -334,14 +365,7 @@ export default function Homepage() {
       </main>
       {/* Footer */}
       <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
-        <Typography
-          variant="subtitle1"
-          align="center"
-          color="text.secondary"
-          component="p"
-        >
-          Próxima versión: 11 de Julio, 2023
-        </Typography>
+        
         <Copyright />
       </Box>
       {/* End footer */}
