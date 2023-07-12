@@ -350,15 +350,39 @@ export default function Dashboard() {
     if (filtered.length > numberOfPoints) {
       // update chapter availability on chapters variable
       let nextChapter: any = null;
+      const history = await fetchData();
       setChapters(
         chapters.map((c: any, idx: number) => {
           if (c.quizId === ch.quizId) {
             if (!user[`${ch.quizId}`]) {
               updateDoc(doc(db, 'users', user?.id), {
                 [`${ch.quizId}`]: true,
+                scoreDescartes: history?.scoreDescartes,
+                scoreEinstein: history?.scoreEinstein,
+                scoreTharp: history?.scoreTharp,
+                scoreClodomiro: history?.scoreClodomiro,
+                globalScore:
+                  (history?.scoreDescartes +
+                    history?.scoreEinstein +
+                    history?.scoreTharp +
+                    history?.scoreClodomiro) /
+                  4,
               })
-                .then(() => {
-                  updateUser({ ...user, [`${ch.quizId}`]: true });
+                .then(async () => {
+                  updateUser({
+                    ...user,
+                    [`${ch.quizId}`]: true,
+                    scoreDescartes: history?.scoreDescartes,
+                    scoreEinstein: history?.scoreEinstein,
+                    scoreTharp: history?.scoreTharp,
+                    scoreClodomiro: history?.scoreClodomiro,
+                    globalScore:
+                      (history?.scoreDescartes +
+                        history?.scoreEinstein +
+                        history?.scoreTharp +
+                        history?.scoreClodomiro) /
+                      4,
+                  });
                   switch (`${ch.quizId}`) {
                     case 'descartes':
                       setWinImage(winDescartes);
@@ -464,36 +488,54 @@ export default function Dashboard() {
     let scoreTharp = 100;
     let scoreClodomiro = 100;
 
-    if (user.descartes) {
-      // note will be 100 if there are 0 attempts, each attempt will decrease the note by 12.5 cos 100 / 8 = 12.5
+    if (
+      quizTrackerData.quiz1.attempts > 0 ||
+      quizTrackerData.quiz1.points > 0
+    ) {
       scoreDescartes = scoreDescartes - quizTrackerData.quiz1.attempts * 12.5;
     } else {
       scoreDescartes = 0;
     }
-    if (user.einstein) {
-      // note will be 100 if there are 0 attempts, each attempt will decrease the note by 25 cos 100 / 24 = 25
+
+    if (
+      quizTrackerData.quiz2.attempts > 0 ||
+      quizTrackerData.quiz2.points > 0
+    ) {
       scoreEinstein = scoreEinstein - quizTrackerData.quiz2.attempts * 4.16;
     } else {
       scoreEinstein = 0;
     }
-    if (user.tharp) {
-      // note will be 100 if there are 0 attempts, each attempt will decrease the note by 25 cos 100 / 4 = 25
+
+    if (
+      quizTrackerData.quiz3.attempts > 0 ||
+      quizTrackerData.quiz3.points > 0
+    ) {
       scoreTharp = scoreTharp - quizTrackerData.quiz3.attempts * 25;
     } else {
       scoreTharp = 0;
     }
-    if (user.clodomiro) {
-      // note will be 100 if there are 0 attempts, each attempt will decrease the note by 25 cos 100 / 4 = 25
+
+    if (
+      quizTrackerData.quiz4.attempts > 0 ||
+      quizTrackerData.quiz4.points > 0
+    ) {
       scoreClodomiro = scoreClodomiro - quizTrackerData.quiz4.attempts * 25;
     } else {
       scoreClodomiro = 0;
     }
 
-    return { scoreDescartes, scoreEinstein, scoreTharp, scoreClodomiro };
+    const globalScore =
+      (scoreDescartes + scoreEinstein + scoreTharp + scoreClodomiro) / 4;
+    return {
+      scoreDescartes,
+      scoreEinstein,
+      scoreTharp,
+      scoreClodomiro,
+      globalScore,
+    };
   };
 
   const handleSubmitMail = async () => {
-    alert('handle submit Mail with notes');
     const history = await fetchData();
     const data: any = {
       from_name: 'SAGALAB',
