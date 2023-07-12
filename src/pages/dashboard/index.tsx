@@ -476,6 +476,7 @@ export default function Dashboard() {
   };
 
   const handleSubmitMail = async () => {
+    alert('handle submit Mail with notes');
     const history = await fetchData();
     const data: any = {
       from_name: 'SAGAS LAB',
@@ -496,9 +497,32 @@ export default function Dashboard() {
         console.log('Email sent successfully');
         updateDoc(doc(db, 'users', user?.id), {
           emailResultsSent: true,
+          scoreDescartes: history?.scoreDescartes,
+          scoreEinstein: history?.scoreEinstein,
+          scoreTharp: history?.scoreTharp,
+          scoreClodomiro: history?.scoreClodomiro,
+          globalScore:
+            (history?.scoreDescartes +
+              history?.scoreEinstein +
+              history?.scoreTharp +
+              history?.scoreClodomiro) /
+            4,
         })
           .then(() => {
-            updateUser({ ...user, emailResultsSent: true });
+            updateUser({
+              ...user,
+              emailResultsSent: true,
+              scoreDescartes: history?.scoreDescartes,
+              scoreEinstein: history?.scoreEinstein,
+              scoreTharp: history?.scoreTharp,
+              scoreClodomiro: history?.scoreClodomiro,
+              globalScore:
+                (history?.scoreDescartes +
+                  history?.scoreEinstein +
+                  history?.scoreTharp +
+                  history?.scoreClodomiro) /
+                4,
+            });
           })
           .catch((error) => {
             console.error('Error updating document: ', error);
