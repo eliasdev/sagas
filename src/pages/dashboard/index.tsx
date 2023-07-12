@@ -106,6 +106,11 @@ export default function Dashboard() {
     ) {
       setOpenGenderModal(true);
     }
+    if (user?.descartes && user?.einstein && user?.tharp && user?.clodomiro) {
+      if (!user.emailResultsSent) {
+        handleSubmitMail();
+      }
+    }
     if (!logged) {
       history.push('/');
     }
@@ -156,7 +161,7 @@ export default function Dashboard() {
         'Uso de letras en álgebra',
         'Método científico',
       ],
-      sound: perdidoDescartes
+      sound: perdidoDescartes,
     },
     {
       id: 2,
@@ -176,7 +181,7 @@ export default function Dashboard() {
         'Relación entre masa y energía',
         'Existencia de los átomos',
       ],
-      sound:perdidoEinstein
+      sound: perdidoEinstein,
     },
     {
       id: 3,
@@ -195,7 +200,7 @@ export default function Dashboard() {
         'Primer mapa del fondo del mar',
         'Comprobación de la teoría de la deriva continental',
       ],
-      sound: perdidoTharp
+      sound: perdidoTharp,
     },
     {
       id: 4,
@@ -216,7 +221,7 @@ export default function Dashboard() {
         'Penicilina',
         'Antídotos para el veneno de serpiente',
       ],
-      sound: null
+      sound: null,
     },
     {
       id: 5,
@@ -235,7 +240,7 @@ export default function Dashboard() {
         'Mapa del mundo',
         'Calculó la circunferencia de la Tierra',
       ],
-      sound: null
+      sound: null,
     },
     {
       id: 6,
@@ -255,7 +260,7 @@ export default function Dashboard() {
         'Penicilina',
         'Antídotos para el veneno de serpiente',
       ],
-      sound: null
+      sound: null,
     },
     {
       id: 7,
@@ -275,7 +280,7 @@ export default function Dashboard() {
         'Penicilina',
         'Antídotos para el veneno de serpiente',
       ],
-      sound: null
+      sound: null,
     },
     {
       id: 8,
@@ -295,7 +300,7 @@ export default function Dashboard() {
         'Penicilina',
         'Antídotos para el veneno de serpiente',
       ],
-      sound: null
+      sound: null,
     },
   ]);
 
@@ -488,6 +493,7 @@ export default function Dashboard() {
   };
 
   const handleSubmitMail = async () => {
+    alert('handle submit Mail with notes');
     const history = await fetchData();
     const data: any = {
       from_name: 'SAGALAB',
@@ -495,7 +501,7 @@ export default function Dashboard() {
       to_name: user?.name,
       to_email: 'josegomez.dev@gmail.com',
       message: `
-      Notas del usuario: ${ user?.name } \n\n
+      Notas del usuario: ${user?.name} \n\n
         Descartes: ${history?.scoreDescartes} \n
         Einstein: ${history?.scoreEinstein} \n
         Tharp: ${history?.scoreTharp} \n
@@ -509,9 +515,32 @@ export default function Dashboard() {
         console.log('Email sent successfully');
         updateDoc(doc(db, 'users', user?.id), {
           emailResultsSent: true,
+          scoreDescartes: history?.scoreDescartes,
+          scoreEinstein: history?.scoreEinstein,
+          scoreTharp: history?.scoreTharp,
+          scoreClodomiro: history?.scoreClodomiro,
+          globalScore:
+            (history?.scoreDescartes +
+              history?.scoreEinstein +
+              history?.scoreTharp +
+              history?.scoreClodomiro) /
+            4,
         })
           .then(() => {
-            updateUser({ ...user, emailResultsSent: true });
+            updateUser({
+              ...user,
+              emailResultsSent: true,
+              scoreDescartes: history?.scoreDescartes,
+              scoreEinstein: history?.scoreEinstein,
+              scoreTharp: history?.scoreTharp,
+              scoreClodomiro: history?.scoreClodomiro,
+              globalScore:
+                (history?.scoreDescartes +
+                  history?.scoreEinstein +
+                  history?.scoreTharp +
+                  history?.scoreClodomiro) /
+                4,
+            });
           })
           .catch((error) => {
             console.error('Error updating document: ', error);
@@ -523,12 +552,9 @@ export default function Dashboard() {
       });
   };
 
-  const playAudio = ( audio2Play : any ) => {
+  const playAudio = (audio2Play: any) => {
     audio2Play.play();
-  }
-
-
-  
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -613,9 +639,7 @@ export default function Dashboard() {
               </Select>
               <Box my={1} />
 
-              <Typography variant="body1">
-                Selecciona tu género
-              </Typography>
+              <Typography variant="body1">Selecciona tu género</Typography>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -787,8 +811,9 @@ export default function Dashboard() {
                         margin: '0 auto',
                         marginLeft: idx === 0 ? 5 : 5,
                         display: 'inline-block',
-                        width: 'auto'
-                      }}>
+                        width: 'auto',
+                      }}
+                    >
                       <Card
                         className="homecard"
                         sx={{
@@ -802,11 +827,25 @@ export default function Dashboard() {
                           },
                         }}
                       >
-                         {ch.available && ch.canPlay && ch.sound && (
-                        <Box sx={{position:"absolute", width:{lg:35,xs:30},height:{lg:35,xs:30}, top: {lg:10,xs:7}, right:{lg:15,xs:7} }}>
-                          <StyledIcon onClick={() => playAudio(ch.sound)} className="pointer" htmlColor="white" fontSize="large" />
-                        </Box> )}
-                        
+                        {ch.available && ch.canPlay && ch.sound && (
+                          <Box
+                            sx={{
+                              position: 'absolute',
+                              width: { lg: 35, xs: 30 },
+                              height: { lg: 35, xs: 30 },
+                              top: { lg: 10, xs: 7 },
+                              right: { lg: 15, xs: 7 },
+                            }}
+                          >
+                            <StyledIcon
+                              onClick={() => playAudio(ch.sound)}
+                              className="pointer"
+                              htmlColor="white"
+                              fontSize="large"
+                            />
+                          </Box>
+                        )}
+
                         <CardMedia
                           sx={{
                             width: {
@@ -884,7 +923,7 @@ export default function Dashboard() {
                                 className="investigate-btn"
                                 variant="contained"
                                 size="small"
-                                onClick={ () => history.push('/' + ch.goToPage)}
+                                onClick={() => history.push('/' + ch.goToPage)}
                               >
                                 Investigar
                               </StyledButton>
