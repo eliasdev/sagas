@@ -92,10 +92,11 @@ export default ({ state, setState, actions }: any) => ({
                         history.push('/dashboard');
 
                         const mailData: any = {
-                          from_name: 'SAGAS LAB',
+                          from_name: 'SAGALAB',
+                          from_email: 'grupos@sagalab.info',
                           to_name: 'SAGAS ADMIN',
                           to_email: 'josegomez.dev@gmail.com',
-                          message: `New Account ${_user?.name} ${_user?.email}`,
+                          message: `Nueva cuenta: ${_user?.name} ${_user?.email}`,
                         };
 
                         emailjs

@@ -1,9 +1,4 @@
-.banner {
-    background-image: url("./../../assets/banner.jpg");
-    background-repeat: no-repeat;
-    width: 100%;
-    height: 100%;
-}
+
 .homecard {
     display: flex;
     flex-direction: column;

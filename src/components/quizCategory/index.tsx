@@ -4,12 +4,13 @@ import './index.css';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import { correctAnswer, wrongAnswer } from '../../utils/sound';
+import { correctAnswer, wrongAnswer, nein } from '../../utils/sound';
 import { useHistory } from "react-router-dom";
 import { shuffleArray } from '../../utils/random';
 import {useUsers} from '../../context/Users'
 import { doc, addDoc, collection, updateDoc } from 'firebase/firestore';
 import { db } from './../.././firebase/firebase';
+import { quizId } from '../../pages/einstein/data';
 
 const QuizCategory = ( props: any ) => {
 
@@ -72,6 +73,11 @@ const QuizCategory = ( props: any ) => {
                 updateUser(updatedUser);
                 createHisory(updatedUser, false);
                 wrongAnswer.play();
+                if( quizId == "einstein" ){
+                    setTimeout( function(){
+                        nein.play();
+                    },500);
+                }
             }).catch((error) => {
                 console.error("Error adding document: ", error);
             });
@@ -90,7 +96,7 @@ const QuizCategory = ( props: any ) => {
             {shuffledOptions.map((statement: any, idx: number) => 
                 (
                 currentSlide === idx && <div key={`key-${idx}`}>
-                    <Typography key={ "text-" + statement.id } sx={{ padding:{lg: 10,md: 5,sm: 5,xs: 5}, paddingTop:{lg: 12,md: 15,sm: 5,xs: 5}, lineHeight:1.7, textAlign:"justify", fontSize: {lg: 23,md: 23,sm: 18,xs: 18} }}>{statement.text}</Typography>
+                    <Typography key={ "text-" + statement.id } sx={{ padding:{lg: 10,md: 5,sm: 5,xs: 5}, paddingTop:{lg: 12,md: 15,sm: 5,xs: 5}, lineHeight:{lg:1.7,xs:1.5}, textAlign:"justify", fontSize: {lg: 23,xs: 16} }}>{statement.text}</Typography>
                     <Stack width={300} className="opt-stack" direction="row" spacing={2}>
                         <Button onClick={ () => handleSelection(statement.cat === "ley") } variant="contained">Ley</Button>
                         <Button onClick={ () => handleSelection(statement.cat === "teo") } variant="contained">Teoría</Button>

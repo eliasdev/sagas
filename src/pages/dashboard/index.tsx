@@ -2,7 +2,7 @@
 // import { useNavigate } from "react-router-dom";
 // import {useUsers} from '../../context/Users';
 import { useEffect, useState } from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider, makeStyles } from '@mui/material/styles';
 
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -35,6 +35,7 @@ import Grid from '@mui/material/Grid';
 import { useHistory } from 'react-router-dom';
 import Back from '../../components/back';
 import Box from '@mui/system/Box';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import {
   perdidoDescartes,
   perdidoEinstein,
@@ -52,6 +53,34 @@ import {
 } from 'firebase/firestore';
 import { db } from './../.././firebase/firebase';
 import emailjs from 'emailjs-com';
+import { styled, keyframes } from '@mui/system';
+
+const blinkAnimation = keyframes`
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7);
+  }
+`;
+
+const StyledButton = styled(Button)`
+  animation: ${blinkAnimation} 1.5s infinite;
+`;
+
+const StyledIcon = styled(PlayCircleIcon)({
+  position: 'absolute',
+  width: '100%',
+  height: '100%',
+  top: 10,
+  right: 0,
+  '&:hover': {
+    color: 'red', // Change the color to your desired hover color
+  },
+});
 
 export default function Dashboard() {
   let history = useHistory();
@@ -66,36 +95,11 @@ export default function Dashboard() {
   const [province, setProvince] = useState('');
   const [age, setAge] = useState<number | ''>(0);
 
-  const initializeWelcomeLostAudios = () => {
-    if (!user?.descartes) {
-      perdidoDescartes.play();
-    }
-
-    if (user?.descartes && !user?.einstein) {
-      perdidoEinstein.play();
-    }
-
-    if (user?.einstein && !user?.tharp) {
-      perdidoTharp.play();
-    }
-
-    if (user?.descartes && user?.einstein && user?.tharp && user?.clodomiro) {
-      if (!user.emailResultsSent) {
-        handleSubmitMail();
-      }
-    }
-  };
-
   useEffect(() => {
     checkAvailability(chapters[0]);
     checkAvailability(chapters[1]);
     checkAvailability(chapters[2]);
     checkAvailability(chapters[3]);
-
-    if (user?.role === 'PLAYER') {
-      initializeWelcomeLostAudios();
-    }
-
     if (
       (!user?.gender || !user?.sex || !user?.age || !user?.province) &&
       user?.role === 'PLAYER'
@@ -152,6 +156,7 @@ export default function Dashboard() {
         'Uso de letras en álgebra',
         'Método científico',
       ],
+      sound: perdidoDescartes
     },
     {
       id: 2,
@@ -162,7 +167,7 @@ export default function Dashboard() {
         'Gracias a Einstein tenemos GPS, rayos láser, toallas de papel, predicciones de la bolsa de valores, paneles solares y prueba de que existen los átomos y las moléculas.',
       image: Einstein,
       description:
-        'Descartes (1596-1650) fue uno de los proponentes del método científico: la forma en que hacemos ciencia.',
+        'Gracias a Einstein tenemos GPS, rayos láser, toallas de papel, predicciones de la bolsa de valores, paneles solares y prueba de que existen los átomos y las moléculas.',
       goToPage: 'einstein',
       available: true,
       canPlay: false,
@@ -171,6 +176,7 @@ export default function Dashboard() {
         'Relación entre masa y energía',
         'Existencia de los átomos',
       ],
+      sound:perdidoEinstein
     },
     {
       id: 3,
@@ -181,7 +187,7 @@ export default function Dashboard() {
         'Sin Marie Tharpe, no sabríamos por qué pasan los terremotos, ni cómo construir mejores edificios.',
       image: Tharp,
       description:
-        'Descartes (1596-1650) fue uno de los proponentes del método científico: la forma en que hacemos ciencia.',
+        'Sin Marie Tharpe, no sabríamos por qué pasan los terremotos, ni cómo construir mejores edificios.',
       goToPage: 'tharp',
       available: true,
       canPlay: false,
@@ -189,6 +195,7 @@ export default function Dashboard() {
         'Primer mapa del fondo del mar',
         'Comprobación de la teoría de la deriva continental',
       ],
+      sound: perdidoTharp
     },
     {
       id: 4,
@@ -199,7 +206,7 @@ export default function Dashboard() {
         'Sin Clorito Picado, miles de personas morirían cada año por mordeduras de serpientes.',
       image: Clodomiro,
       description:
-        'Descartes (1596-1650) fue uno de los proponentes del método científico: la forma en que hacemos ciencia.',
+        'Sin Clorito Picado, miles de personas morirían cada año por mordeduras de serpientes.',
       goToPage: 'clodomiro',
       available: true,
       canPlay: false,
@@ -209,6 +216,7 @@ export default function Dashboard() {
         'Penicilina',
         'Antídotos para el veneno de serpiente',
       ],
+      sound: null
     },
     {
       id: 5,
@@ -218,7 +226,7 @@ export default function Dashboard() {
         'Sin saber la forma de la tierra no podríamos predecir el clima ni calcular las rutas de los aviones.',
       image: Herasto,
       description:
-        'Descartes (1596-1650) fue uno de los proponentes del método científico: la forma en que hacemos ciencia.',
+        'Sin saber la forma de la tierra no podríamos predecir el clima ni calcular las rutas de los aviones.',
       goToPage: 'einstein',
       available: false,
       released: false,
@@ -227,6 +235,7 @@ export default function Dashboard() {
         'Mapa del mundo',
         'Calculó la circunferencia de la Tierra',
       ],
+      sound: null
     },
     {
       id: 6,
@@ -236,7 +245,7 @@ export default function Dashboard() {
         'Sin personas como Santos-Dumont, no tendríamos aviación comercial.  Para rescatarlo, trabaja en su taller.',
       image: Santos,
       description:
-        'Santos-Dumont (1873-1932) fue de los primeros en volar por sus propios medios, con despegue y aterrizaje autónomos',
+        'Santos-Dumont (1873-1932) fue de los primeros en volar por sus propios medios, con despegue y aterrizaje autónomos.',
       goToPage: null,
       available: false,
       released: false,
@@ -246,6 +255,7 @@ export default function Dashboard() {
         'Penicilina',
         'Antídotos para el veneno de serpiente',
       ],
+      sound: null
     },
     {
       id: 7,
@@ -255,7 +265,7 @@ export default function Dashboard() {
         'Sin su trabajo, y el de otros como ella, no tendríamos rayos X, energía nuclear, ni tratamientos de radioterapia.',
       image: Curie,
       description:
-        'Santos-Dumont (1873-1932) fue de los primeros en volar por sus propios medios, con despegue y aterrizaje autónomos',
+        'Sin su trabajo, y el de otros como ella, no tendríamos rayos X, energía nuclear, ni tratamientos de radioterapia.',
       goToPage: null,
       available: false,
       released: false,
@@ -265,6 +275,7 @@ export default function Dashboard() {
         'Penicilina',
         'Antídotos para el veneno de serpiente',
       ],
+      sound: null
     },
     {
       id: 8,
@@ -274,7 +285,7 @@ export default function Dashboard() {
         'Padre de la Inteligencia Artificial, Turing desarrolló una prueba donde un entrevistador haría preguntas sin saber si hablaba con un ser humano o una IA.',
       image: Turing,
       description:
-        'Santos-Dumont (1873-1932) fue de los primeros en volar por sus propios medios, con despegue y aterrizaje autónomos',
+        'Padre de la Inteligencia Artificial, Turing desarrolló una prueba donde un entrevistador haría preguntas sin saber si hablaba con un ser humano o una IA.',
       goToPage: null,
       available: false,
       released: false,
@@ -284,6 +295,7 @@ export default function Dashboard() {
         'Penicilina',
         'Antídotos para el veneno de serpiente',
       ],
+      sound: null
     },
   ]);
 
@@ -479,11 +491,12 @@ export default function Dashboard() {
     alert('handle submit Mail with notes');
     const history = await fetchData();
     const data: any = {
-      from_name: 'SAGAS LAB',
+      from_name: 'SAGALAB',
+      from_email: 'grupos@sagalab.info',
       to_name: user?.name,
       to_email: 'josegomez.dev@gmail.com',
       message: `
-      Hello, this is my message. \n\n
+      Notas del usuario: ${ user?.name } \n\n
         Descartes: ${history?.scoreDescartes} \n
         Einstein: ${history?.scoreEinstein} \n
         Tharp: ${history?.scoreTharp} \n
@@ -533,6 +546,13 @@ export default function Dashboard() {
         // Handle the error
       });
   };
+
+  const playAudio = ( audio2Play : any ) => {
+    audio2Play.play();
+  }
+
+
+  
 
   return (
     <ThemeProvider theme={theme}>
@@ -618,7 +638,7 @@ export default function Dashboard() {
               <Box my={1} />
 
               <Typography variant="body1">
-                Selecciona tu identidad de género
+                Selecciona tu género
               </Typography>
               <Select
                 labelId="demo-simple-select-label"
@@ -629,8 +649,7 @@ export default function Dashboard() {
                 <MenuItem selected value={-1}>
                   --Selecciona una--
                 </MenuItem>
-                <MenuItem value={'Masculino'}>Masculino</MenuItem>
-                <MenuItem value={'Femenino'}>Femenino</MenuItem>
+                <MenuItem value={'Heterosexual'}>Heterosexual</MenuItem>
                 <MenuItem value={'Lesbiana'}>Lesbiana</MenuItem>
                 <MenuItem value={'Gay'}>Gay</MenuItem>
                 <MenuItem value={'Bisexual'}>Bisexual</MenuItem>
@@ -638,6 +657,9 @@ export default function Dashboard() {
                 <MenuItem value={'Queer'}>Queer</MenuItem>
                 <MenuItem value={'Intersexual'}>Intersexual</MenuItem>
                 <MenuItem value={'Asexual'}>Asexual</MenuItem>
+                <MenuItem value={'NoBinario'}>No Binario</MenuItem>
+                <MenuItem value={'Otro'}>Otro</MenuItem>
+                <MenuItem value={'NoDecir'}>Prefiero no decir</MenuItem>
               </Select>
               <Box my={1} />
 
@@ -653,7 +675,6 @@ export default function Dashboard() {
                 </MenuItem>
                 <MenuItem value={'Masculino'}>Masculino</MenuItem>
                 <MenuItem value={'Femenino'}>Femenino</MenuItem>
-                <MenuItem value={'NoBinario'}>No Binario</MenuItem>
                 <MenuItem value={'Otro'}>Otro</MenuItem>
               </Select>
               <Box my={5} />
@@ -687,7 +708,7 @@ export default function Dashboard() {
               sx={{
                 background: 'white',
                 margin: '0 auto',
-                marginTop: { lg: 40, xs: 20 },
+                marginTop: { lg: 40, xs: 10 },
                 borderRadius: '20px',
                 boxShadow: '3px 3px 10px black, -0.5em 0 0.8em blue',
                 width: '60%',
@@ -711,7 +732,7 @@ export default function Dashboard() {
                   color="primary"
                   align="left"
                   sx={{
-                    fontSize: { lg: 14, md: 12, sm: 10, xs: 11 },
+                    fontSize: { lg: 14, xs: 12 },
                     fontWeight: 500,
                   }}
                 >
@@ -722,7 +743,7 @@ export default function Dashboard() {
                   color="primary"
                   align="left"
                   sx={{
-                    fontSize: { lg: 18, md: 24, sm: 16, xs: 18 },
+                    fontSize: { lg: 18, xs: 18 },
                     fontWeight: 'bold',
                   }}
                 >
@@ -738,7 +759,7 @@ export default function Dashboard() {
                     variant="h5"
                     component="h6"
                     sx={{
-                      fontSize: { lg: 14, md: 12, sm: 10, xs: 11 },
+                      fontSize: { lg: 15, xs: 12 },
                       fontWeight: 500,
                     }}
                   >
@@ -754,28 +775,31 @@ export default function Dashboard() {
             <Grid
               className="bg-main"
               sx={{
-                height: { lg: '100vh', md: '120vh', sm: '120vh', xs: '120vh' },
+                height: { lg: '100vh', xs: '120vh' },
               }}
             >
               <Grid
                 className="dash-container"
                 container
                 sx={{
-                  overflow: 'autro',
-                  height: { lg: '68vh', md: '62vh', sm: '70vh', xs: '62vh' },
-                  paddingTop: { lg: '7%', md: '11%', sm: '4%', xs: '6%' },
-                  width: { lg: '80vw', md: '86vw', sm: '84vw', xs: '86vw' },
-                  maxWidth: { lg: '80vw', md: '86vw', sm: '84vw', xs: '86vw' },
+                  height: { lg: '68vh', xs: '62vh' },
+                  paddingTop: { lg: '6%', xs: '6%' },
+                  width: { lg: '80vw', xs: '86vw' },
+                  maxWidth: { lg: '80vw', xs: '86vw' },
                 }}
               >
                 <div
+                  id="scroller-div"
                   style={{
                     width: '90%',
                     marginLeft: '5%',
                     overflowX: 'scroll',
                     whiteSpace: 'nowrap',
                     position: 'relative',
-                    scrollbarColor: 'red blue',
+                    // Force the scrollbar to be always visible
+                    overflowY: 'scroll',
+                    scrollbarWidth: 'thin', // For Firefox
+                    scrollbarColor: 'rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0.1)', // For Chrome, Safari, and Edge
                   }}
                 >
                   {chapters.map((ch, idx) => (
@@ -787,13 +811,13 @@ export default function Dashboard() {
                         margin: '0 auto',
                         marginLeft: idx === 0 ? 5 : 5,
                         display: 'inline-block',
-                        width: 'auto',
-                      }}
-                    >
+                        width: 'auto'
+                      }}>
                       <Card
                         className="homecard"
                         sx={{
                           marginBottom: 2,
+                          position: 'relative',
                           width: {
                             lg: '14vw',
                             md: '15vw',
@@ -802,6 +826,11 @@ export default function Dashboard() {
                           },
                         }}
                       >
+                         {ch.available && ch.canPlay && ch.sound && (
+                        <Box sx={{position:"absolute", width:{lg:35,xs:30},height:{lg:35,xs:30}, top: {lg:10,xs:7}, right:{lg:15,xs:7} }}>
+                          <StyledIcon onClick={() => playAudio(ch.sound)} className="pointer" htmlColor="white" fontSize="large" />
+                        </Box> )}
+                        
                         <CardMedia
                           sx={{
                             width: {
@@ -873,16 +902,16 @@ export default function Dashboard() {
                             gap={2}
                           >
                             {ch.available && ch.canPlay && (
-                              <Button
+                              <StyledButton
                                 sx={{ fontSize: { lg: 13, xs: 9 } }}
                                 color="primary"
                                 className="investigate-btn"
                                 variant="contained"
                                 size="small"
-                                onClick={() => history.push('/' + ch.goToPage)}
+                                onClick={ () => history.push('/' + ch.goToPage)}
                               >
                                 Investigar
-                              </Button>
+                              </StyledButton>
                             )}
                             {!ch.available && ch.released && (
                               <Button
