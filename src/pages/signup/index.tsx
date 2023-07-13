@@ -14,6 +14,8 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Media from './../../assets/logout-media.jpg';
 import {useUsers} from '../../context/Users'
+import { Header } from '../../components/header';
+
 
   
 function Copyright(props: any) {
@@ -33,6 +35,8 @@ const theme = createTheme({});
 
 export default function SignUp() {
 
+
+  const [opened, setOpened] = useState(false);
   let history = useHistory();
   const {signUp} = useUsers();  
   
@@ -57,8 +61,9 @@ export default function SignUp() {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Header opened={opened} setOpened={setOpened} />
       <Grid container component="main" sx={{ height: '100vh' }}>
-        <CssBaseline />
         <Grid
           item
           xs={false}

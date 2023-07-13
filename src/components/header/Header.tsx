@@ -44,7 +44,7 @@ const closeSession =()=>{
             variant="h6"
             noWrap
             component="a"
-            href={logged ?('/dashboard'):('/login')}
+            href={logged ?('/dashboard'):('/homepage')}
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },

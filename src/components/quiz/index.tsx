@@ -106,11 +106,11 @@ const Quiz: React.FC<QuizProps> = ({ questionIndex, dataSet, goto }) => {
           fontWeight: 'bold',
           paddingLeft: 3,
           paddingRight: 3,
-          paddingTop: 2,
-          paddingBottom: { lg: 3, md: 3, sm: 0, xs: 0 },
-          lineHeight: 1.1,
+          paddingTop: {lg:10,xs:1.5},
+          paddingBottom: { lg: 3, xs: 0 },
+          lineHeight: {lg:1.1,xs:1},
           textAlign: 'justify',
-          fontSize: { lg: 23, md: 23, sm: 13, xs: 13 },
+          fontSize: { lg: 23, xs: 13 },
         }}
       >
         {dataSet[questionIndex].header}
@@ -120,8 +120,8 @@ const Quiz: React.FC<QuizProps> = ({ questionIndex, dataSet, goto }) => {
         {shuffledOptions.map((opt: any, index: number) => (
           <ListItem
             sx={{
-              paddingTop: { lg: 4, md: 4, sm: 3, xs: 3 },
-              height: { lg: 40, md: 40, sm: 40, xs: 30 },
+              paddingTop: { lg: 4,  xs: 3 },
+              height: { lg: 50, xs: 35 },
             }}
             className="q-option"
             key={opt.id}

@@ -34,15 +34,18 @@ export default function QuizDescartes2() {
           <Back></Back>
           <NaviButton position="left" fwd="" bwd="descartes-q"/>
           <NaviButton position="right" fwd="dashboard" bwd=""/>
-          <Grid container className="content-limit" sx={{width: {lg:"82vw",md:"80vw",sm:"84vw",xs:"84"}, height: {lg:"72vh",md:"71vh",sm:"70vh",xs:"70vh"}, marginTop: {lg:10,xs:3}}}>  
-            <Grid className={ "width-" + ( isMobile? "50" : "50" ) + " height-inherit lp-border" }>
-              
-              <Quiz questionIndex={1} dataSet={questionsData} />
+
+          <Grid container className="content-limit" sx={{width: {lg:"82vw",xs:"84vw"}, height: {lg:"72vh",xs:"70vh"}, marginTop: {lg:1,xs:3}}}>  
+            <Grid className={ "width-" + ( isMobile? "50" : "45" ) + " height-inherit lp-border" }>
+                <Quiz questionIndex={1} dataSet={questionsData} />
             </Grid>
-            <Grid className={ "width-" + ( isMobile? "50" : "50" ) + " height-inherit lp-border"} sx={{marginTop: {lg:6,md:6,sm:0,xs:0}}}>
+            <Grid className={ "width-" + ( isMobile? "50" : "55" ) + " height-inherit lp-border"} sx={{marginTop: {lg:6,xs:0}}}>
               <Slider data={sliderData} onlySlide={true}/>
             </Grid>    
           </Grid>
+
+
+
         </main>
       </ThemeProvider>
   )
