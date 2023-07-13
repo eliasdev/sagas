@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -17,6 +17,7 @@ import {useUsers} from '../../context/Users'
 import Media from './../../assets/login-media.jpg';
 import { db } from './../../firebase/firebase';
 import { getDocs, collection, query, where } from 'firebase/firestore';
+import { Header } from '../../components/header';
 
 function Copyright(props: any) {
     return (
@@ -34,6 +35,7 @@ function Copyright(props: any) {
   const theme = createTheme({spacing: 8});
   
 export default function LoginForm (){
+  const [opened, setOpened] = useState(false);
   let history = useHistory();
   const {logIn, logInPlayers, getUsers} = useUsers();
   const {logged, loading}: any = getUsers();
@@ -74,8 +76,9 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 };
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Header opened={opened} setOpened={setOpened} />
       <Grid container component="main" sx={{ height: '100vh' }}>
-        <CssBaseline />
         <Grid
           item
           xs={false}

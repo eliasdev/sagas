@@ -35,11 +35,11 @@ export default function QuizDescartes() {
           <Back></Back>
           <NaviButton position="left" fwd="" bwd="descartes3"/>
           <NaviButton  position="right" fwd="descartes-q2" bwd=""/>
-          <Grid container className="content-limit" sx={{width: {lg:"82vw",md:"80vw",sm:"84vw",xs:"84"}, height: {lg:"72vh",md:"71vh",sm:"70vh",xs:"70vh"}, marginTop: {lg:1,md:1,sm:3,xs:3}}}>  
-            <Grid className={ "width-" + ( isMobile? "50" : "40" ) + " height-inherit lp-border" }>
+          <Grid container className="content-limit" sx={{width: {lg:"82vw",xs:"84vw"}, height: {lg:"72vh",xs:"70vh"}, marginTop: {lg:1,xs:3}}}>  
+            <Grid className={ "width-" + ( isMobile? "50" : "45" ) + " height-inherit lp-border" }>
                 <Quiz questionIndex={0} dataSet={questionsData} goto={handleRedirect} />
             </Grid>
-            <Grid className={ "width-" + ( isMobile? "50" : "60" ) + " height-inherit lp-border"} sx={{marginTop: {lg:6,md:6,sm:0,xs:0}}}>
+            <Grid className={ "width-" + ( isMobile? "50" : "55" ) + " height-inherit lp-border"} sx={{marginTop: {lg:6,xs:0}}}>
               <Slider data={sliderData} onlySlide={true}/>
             </Grid>    
           </Grid>

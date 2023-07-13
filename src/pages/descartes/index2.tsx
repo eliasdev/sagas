@@ -55,7 +55,7 @@ export default function Descartes2() {
           <Back></Back>
           <NaviButton position="left" fwd="" bwd="descartes"/>
           <NaviButton position="right" fwd="descartes3" bwd=""/>
-          <Grid className="content-limit" sx={{width: {lg:"80vw",xs:"84"}, height: {lg:"62vh",xs:"67vh"}}}>  
+          <Grid className="content-limit" sx={{width: {lg:"80vw",xs:"84vw"}, height: {lg:"62vh",xs:"67vh"}}}>  
             <Grid>
                 <Grid container spacing={1} columnSpacing={{ xs: 1, sm: 0, md: 3 }}>
                   <Grid className="intro-wrapper" sx={{ width: {lg:"75vw",xs:"78vw"} }}>
