@@ -1038,7 +1038,7 @@ export default function Dashboard() {
               margin: '0 auto',
               marginTop: { lg: 10, xs: 20 },
               borderRadius: '20px',
-              width: '30%',
+              width: {lg:'30%',xs:'50%'},
             }}
           >
             <CardContent sx={{ flexGrow: 1, padding: 4, marginBottom: 0 }}>
