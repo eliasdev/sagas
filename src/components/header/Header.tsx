@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
-import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,37 +14,39 @@ import Button from '@mui/material/Button';
 // import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { HeaderProps } from "./Header.types";
-import {useUsers} from '../../context/Users'
+import { HeaderProps } from './Header.types';
+import { useUsers } from '../../context/Users';
 
-export const Header =({ opened, setOpened }: HeaderProps)=>{
-let history = useHistory();
-const { logOut, getUsers} = useUsers();
-const { logged, user }: any = getUsers();
-const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+export const Header = ({ opened, setOpened }: HeaderProps) => {
+  let history = useHistory();
+  const { logOut, getUsers } = useUsers();
+  const { user }: any = getUsers();
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
-const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
-};
+  };
 
-const handleCloseNavMenu = () => {
+  const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-};
+  };
 
-const closeSession =()=>{
-  logOut()
-  history.push('/login')
-}
+  const logged = localStorage.getItem('token');
+
+  const closeSession = () => {
+    logOut();
+    history.push('/login');
+  };
 
   return (
-    <AppBar position="static" sx={{backgroundColor: '#4d6277'}}>
+    <AppBar position="static" sx={{ backgroundColor: '#4d6277' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
             variant="h6"
             noWrap
             component="a"
-            href={logged ?('/dashboard'):('/homepage')}
+            href={logged ? '/dashboard' : '/homepage'}
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -54,10 +56,10 @@ const closeSession =()=>{
               textDecoration: 'none',
             }}
           >
-            {!logged ? ('SAGAS'):(`Bienvenid@ ${user?.name}`)}
+            {!logged ? 'SAGAS' : `Bienvenid@ ${user?.name}`}
           </Typography>
 
-          <Box  sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -86,30 +88,39 @@ const closeSession =()=>{
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {!logged ? (
-                [
-                  <MenuItem key="signup" onClick={() => history.push('/signup')}>
-                    <Typography textAlign="center">Registrarme</Typography>
-                  </MenuItem>,
-                  <MenuItem key="login" onClick={() => history.push('/login')}>
-                    <Typography textAlign="center">Iniciar Sesión</Typography>
-                  </MenuItem>
-                ]
-              ) : (
-                [
-                  <MenuItem key="dashboard" onClick={() => history.push('/dashboard')}>
-                    <Typography textAlign="center">Inicio</Typography>
-                  </MenuItem>,
-                  <MenuItem key="profile" onClick={() => history.push('/profile')}>
-                    <Typography textAlign="center">Perfil</Typography>
-                  </MenuItem>,
-                  <MenuItem key="logout" onClick={() => closeSession()}>
-                    <Typography textAlign="center">Cerrar Sesión</Typography>
-                  </MenuItem>
-                ]
-              )}
+              {!logged
+                ? [
+                    <MenuItem
+                      key="signup"
+                      onClick={() => history.push('/signup')}
+                    >
+                      <Typography textAlign="center">Registrarme</Typography>
+                    </MenuItem>,
+                    <MenuItem
+                      key="login"
+                      onClick={() => history.push('/login')}
+                    >
+                      <Typography textAlign="center">Iniciar Sesión</Typography>
+                    </MenuItem>,
+                  ]
+                : [
+                    <MenuItem
+                      key="dashboard"
+                      onClick={() => history.push('/dashboard')}
+                    >
+                      <Typography textAlign="center">Inicio</Typography>
+                    </MenuItem>,
+                    <MenuItem
+                      key="profile"
+                      onClick={() => history.push('/profile')}
+                    >
+                      <Typography textAlign="center">Perfil</Typography>
+                    </MenuItem>,
+                    <MenuItem key="logout" onClick={() => closeSession()}>
+                      <Typography textAlign="center">Cerrar Sesión</Typography>
+                    </MenuItem>,
+                  ]}
             </Menu>
-
           </Box>
 
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -119,70 +130,84 @@ const closeSession =()=>{
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
               letterSpacing: '.2em',
-              color: 'inherit'
+              color: 'inherit',
             }}
           >
             SAGAS
           </Typography>
-            {
-              !logged ? (
-                <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, position: 'absolute', right: '0%' }}>
-                  <Button
-                    onClick={() => history.push('/signup')}
-                    style={{
-                      textDecoration: 'none', 
-                      padding: '20px', 
-                      color: '#fff', 
-                      fontSize: '19px',
-                      fontWeight: 700,
-                    }}
-                  >
-                    Registrarme
-                  </Button>
-                  <Button
-                    onClick={() => {history.push('/login')}}
-                    style={{
-                      textDecoration: 'none', 
-                      padding: '20px', 
-                      color: '#fff', 
-                      fontSize: '19px',
-                      fontWeight: 700,
-                    }}
-                  >
-                    Iniciar Sesión
-                  </Button>
-                </Box>
-              ):(
-                <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, position: 'absolute', right: '0%' }}>
-                  <Button
-                    onClick={() => history.push('/profile')}
-                    style={{
-                      textDecoration: 'none', 
-                      padding: '20px', 
-                      color: '#fff', 
-                      fontSize: '19px',
-                      fontWeight: 700,
-                    }}
-                  >
-                    Perfil
-                  </Button>
-                  <Button
-                    onClick={() => closeSession()}
-                    style={{
-                      textDecoration: 'none', 
-                      padding: '20px', 
-                      color: '#fff', 
-                      fontSize: '19px',
-                      fontWeight: 700,
-                    }}
-                  >
-                    Cerrar SESSION
-                  </Button>
-              </Box>
-              )
-            }
+          {!logged ? (
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: { xs: 'none', md: 'flex' },
+                position: 'absolute',
+                right: '0%',
+              }}
+            >
+              <Button
+                onClick={() => history.push('/signup')}
+                style={{
+                  textDecoration: 'none',
+                  padding: '20px',
+                  color: '#fff',
+                  fontSize: '19px',
+                  fontWeight: 700,
+                }}
+              >
+                Registrarme
+              </Button>
+              <Button
+                onClick={() => {
+                  history.push('/login');
+                }}
+                style={{
+                  textDecoration: 'none',
+                  padding: '20px',
+                  color: '#fff',
+                  fontSize: '19px',
+                  fontWeight: 700,
+                }}
+              >
+                Iniciar Sesión
+              </Button>
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: { xs: 'none', md: 'flex' },
+                position: 'absolute',
+                right: '0%',
+              }}
+            >
+              <Button
+                onClick={() => history.push('/profile')}
+                style={{
+                  textDecoration: 'none',
+                  padding: '20px',
+                  color: '#fff',
+                  fontSize: '19px',
+                  fontWeight: 700,
+                }}
+              >
+                Perfil
+              </Button>
+              <Button
+                onClick={() => closeSession()}
+                style={{
+                  textDecoration: 'none',
+                  padding: '20px',
+                  color: '#fff',
+                  fontSize: '19px',
+                  fontWeight: 700,
+                }}
+              >
+                Cerrar SESSION
+              </Button>
+            </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>
-  )
+  );
 };
