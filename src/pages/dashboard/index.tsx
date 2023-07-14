@@ -546,8 +546,8 @@ export default function Dashboard() {
     const data: any = {
       from_name: 'SAGALAB',
       from_email: 'grupos@sagalab.info',
-      to_name: owner.email,
-      to_email: 'josegomez.dev@gmail.com',
+      to_name: 'Sagalab SuperAdmin',
+      to_email: 'admin@sagalab.info',
       message: `
       Notas del usuario: ${user?.name} \n\n
         Descartes: ${history?.scoreDescartes} \n
