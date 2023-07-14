@@ -95,7 +95,7 @@ export default ({ state, setState, actions }: any) => ({
                           from_name: 'SAGALAB',
                           from_email: 'grupos@sagalab.info',
                           to_name: 'SAGAS ADMIN',
-                          to_email: 'josegomez.dev@gmail.com',
+                          to_email: _user?.email,
                           message: `Nueva cuenta: ${_user?.name} ${_user?.email}`,
                         };
 

@@ -538,10 +538,15 @@ export default function Dashboard() {
 
   const handleSubmitMail = async () => {
     const history = await fetchData();
+
+    const users: any = await getDocs(collection(db, 'users'));
+    const results = users.docs.map((doc: any) => doc.data());
+    const owner = results.find((u: any) => u.id === user?.ownerId);
+
     const data: any = {
       from_name: 'SAGALAB',
       from_email: 'grupos@sagalab.info',
-      to_name: user?.name,
+      to_name: owner.email,
       to_email: 'josegomez.dev@gmail.com',
       message: `
       Notas del usuario: ${user?.name} \n\n
