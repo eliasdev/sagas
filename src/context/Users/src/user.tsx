@@ -94,7 +94,7 @@ export default ({ state, setState, actions }: any) => ({
                         const mailData: any = {
                           from_name: 'SAGALAB',
                           from_email: 'grupos@sagalab.info',
-                          to_name: 'SAGAS ADMIN',
+                          to_name: _user?.name,
                           to_email: _user?.email,
                           message: `Nueva cuenta: ${_user?.name} ${_user?.email}`,
                         };
