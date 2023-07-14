@@ -2,6 +2,7 @@
 // import { useNavigate } from "react-router-dom";
 // import {useUsers} from '../../context/Users';
 import { useEffect, useState } from 'react';
+import html2canvas from 'html2canvas';
 import { createTheme, ThemeProvider, makeStyles } from '@mui/material/styles';
 
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -598,6 +599,18 @@ export default function Dashboard() {
     audio2Play.play();
   };
 
+  const handleDownload = () => {
+    const element = document.getElementById('divToDownload');
+    if (element) {
+      html2canvas(element).then((canvas: any) => {
+        const link = document.createElement('a');
+        link.download = 'download.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -1080,20 +1093,29 @@ export default function Dashboard() {
               margin: '0 auto',
               marginTop: { lg: 10, xs: 20 },
               borderRadius: '20px',
-              width: {lg:'30%',xs:'50%'},
+              width: { lg: '30%', xs: '50%' },
             }}
           >
             <CardContent sx={{ flexGrow: 1, padding: 4, marginBottom: 0 }}>
               <h3>Felicidades! Enhorabuena...</h3>
-              <img src={winImage} width={'100%'} alt="" />
+              <div id="divToDownload" className="image-container">
+                <img src={winClodomiro} width={'100%'} alt="" />
+                <div className="text-overlay">
+                  <h2>
+                    {user?.name} {user?.last_name}
+                  </h2>
+                  <p>Sagalab.info</p>
+                </div>
+              </div>
               <Button
+                sx={{ fontSize: { lg: 13, xs: 9 } }}
                 color="primary"
                 className="investigate-btn"
                 variant="contained"
-                size="large"
-                type="submit"
+                size="small"
+                onClick={handleDownload}
               >
-                Descargar Certificado
+                Descargar
               </Button>
             </CardContent>
           </Box>

@@ -16,6 +16,7 @@
     "chart.js": "^4.3.0",
     "emailjs-com": "^3.2.0",
     "firebase": "^9.22.2",
+    "html2canvas": "^1.4.1",
     "jquery": "^3.6.4",
     "react": "^18.2.0",
     "react-360-view": "^0.1.3",
