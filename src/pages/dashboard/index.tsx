@@ -2,6 +2,7 @@
 // import { useNavigate } from "react-router-dom";
 // import {useUsers} from '../../context/Users';
 import { useEffect, useState } from 'react';
+import html2canvas from 'html2canvas';
 import { createTheme, ThemeProvider, makeStyles } from '@mui/material/styles';
 
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -350,15 +351,39 @@ export default function Dashboard() {
     if (filtered.length > numberOfPoints) {
       // update chapter availability on chapters variable
       let nextChapter: any = null;
+      const history = await fetchData();
       setChapters(
         chapters.map((c: any, idx: number) => {
           if (c.quizId === ch.quizId) {
             if (!user[`${ch.quizId}`]) {
               updateDoc(doc(db, 'users', user?.id), {
                 [`${ch.quizId}`]: true,
+                scoreDescartes: history?.scoreDescartes,
+                scoreEinstein: history?.scoreEinstein,
+                scoreTharp: history?.scoreTharp,
+                scoreClodomiro: history?.scoreClodomiro,
+                globalScore:
+                  (history?.scoreDescartes +
+                    history?.scoreEinstein +
+                    history?.scoreTharp +
+                    history?.scoreClodomiro) /
+                  4,
               })
-                .then(() => {
-                  updateUser({ ...user, [`${ch.quizId}`]: true });
+                .then(async () => {
+                  updateUser({
+                    ...user,
+                    [`${ch.quizId}`]: true,
+                    scoreDescartes: history?.scoreDescartes,
+                    scoreEinstein: history?.scoreEinstein,
+                    scoreTharp: history?.scoreTharp,
+                    scoreClodomiro: history?.scoreClodomiro,
+                    globalScore:
+                      (history?.scoreDescartes +
+                        history?.scoreEinstein +
+                        history?.scoreTharp +
+                        history?.scoreClodomiro) /
+                      4,
+                  });
                   switch (`${ch.quizId}`) {
                     case 'descartes':
                       setWinImage(winDescartes);
@@ -464,36 +489,54 @@ export default function Dashboard() {
     let scoreTharp = 100;
     let scoreClodomiro = 100;
 
-    if (user.descartes) {
-      // note will be 100 if there are 0 attempts, each attempt will decrease the note by 12.5 cos 100 / 8 = 12.5
+    if (
+      quizTrackerData.quiz1.attempts > 0 ||
+      quizTrackerData.quiz1.points > 0
+    ) {
       scoreDescartes = scoreDescartes - quizTrackerData.quiz1.attempts * 12.5;
     } else {
       scoreDescartes = 0;
     }
-    if (user.einstein) {
-      // note will be 100 if there are 0 attempts, each attempt will decrease the note by 25 cos 100 / 24 = 25
+
+    if (
+      quizTrackerData.quiz2.attempts > 0 ||
+      quizTrackerData.quiz2.points > 0
+    ) {
       scoreEinstein = scoreEinstein - quizTrackerData.quiz2.attempts * 4.16;
     } else {
       scoreEinstein = 0;
     }
-    if (user.tharp) {
-      // note will be 100 if there are 0 attempts, each attempt will decrease the note by 25 cos 100 / 4 = 25
+
+    if (
+      quizTrackerData.quiz3.attempts > 0 ||
+      quizTrackerData.quiz3.points > 0
+    ) {
       scoreTharp = scoreTharp - quizTrackerData.quiz3.attempts * 25;
     } else {
       scoreTharp = 0;
     }
-    if (user.clodomiro) {
-      // note will be 100 if there are 0 attempts, each attempt will decrease the note by 25 cos 100 / 4 = 25
+
+    if (
+      quizTrackerData.quiz4.attempts > 0 ||
+      quizTrackerData.quiz4.points > 0
+    ) {
       scoreClodomiro = scoreClodomiro - quizTrackerData.quiz4.attempts * 25;
     } else {
       scoreClodomiro = 0;
     }
 
-    return { scoreDescartes, scoreEinstein, scoreTharp, scoreClodomiro };
+    const globalScore =
+      (scoreDescartes + scoreEinstein + scoreTharp + scoreClodomiro) / 4;
+    return {
+      scoreDescartes,
+      scoreEinstein,
+      scoreTharp,
+      scoreClodomiro,
+      globalScore,
+    };
   };
 
   const handleSubmitMail = async () => {
-    alert('handle submit Mail with notes');
     const history = await fetchData();
     const data: any = {
       from_name: 'SAGALAB',
@@ -554,6 +597,18 @@ export default function Dashboard() {
 
   const playAudio = (audio2Play: any) => {
     audio2Play.play();
+  };
+
+  const handleDownload = () => {
+    const element = document.getElementById('divToDownload');
+    if (element) {
+      html2canvas(element).then((canvas: any) => {
+        const link = document.createElement('a');
+        link.download = 'download.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
   };
 
   return (
@@ -1038,20 +1093,29 @@ export default function Dashboard() {
               margin: '0 auto',
               marginTop: { lg: 10, xs: 20 },
               borderRadius: '20px',
-              width: {lg:'30%',xs:'50%'},
+              width: { lg: '30%', xs: '50%' },
             }}
           >
             <CardContent sx={{ flexGrow: 1, padding: 4, marginBottom: 0 }}>
               <h3>Felicidades! Enhorabuena...</h3>
-              <img src={winImage} width={'100%'} alt="" />
+              <div id="divToDownload" className="image-container">
+                <img src={winClodomiro} width={'100%'} alt="" />
+                <div className="text-overlay">
+                  <h2>
+                    {user?.name} {user?.last_name}
+                  </h2>
+                  <p>Sagalab.info</p>
+                </div>
+              </div>
               <Button
+                sx={{ fontSize: { lg: 13, xs: 9 } }}
                 color="primary"
                 className="investigate-btn"
                 variant="contained"
-                size="large"
-                type="submit"
+                size="small"
+                onClick={handleDownload}
               >
-                Descargar Certificado
+                Descargar
               </Button>
             </CardContent>
           </Box>
