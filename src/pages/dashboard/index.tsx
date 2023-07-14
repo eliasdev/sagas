@@ -1099,7 +1099,7 @@ export default function Dashboard() {
             <CardContent sx={{ flexGrow: 1, padding: 4, marginBottom: 0 }}>
               <h3>Felicidades! Enhorabuena...</h3>
               <div id="divToDownload" className="image-container">
-                <img src={winClodomiro} width={'100%'} alt="" />
+                <img src={winImage} width={'100%'} alt="" />
                 <div className="text-overlay">
                   <h2>
                     {user?.name} {user?.last_name}
@@ -1107,16 +1107,18 @@ export default function Dashboard() {
                   <p>Sagalab.info</p>
                 </div>
               </div>
-              <Button
-                sx={{ fontSize: { lg: 13, xs: 9 } }}
-                color="primary"
-                className="investigate-btn"
-                variant="contained"
-                size="small"
-                onClick={handleDownload}
-              >
-                Descargar
-              </Button>
+              <div style={{ textAlign: 'center' }}>
+                <Button
+                  sx={{ fontSize: { lg: 13, xs: 9 } }}
+                  color="primary"
+                  className="investigate-btn"
+                  variant="contained"
+                  size="small"
+                  onClick={handleDownload}
+                >
+                  Descargar
+                </Button>
+              </div>
             </CardContent>
           </Box>
         </Modal>
