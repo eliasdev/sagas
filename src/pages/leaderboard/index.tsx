@@ -149,7 +149,6 @@ export default function Leaderboard() {
         return b.globalScore - a.globalScore;
       })
     );
-    console.log(finalResults);
   };
 
   useEffect(() => {

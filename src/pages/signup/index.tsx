@@ -15,21 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Media from './../../assets/logout-media.jpg';
 import {useUsers} from '../../context/Users'
 import { Header } from '../../components/header';
-
-
-  
-function Copyright(props: any) {
-    return (
-      <Typography variant="body2" color="text.secondary" align="center">
-        {'Copyright © '}
-        <Link color="inherit" href="https://sagalab.com/">
-          sagalab.com
-        </Link>{' '}
-        {new Date().getFullYear()}
-        {'.'}
-      </Typography>
-    );
-  }
+import Copyright from '../../components/copyright';
 
 const theme = createTheme({});
 
@@ -200,14 +186,14 @@ export default function SignUp() {
             >
               Registrarme Ahora
             </Button>
-            <Grid container justifyContent="center">
+            <Grid container justifyContent="center" sx={{mb:5}}>
               <Grid item>
                 <Link href="/login" variant="body2">
                   ¿Ya tienes una cuenta? ¡Inicia Sesión!
                 </Link>
               </Grid>
             </Grid>
-            <Copyright sx={{ mt: 5 }} />
+            <Copyright/>
           </Box>
         </Box>
         </Grid>

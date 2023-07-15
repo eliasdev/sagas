@@ -1,11 +1,8 @@
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import ScienceIcon from '@mui/icons-material/ScienceOutlined';
-import SchoolIcon from '@mui/icons-material/SchoolOutlined';
-import ClassIcon from '@mui/icons-material/ClassOutlined';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import SettingsIcon from '@mui/icons-material/Settings';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useHistory } from 'react-router-dom';
 import {useUsers} from '../../context/Users'

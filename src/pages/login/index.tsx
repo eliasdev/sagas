@@ -18,27 +18,16 @@ import Media from './../../assets/login-media.jpg';
 import { db } from './../../firebase/firebase';
 import { getDocs, collection, query, where } from 'firebase/firestore';
 import { Header } from '../../components/header';
+import Copyright from '../../components/copyright';
 
-function Copyright(props: any) {
-    return (
-      <Typography variant="body2" color="text.secondary" align="center">
-        {'Copyright © '}
-        <Link color="inherit" href="https://sagalab.com/">
-          sagalab.com
-        </Link>{' '}
-        {new Date().getFullYear()}
-        {'.'}
-      </Typography>
-    );
-  }
 
-  const theme = createTheme({spacing: 8});
+const theme = createTheme({spacing: 8});
   
 export default function LoginForm (){
   const [opened, setOpened] = useState(false);
   let history = useHistory();
   const {logIn, logInPlayers, getUsers} = useUsers();
-  const {logged, loading}: any = getUsers();
+  const logged = localStorage.getItem('token');
 
   useEffect(() => {
     if (logged) {
@@ -141,14 +130,14 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
               </Button>
               <Box sx={{ m: 20, display: { xs: 'none', md: 'block', lg: 'block' } }} />
               
-              <Grid container>
+              <Grid container sx={{mb:5}}>
                 <Grid item xs>
                   <Link href="/signup" variant="body2">
                     {"¿Necesitas una cuenta? ¡Regístrate acá!"}
                   </Link>
                 </Grid>
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
+              <Copyright />
             </Box>
           </Box>
         </Grid>

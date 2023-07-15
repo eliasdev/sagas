@@ -9,10 +9,6 @@ const {getUsers} = useUsers();
 const { logged, user }: any = getUsers();
 const findToken = localStorage.getItem('token');
 
-// useEffect(() => {
-//   console.log("USER", user);
-// }, []);
-
 return (
   <Route
       path={path}
