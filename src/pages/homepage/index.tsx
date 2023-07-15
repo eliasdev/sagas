@@ -13,7 +13,6 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
 import { createTheme, styled, ThemeProvider } from '@mui/material/styles';
 import Tag from './../../components/tag';
 import Logo from './../../assets/logo-sagalab.svg';
@@ -29,19 +28,9 @@ import { Header } from '../../components/header';
 import { useParams } from 'react-router-dom';
 import MenuList from '@mui/material/MenuList';
 import { MenuItem } from '@mui/material';
+import Copyright from '../../components/copyright';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://sagalab.com/">
-        sagalab.com
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
 
 const MyButton = styled(Button)({
   backgroundColor: '#FAA919',

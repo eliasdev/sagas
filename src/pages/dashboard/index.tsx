@@ -86,7 +86,9 @@ const StyledIcon = styled(PlayCircleIcon)({
 export default function Dashboard() {
   let history = useHistory();
   const { getUsers, logOut, updateUser } = useUsers();
-  const { logged, user }: any = getUsers();
+  const { user }: any = getUsers();
+
+  const logged = localStorage.getItem('token');
 
   const [openGenderModal, setOpenGenderModal] = useState(false);
   const [showWinnerModal, setShowWinnerModal] = useState(false);

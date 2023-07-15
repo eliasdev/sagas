@@ -57,8 +57,6 @@ const UserProvider = ({ children }: UsersProviderProps) =>{
                     localStorage.setItem('token', _user.id);
                     return setReady(true)
                 } else {
-                    // Failed to initialize persisted state
-                    console.log('no user');
                     return setReady(false);
                 }
             });
