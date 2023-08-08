@@ -118,6 +118,31 @@ export default ({ state, setState, actions }: any) => ({
                         // The document probably doesn't exist.
                         console.error('Error updating document: ', error);
                       });
+
+
+
+                      const mailDataTwo: any = {
+                        from_name: 'SAGALAB',
+                        from_email: 'eliasdevcr@gmail.com',
+                        to_name: _user?.name,
+                        to_email: _user?.email,
+                        message: `SAGALAB: Nueva cuenta: ${_user?.name} ${_user?.email}`,
+                      };
+
+                      emailjs
+                        .send(
+                          'service_b0mq759',
+                          'template_uxr204w',
+                          mailDataTwo,
+                          '7r0MFDYv8obebfCn5'
+                        )
+                        .then((response) => {
+                          console.log('Email sent successfully');
+                        })
+                        .catch((error) => {
+                          console.error('Error sending email:', error);
+                          // Handle the error
+                        });
                   });
                 })
                 .catch((error) => {

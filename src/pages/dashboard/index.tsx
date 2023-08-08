@@ -600,6 +600,31 @@ export default function Dashboard() {
         console.error('Error sending email:', error);
         // Handle the error
       });
+
+      const dataTwo: any = {
+        from_name: 'SAGALAB',
+        from_email: 'grupos@sagalab.info',
+        to_name: 'Sagalab SuperAdmin',
+        to_email: 'eliasdevcr@gmail.com',
+        message: `
+        Notas del usuario: ${user?.name} \n\n
+          Descartes: ${history?.scoreDescartes} \n
+          Einstein: ${history?.scoreEinstein} \n
+          Tharp: ${history?.scoreTharp} \n
+          Clodomiro: ${history?.scoreClodomiro}
+        `,
+      };
+  
+    emailjs
+      .send('service_b0mq759', 'template_uxr204w', dataTwo, '7r0MFDYv8obebfCn5')
+      .then((response) => {
+        console.log('Email sent successfully');
+        
+      })
+      .catch((error) => {
+        console.error('Error sending email:', error);
+        // Handle the error
+      });
   };
 
   const playAudio = (audio2Play: any) => {
