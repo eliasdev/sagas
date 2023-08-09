@@ -34,7 +34,7 @@ const {user}: any = getUsers();
 let history = useHistory();
 
 useEffect(() => {
-  if(!user?.descartes){
+  if(!user?.einstein){
     history.push("/dashboard");
   }
 }, [user]);

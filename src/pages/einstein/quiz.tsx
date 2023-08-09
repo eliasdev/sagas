@@ -26,7 +26,7 @@ export default function QuizEinstein() {
   const {user}: any = getUsers();
 
   useEffect(() => {
-    if(!user?.einstein){
+    if(!user?.descartes){
       history.push("/dashboard");
     }
   }, [user]);
