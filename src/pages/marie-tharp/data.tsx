@@ -3,7 +3,7 @@ export const questionsData = [
     quizId: 'tharp',
     id: 1,
     goto: "/dashboard",
-    header: "Usado tu sonar, ¿qué conclusiones puedes sacar sobre el fondo del mar? Más de una respuesta es posible:",
+    header: "Usado tu sonar, ¿qué conclusiones puedes sacar sobre el fondo del mar?",
     options:  [
       {
         id: 1,

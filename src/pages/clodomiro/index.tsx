@@ -30,7 +30,7 @@ export default function Clodomiro() {
 
   useEffect(() => {
     if(!user?.tharp){
-      history.push("/dashboard");
+       history.push("/dashboard");
     }
   }, [user]);
 
@@ -43,15 +43,14 @@ export default function Clodomiro() {
             <Back></Back>
             <NaviButton position="left" fwd="" bwd="dashboard"/>
             <NaviButton position="right" fwd="dashboard" bwd=""/>
-            <Grid className="content-limit" container spacing={2}>  
-
+            <Grid className="content-limit borderme4test" sx={{width: {lg:"91vw",xs:"84"}}} container spacing={2}>  
+          
               <Grid item lg={6} xs={6}>
-                <div style={{width: "80%", marginLeft:(isMobile?100: 90), marginTop:(isMobile?50: 70) }}>
+                <div style={{width: "80%", marginLeft:(isMobile?100: 140), marginTop:(isMobile?50: 70) }}>
                   <ProductView></ProductView>
                 </div>
               </Grid>
               <Grid item lg={6} xs={6}>
-                <Typography sx={{ display: {lg:"block",md:"block",sm:"none",xs: "none"}, textTransform:"uppercase", fontWeight:"bold", paddingLeft:3, paddingRight:3, paddingTop:{lg:10,md:10,sm:2,xs:2}, textAlign:"left", fontSize: {lg: 25,md: 23,sm: 18,xs: 18} }}>Clodomiro Picado</Typography>
                 <Quiz questionIndex={0} dataSet={questionsData} />
               </Grid>
             </Grid>

@@ -3,7 +3,7 @@ export const questionsData = [
       quizId: 'clodomiro',
       id: 1,
       goto: "/dashboard",
-      header: "Con base en el contenido de su laboratorio, ¿cómo aprovechó Clodomiro Picado la creación de sueros antiofídicos para beneficiar a la sociedad? Puedes marcar más de una.",
+      header: "Con base en el contenido de su laboratorio, ¿cómo aprovechó Clodomiro Picado la creación de sueros antiofídicos para beneficiar a la sociedad?.",
       options:  [
         {
           id: 1,

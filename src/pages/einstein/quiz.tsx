@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Header } from "../../components/header";
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,6 +13,7 @@ import { isMobile } from "react-device-detect";
 import QuizCategory from "../../components/quizCategory";
 import Box from "@mui/material/Box";
 import FXEinstein from  './../../assets/characters/full-einstein.png';
+import { useUsers } from "../../context/Users";
 
 const theme = createTheme({});
 
@@ -20,7 +21,16 @@ export default function QuizEinstein() {
 
   let history = useHistory();
   const [opened, setOpened] = useState(false);
-  
+
+  const {getUsers} = useUsers();
+  const {user}: any = getUsers();
+
+  useEffect(() => {
+    if(!user?.einstein){
+      history.push("/dashboard");
+    }
+  }, [user]);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

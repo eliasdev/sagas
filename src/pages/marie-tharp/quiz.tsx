@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
 /* eslint-disable import/no-anonymous-default-export */
 // import React from 'react'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Header } from "../../components/header";
 // import { useHistory } from "react-router-dom";
@@ -20,12 +20,25 @@ import { Box } from "@mui/material";
 import NaviButton from '../../components/naviButton/index';
 import Quiz from '../../components/quiz/index';
 import { questionsData } from './data';
+import {useUsers} from '../../context/Users'
+import { useHistory } from "react-router-dom";
+
 
 const theme = createTheme({});
 
 export default function QuizTharp() {
 // let history = useHistory();
 const [opened, setOpened] = useState(false);
+const {getUsers} = useUsers();
+const {user}: any = getUsers();
+let history = useHistory();
+
+useEffect(() => {
+  if(!user?.descartes){
+    history.push("/dashboard");
+  }
+}, [user]);
+
   return (
 
     <ThemeProvider theme={theme}>
@@ -41,19 +54,13 @@ const [opened, setOpened] = useState(false);
               <GlassMagnifier
                 imageSrc={TopImage}
                 imgAlt="small image"
-                // zoomFactor={3}
-                // glassDimension={200}
                 largeImageSrc={BottomImage}
-                // glassBorderColor="#d1d1d126"
-                // glassBorderWidth={2}
                 className="img"
-                // style={{ filter: "drop-shadow(0px 0px 7px rgba(0, 0, 0, 0.35))", width: '49vwm !important' }}
               />
             </div>
           </Grid>
 
-          <Grid className={ "width-50 height-inherit lp-border"} sx={{marginTop: {lg:0,md:0,sm:0,xs:0}}}>
-            <Typography sx={{ display: {lg:"block",md:"block",sm:"none",xs: "none"}, textTransform:"uppercase", fontWeight:"bold", paddingLeft:3, paddingRight:3, paddingTop:{lg:10,md:10,sm:2,xs:2}, textAlign:"left", fontSize: {lg: 25,md: 23,sm: 18,xs: 18} }}>Marie Tharp</Typography>
+          <Grid className={ "width-50 height-inherit lp-border"} sx={{marginTop: 0}}>
             <Quiz questionIndex={0} dataSet={questionsData} />
           </Grid>   
         </Grid>
