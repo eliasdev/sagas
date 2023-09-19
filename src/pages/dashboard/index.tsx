@@ -93,7 +93,7 @@ export default function Dashboard() {
   const [openGenderModal, setOpenGenderModal] = useState(false);
   const [showWinnerModal, setShowWinnerModal] = useState(false);
   const [winImage, setWinImage] = useState('');
-  const [gender, setGender] = useState('');
+  /*const [gender, setGender] = useState('');*/
   const [sex, setSex] = useState('');
   const [province, setProvince] = useState('');
   const [age, setAge] = useState<number | ''>(0);
@@ -104,7 +104,7 @@ export default function Dashboard() {
     checkAvailability(chapters[2]);
     checkAvailability(chapters[3]);
     if (
-      (!user?.gender || !user?.sex || !user?.age || !user?.province) &&
+      (/*!user?.gender || */!user?.sex || !user?.age || !user?.province) &&
       user?.role === 'PLAYER'
     ) {
       setOpenGenderModal(true);
@@ -120,7 +120,7 @@ export default function Dashboard() {
     setAge(-1);
     setProvince('-1');
     setSex('-1');
-    setGender('-1');
+    //setGender('-1');
   }, []);
 
   const theme = createTheme({
@@ -431,13 +431,13 @@ export default function Dashboard() {
 
   const updateUserGender = async () => {
     await updateDoc(doc(db, 'users', user.id!), {
-      gender,
+      /*gender,*/
       province,
       sex,
       age,
     })
       .then(() => {
-        updateUser({ ...user, gender, province, sex, age });
+        updateUser({ ...user, /*gender, */province, sex, age });
         setOpenGenderModal(false);
       })
       .catch((error) => {
@@ -701,9 +701,6 @@ export default function Dashboard() {
                 <MenuItem value={15}>15</MenuItem>
                 <MenuItem value={16}>16</MenuItem>
                 <MenuItem value={17}>17</MenuItem>
-                <MenuItem value={18}>18</MenuItem>
-                <MenuItem value={19}>19</MenuItem>
-                <MenuItem value={20}>20</MenuItem>
               </Select>
               <Box my={1} />
               <Typography variant="body1">Selecciona tu provincia</Typography>
@@ -726,7 +723,7 @@ export default function Dashboard() {
               </Select>
               <Box my={1} />
 
-              <Typography variant="body1">Selecciona tu género</Typography>
+              {/*<Typography variant="body1">Selecciona tu identidad de género</Typography>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -748,7 +745,7 @@ export default function Dashboard() {
                 <MenuItem value={'Otro'}>Otro</MenuItem>
                 <MenuItem value={'NoDecir'}>Prefiero no decir</MenuItem>
               </Select>
-              <Box my={1} />
+              <Box my={1} />*/}
 
               <Typography variant="body1">Selecciona tu sexo</Typography>
               <Select
